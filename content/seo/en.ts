@@ -2,8 +2,8 @@ import type { SeoCopy } from "./types";
 
 /**
  * Search titles and meta descriptions. Titles hold only the topic; " | Ahmed Gabal" is appended
- * when the metadata is built. Approved in the Round 7 review, except the four More-projects case
- * studies, which are drafts waiting for Ahmed's OK.
+ * when the metadata is built. Approved in the Round 7 review; the four More-projects case studies
+ * were approved separately on 2026-10-10.
  */
 export const enSeo: SeoCopy = {
   home: {
