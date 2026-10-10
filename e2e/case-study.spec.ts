@@ -2,8 +2,14 @@ import { expect, test, type Page } from "@playwright/test";
 import { MORE_PROJECT_SLUGS, nextCaseSlug, type CaseSlug } from "../content/cases/slugs";
 
 /** Each case's title in both languages, and whether its hero is screenshots (a drawing has none). */
-const CASES: Readonly<Partial<Record<CaseSlug, { en: string; ar: string; screenshots: boolean }>>> = {
+const CASES: Readonly<Record<CaseSlug, { en: string; ar: string; screenshots: boolean }>> = {
   "fantasy-eg": { en: "Fantasy EG", ar: "Fantasy EG", screenshots: true },
+  educoursez: { en: "Educoursez", ar: "Educoursez", screenshots: true },
+  "vodafone-modernization": { en: "Vodafone modernization", ar: "تحديث نظام فودافون", screenshots: false },
+  tikvideo: { en: "TikVideo", ar: "TikVideo", screenshots: true },
+  "cultural-bridge": { en: "Cultural Bridge", ar: "جسر الثقافة", screenshots: true },
+  qima: { en: "Qima", ar: "منصة قيمة", screenshots: true },
+  "lean-academy": { en: "Lean Academy", ar: "لين أكاديمي", screenshots: false },
 };
 
 const TITLES: Readonly<Record<CaseSlug, string>> = {

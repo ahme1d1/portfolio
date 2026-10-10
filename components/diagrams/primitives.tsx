@@ -142,7 +142,7 @@ export function Drops({ count, className = "", lineClassName = "h-5 md:h-[22px]"
 /** "A becomes B": points forward (right in English, left in Arabic), and down on phones when stacked. */
 export function FlowArrow({ size = 36, stacked = true, className = "" }: { size?: number; stacked?: boolean; className?: string }) {
   return (
-    <span aria-hidden="true" className={`inline-flex text-accent ${className}`}>
+    <span aria-hidden="true" className={`inline-flex text-accent-ink ${className}`}>
       {stacked ? (
         <svg
           width={Math.round(size * 0.78)}

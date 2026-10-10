@@ -73,7 +73,7 @@ export function DroppedPanel({ title, items }: { title: string; items: readonly 
       <h3 className="type-h3-row">
         <Rich text={title} />
       </h3>
-      <ul className="m-0 flex max-w-[560px] list-disc flex-col gap-2 ps-[18px] type-body text-ink-2 md:gap-1.5 ar:max-w-[520px]">
+      <ul className="m-0 flex max-w-[578px] list-disc flex-col gap-2 ps-[18px] type-body text-ink-2 md:gap-1.5 ar:max-w-[538px]">
         {items.map((item) => (
           <li key={item}>
             <Rich text={item} />

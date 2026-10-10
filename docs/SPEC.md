@@ -237,6 +237,52 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   Lean Academy → Fantasy EG.
 - Diagrams are HTML and inline SVG in the boards and become components, never images.
 
+## Case studies (Phase 4)
+
+- **Content** (`content/cases/`): `data.ts` holds what is the same in both languages (stack, the live
+  site link, which fact rows and in what order, the hero and role screenshots, which figure goes
+  where in "How I built it"). There is no date field. Each case has `<slug>/{en,ar}.ts` (both typed
+  `CaseCopy`), `diagrams.{en,ar}.ts` (its figure labels) and `index.ts`. `shared/` holds the section
+  titles and labels. The registry (`content/cases/index.ts`) and the content guards loop over the
+  case slugs; `lib/testing/content-guards.ts` holds the checks.
+- **Markup:** a `{…}` run is decided by its script. Arabic letters render `<bdi dir="rtl"
+  lang="ar">` (Arabic names in English copy), anything else the Latin `<bdi dir="ltr" lang="en">`.
+  A run mixing both scripts is an error. Runs of digits and symbols that bidi would reorder (`{−4}`,
+  `{C ×3}`, `{/api/v1}`) are marked; plain numbers are not.
+- **Template** (`components/case/`): breadcrumb (Work, then the case, `aria-current="page"`),
+  status pill (none on the More-projects pages: pills show status only) and the meta line, h1,
+  lede, Vodafone's lock notice, the Fantasy EG site button. Hero: a browser frame and a phone on a
+  tint stage (percentages of the 1280 x 520 board stage, 358 x 270 on phones), three phones
+  (Educoursez), or a drawing. Facts strip: 4 columns from 1280, 2 from 768, rows below; a fact
+  with a muted second line is one item with a `note`, a list is one item per entry. The Summary
+  panel sits after the facts, and before them on phones (CSS `order`; neither has a link). Then
+  Problem, My role (rows, + two screenshots on TikVideo, Cultural Bridge and Qima), How I built
+  it, What was hard (+ the dropped-ideas panel), Result (paragraphs, rows, numbers), What I
+  learned, the next-case card and the band.
+- **How I built it:** the lead-in, the architecture figure, then groups. A group without a heading
+  shows its decisions in two columns (Fantasy EG only); a titled group ("Key decisions", "On the
+  website") lists them as rows with h4 headings under its h3.
+- **Unknown values are left out:** a number Ahmed has not given is a metric with `value: null`;
+  "What I learned" is `null` on the four More-projects pages; the boards' dashed placeholder pills
+  never ship.
+- **Ids** are scoped per case: `pageId(caseScope(slug), part, locale)` gives
+  `case-qima-problem-en`.
+- **Figures** (`components/diagrams/`): one component per figure id, registered in
+  `registry.tsx`, built from `primitives.tsx` (boxes, fan-in bracket, drops, stems, chevrons, flow
+  arrow, connector, chips). Desktop layout from 768 (from 1024 for the widest), the mobile board's
+  layout below; a structurally different phone layout is a second variant (`data-variant`), never
+  with ids. Lines and decoration are `aria-hidden`; labels are text. Hero drawings (Vodafone, Lean
+  Academy) render only the drawing; the hero adds the caption.
+- **Mirror:** hero screens and role screenshots sit in `MirrorBlock name="case-<slug>-…"`; the
+  next-case card's media reuses `project-<slug>`.
+- **Next-case card:** one link named by its label and title (`aria-labelledby`); the media comes
+  first on phones. Hover: surface fill, strong border, title underline; pressed scales to 0.98.
+- **Resolved board differences** (listed for Ahmed at the Phase 4 checkpoint): the desktop copy
+  where a mobile board differs; Arabic facts use name + muted second line; Vodafone's facts keep
+  the English order; stacks are language-neutral; the next-case card reuses the Work card copy;
+  section gaps 20 / 14 and 128 above the first section in both languages; hero phones keep their
+  390:844 ratio.
+
 ## Accessibility and quality bars
 
 - Exactly one h1 per page, no skipped heading levels, a `<main>` landmark, labelled navs.

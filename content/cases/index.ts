@@ -1,5 +1,11 @@
 import type { Locale } from "@/lib/i18n/locale";
+import { culturalBridgeCase } from "./cultural-bridge";
+import { educoursezCase } from "./educoursez";
 import { fantasyCase } from "./fantasy-eg";
+import { leanCase } from "./lean-academy";
+import { qimaCase } from "./qima";
+import { tikvideoCase } from "./tikvideo";
+import { vodafoneCase } from "./vodafone-modernization";
 import { CASE_SLUGS, type CaseSlug } from "./slugs";
 import type { CaseCopy } from "./types";
 
@@ -10,20 +16,22 @@ export type CaseModules = {
   diagrams: { en: object; ar: object };
 };
 
-/** Every case study with content. */
-const CASES: Partial<Record<CaseSlug, CaseModules>> = {
+/** Every case study's copy. */
+const CASES: Readonly<Record<CaseSlug, CaseModules>> = {
   "fantasy-eg": fantasyCase,
+  educoursez: educoursezCase,
+  "vodafone-modernization": vodafoneCase,
+  tikvideo: tikvideoCase,
+  "cultural-bridge": culturalBridgeCase,
+  qima: qimaCase,
+  "lean-academy": leanCase,
 };
 
-/** The copy of one case study, or undefined while it has none yet. */
-export function getCaseCopy(locale: Locale, slug: CaseSlug): CaseCopy | undefined {
-  return CASES[slug]?.[locale];
+export function getCaseCopy(locale: Locale, slug: CaseSlug): CaseCopy {
+  return CASES[slug][locale];
 }
 
 /** For the content tests: each case study's modules. */
 export function caseModules(): readonly (readonly [CaseSlug, CaseModules])[] {
-  return CASE_SLUGS.flatMap((slug) => {
-    const modules = CASES[slug];
-    return modules ? [[slug, modules] as const] : [];
-  });
+  return CASE_SLUGS.map((slug) => [slug, CASES[slug]] as const);
 }

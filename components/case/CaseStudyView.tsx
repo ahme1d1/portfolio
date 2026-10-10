@@ -1,5 +1,4 @@
 import { LetsTalkBand } from "@/components/contact/LetsTalkBand";
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
 import { PAGE_X } from "@/components/ui/layout";
 import { getCaseCopy } from "@/content/cases";
 import { CASE_DATA } from "@/content/cases/data";
@@ -25,9 +24,7 @@ import { SummaryPanel } from "./SummaryPanel";
 /** One case study (the case-study template on the boards), top to bottom. */
 export function CaseStudyView({ locale, slug }: { locale: Locale; slug: CaseSlug }) {
   const copy = getCaseCopy(locale, slug);
-  const title = copy?.title ?? asLatin(locale, PROJECTS[slug].brand);
-  if (!copy) return <PagePlaceholder title={title} />;
-
+  const title = copy.title ?? asLatin(locale, PROJECTS[slug].brand);
   const data = CASE_DATA[slug];
   const shared = getCaseSharedCopy(locale);
   const { sections } = shared;
