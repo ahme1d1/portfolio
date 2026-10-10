@@ -246,9 +246,9 @@
 
 @utility type-lede {
   font-size: var(--fs-lede);
-  line-height: 1.5;
+  line-height: 1.6;
   &:lang(ar) {
-    line-height: 1.8;
+    line-height: 1.85;
   }
 }
 
@@ -282,6 +282,60 @@
   &:lang(ar) {
     line-height: 1.8;
   }
+}
+
+/* Latin words inside Arabic headings stay at the Latin heading weight (Arabic headings are 700). */
+:lang(ar) :is(h1, h2, h3) bdi:lang(en) {
+  font-weight: 600;
+}
+
+/*
+ * Project card (Interactions board): one link stretched over the card. Hover, or a press on touch
+ * screens, grows the media a little inside its frame and underlines the title; keyboard focus rings
+ * the whole card instead of the link, without the scale.
+ */
+.project-card__media {
+  transition: transform 150ms var(--ease-enter);
+}
+
+.project-card a:focus-visible {
+  outline: none;
+}
+
+.project-card:has(a:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+}
+
+.project-card:has(a:active) .project-card__media {
+  transform: scale(1.02);
+}
+
+.project-card:is(:has(a:active), :has(a:focus-visible)) .project-card__title {
+  text-decoration: underline 2px;
+  text-underline-offset: 5px;
+}
+
+@media (hover: hover) {
+  .project-card:has(a:hover) .project-card__media {
+    transform: scale(1.02);
+  }
+
+  .project-card:has(a:hover) .project-card__title {
+    text-decoration: underline 2px;
+    text-underline-offset: 5px;
+  }
+}
+
+/* A new form state fades in where the old one was (200ms, ease-out); reduced motion makes it instant. */
+@keyframes state-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@utility animate-state-in {
+  animation: state-in 200ms var(--ease-enter);
 }
 
 /* Tailwind 4's hover: variant already applies only under @media (hover: hover). */

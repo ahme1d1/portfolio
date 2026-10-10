@@ -22,5 +22,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}/en/`,
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
+    // A stand-in key, baked into the build, so the form really posts; every test intercepts that post.
+    env: { NEXT_PUBLIC_WEB3FORMS_KEY: "e2e-key" },
   },
 });

@@ -1,9 +1,24 @@
+import { basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vitest/config";
+import { defineConfig, type Plugin } from "vitest/config";
+
+/** Next turns a static image import into { src, width, height, blurDataURL }; tests get the same shape. */
+function staticImages(): Plugin {
+  return {
+    name: "static-images",
+    enforce: "pre",
+    load(id) {
+      const path = id.split("?")[0] ?? id;
+      if (!/\.(png|jpe?g)$/.test(path)) return null;
+      const image = { src: `/_next/static/media/${basename(path)}`, width: 1440, height: 900, blurDataURL: "" };
+      return `export default ${JSON.stringify(image)};`;
+    },
+  };
+}
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [staticImages(), react()],
   resolve: {
     alias: { "@": fileURLToPath(new URL("./", import.meta.url)) },
   },

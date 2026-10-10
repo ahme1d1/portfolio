@@ -23,6 +23,15 @@ test.describe("every page", () => {
   }
 });
 
+test("pages are served with the security headers", async ({ request }) => {
+  const response = await request.get("/en/");
+  expect(response.headers()).toMatchObject({
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "x-frame-options": "DENY",
+  });
+});
+
 test.describe("addresses", () => {
   test("the bare domain opens English", async ({ page }) => {
     await page.goto("/");

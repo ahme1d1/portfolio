@@ -41,6 +41,13 @@ All URLs end with a trailing slash. The language switch links to the same page i
   (`<Activity>`, `display: none`). So: every `id` must be unique across pages and languages (suffix
   it with the locale and the page), transient UI such as the mobile menu resets in a
   `useLayoutEffect` cleanup, and tests must query visible elements.
+- **Ids:** server components build them with `pageId(page, part, locale)` (`lib/ids.ts`), never
+  `useId` (on the server it restarts at the same value on every page, so two kept pages collide).
+  Client components may use `useId`. A test mounts Home and Work in both languages together and
+  fails on any duplicate id. Duplicated responsive variants (desktop vs phone link groups) carry no
+  ids and no `MirrorBlock`.
+- **Focus moves in event handlers** (after `flushSync`), never in effects: effects re-run when a
+  kept page is shown again. Transient state resets in a `useLayoutEffect` cleanup.
 - **The language mirror uses React `<ViewTransition>`.** The switch carries the `locale-switch`
   transition type; `MirrorBlock` names blocks that move, `MirrorFade` (shared names) fades main and
   footer. `enter` and `exit` do not fire on the switch, because the old page is hidden rather than
@@ -67,6 +74,14 @@ All URLs end with a trailing slash. The language switch links to the same page i
 - Arabic: Western digits, Latin words wrapped in `<bdi>`, a space after و before a Latin word, and
   `و <bdi>Latin</bdi>` kept together with `white-space: nowrap`. Emails, URLs and phone numbers sit
   in `dir="ltr"`.
+- **Inline markup in copy** (`lib/rich/parse.ts`, rendered by `<Rich>`), so content stays plain
+  typed strings: `{React}` is Latin text (`<bdi dir="ltr" lang="en">`, set in Bricolage by the
+  `:lang(en)` rule), `*Vodafone Italy*` is emphasis (600, text colour), `{$email}` is a slot the
+  component fills. "و {X}", "بـ {X}" and "لـ {X}" are glued with `nowrap` automatically. A content
+  test fails on broken markup and on any Latin letter outside `{…}` in Arabic copy of the rich
+  modules (home, projects, companies, work, contact). Brand names that are the same in both
+  languages live in language-neutral `data.ts` modules and go through `asLatin()`.
+- One string per language: mobile shows the desktop copy (Round 7 D5).
 
 ## Colour tokens (light / dark)
 
@@ -163,8 +178,9 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   `surface` in panels, cards and the band). Keyboard focus only (`:focus-visible`), shown at once.
   Fields show it on click too.
 - **Hover:** only under `@media (hover: hover)`. Targets are at least 44px.
-- **Buttons:** black (hover → text2), cobalt (hover → accent hover), outline (hover → surface fill
-  and `strong` border). Pressed scales to 0.97. Busy: spinner, ignores clicks.
+- **Buttons** (`components/ui/Button.tsx`): black (hover → text2), cobalt (hover → accent hover),
+  outline (1px `border`; hover → surface fill and `strong` border). Pressed scales to 0.97. Busy:
+  spinner, ignores clicks. Sizes: large 52/16 on phones, 56/17 from 1024px; medium 48/15.
 - **Text link:** accentText, no underline; on hover an underline 4px below.
 - **Nav link:** hover 2px `strong` line; pressed line turns text colour; current page weight 600,
   2px accent line, `aria-current="page"`.
@@ -199,6 +215,15 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - Radio tiles: whole tile is the target, arrow keys move the choice, selected = 2px accent border
   and weight 600.
 - Sends from the browser to Web3Forms with the public access key and the `botcheck` honeypot.
+  Without JavaScript the same `<form action method="post">` posts there directly (hidden
+  `access_key`, `subject`, `from_name`). With no key the send ends in the "form not set up" error,
+  without a request. Playwright builds with a stand-in key and every test intercepts the post.
+- No topic is picked unless `?topic=role|project` says so. Errors are language-neutral codes
+  (`lib/contact/schema.ts`); the sentences live in `content/contact`. The copy for errors the boards
+  don't show (no topic, name, message, other email problems, several fields, network, no key) was
+  drafted in Phase 3 for Ahmed's approval.
+- Sending: fields `readOnly` with the grey fill, tiles disabled, the button `aria-busy` (not
+  `disabled`, so it keeps focus). `aria-busy` is not set on the form: it can silence the status line.
 
 ## Pages and shared blocks
 

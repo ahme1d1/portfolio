@@ -117,3 +117,46 @@ export function MailIcon(props: IconProps) {
     </Icon>
   );
 }
+
+/** Points forward in the reading direction: right in English, left in Arabic. */
+export function ArrowIcon({ className = "", ...props }: IconProps) {
+  return (
+    <Icon {...props} className={`shrink-0 rtl:-scale-x-100 ${className}`}>
+      <path d="M5 12h14m-7-7 7 7-7 7" />
+    </Icon>
+  );
+}
+
+export function ClockIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </Icon>
+  );
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <Icon strokeWidth={2.4} {...props}>
+      <path d="M20 6 9 17l-5-5" />
+    </Icon>
+  );
+}
+
+export function AlertCircleIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 8v4m0 4h.01" />
+    </Icon>
+  );
+}
+
+export function SpinnerIcon({ className = "", ...props }: IconProps) {
+  return (
+    <Icon strokeWidth={2.4} {...props} className={`animate-spin ${className}`}>
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </Icon>
+  );
+}
