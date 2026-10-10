@@ -1,5 +1,4 @@
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
-import { getSiteCopy } from "@/content/site";
+import { WorkView } from "@/components/work/WorkView";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -10,5 +9,5 @@ export const generateMetadata = pageMetadata("work", "/work/");
 
 export default async function WorkPage({ params }: PageProps<"/[locale]/work">) {
   const locale = await resolveLocale(params);
-  return <PagePlaceholder title={getSiteCopy(locale).nav.items[0]?.label ?? ""} />;
+  return <WorkView locale={locale} />;
 }
