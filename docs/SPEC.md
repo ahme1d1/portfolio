@@ -1,0 +1,212 @@
+# Ahmed Gabal portfolio: build spec
+
+The design is a set of Claude Design boards (canvas v73). This file distils every rule the code must
+follow, so nobody has to open the boards to know them. When a value here and a board disagree, the
+board wins and this file gets fixed.
+
+## Stack
+
+- Next.js 16.4 App Router with Cache Components and Partial Prefetching (the 16.4 defaults).
+  `ensureStatic = 'navigation'` on the root layout: every page is prerendered and the build fails if
+  anything becomes request-time.
+- React 19.3, TypeScript 6.0 strict (+ `noUncheckedIndexedAccess`). TypeScript 7 is not used because
+  typescript-eslint does not support it yet.
+- Tailwind CSS v4 (CSS-first, `@theme` mapped to the CSS variables below).
+- Vitest + React Testing Library (unit, component), Playwright + axe (end to end).
+- Hosting: Vercel Hobby (`*.vercel.app`). Contact form: Web3Forms (free, 250 messages a month).
+
+## Routes
+
+| Path | Page |
+|---|---|
+| `/` | redirects to `/en/` (no language sniffing) |
+| `/{en,ar}/` | Home |
+| `/{en,ar}/work/` | Work |
+| `/{en,ar}/work/{fantasy-eg,educoursez,vodafone-modernization,tikvideo,cultural-bridge,qima,lean-academy}/` | case studies |
+| `/{en,ar}/experience/` | Experience (anchor `#eva-pharma`) |
+| `/{en,ar}/services/`, `/{en,ar}/about/` | Services, About |
+| `/{en,ar}/contact/` | Contact, `?topic=role` or `?topic=project` pre-selects the topic |
+| `/cv/<file>.pdf` | the CV (one React-first PDF) |
+| anything else | 404 with HTTP status 404 (localized under `/en/` and `/ar/`, English elsewhere) |
+
+All URLs end with a trailing slash. The language switch links to the same page in the other locale.
+
+## Content rules
+
+- One language per page. The Arabic site is a full mirror: `lang` and `dir` are set on `<html>`,
+  never in CSS.
+- **No em dashes** anywhere in copy. Date ranges use an en dash with spaces ("2024 – present").
+  Straight quotes only.
+- **No invented numbers, clients or testimonials.** A value Ahmed has not given is `null` in the
+  content and is left out of the page. When every item of a section is `null`, the whole section is
+  left out. No visible `[brackets]` ever ship.
+- The four "More projects" case studies (TikVideo, Cultural Bridge, Qima, Lean Academy) never show
+  dates or the name of the company the work was done through.
+- Vodafone: story and diagrams only (NDA). No code and no screenshots.
+- No small ALL-CAPS labels, no "A · B · C" strings (use comma lists), one colour per heading,
+  numbering only for real sequences, divided lists instead of card grids (except project media
+  and the contact panel).
+- Arrows only on filled primary buttons. In Arabic they point left.
+- The CV button lives only in the header and on Experience.
+- Arabic: Western digits, Latin words wrapped in `<bdi>`, a space after و before a Latin word, and
+  `و <bdi>Latin</bdi>` kept together with `white-space: nowrap`. Emails, URLs and phone numbers sit
+  in `dir="ltr"`.
+
+## Colour tokens (light / dark)
+
+| Token | Light | Dark | Use |
+|---|---|---|---|
+| bg | `#FFFFFF` | `#000000` | page |
+| surface | `#F4F4F6` | `#141414` | panels, band, hover fill |
+| tint | `#EEF0FF` | `#12162E` | portrait card |
+| border | `#E6E6E8` | `#262626` | dividers |
+| strong | `#84848C` | `#6B6B73` | input and tile borders, nav hover line |
+| text | `#000000` | `#F2F2F2` | body text |
+| text2 | `#2E2E2E` | `#D4D4D4` | secondary text, black-button hover |
+| muted | `#5E5E5E` | `#A3A3A3` | captions, footer links |
+| accent | `#1F3DFF` | `#3D57FF` | accent fills |
+| accentText | `#1F3DFF` | `#8C9AFF` | links and accent text |
+| onAccent | `#FFFFFF` | `#FFFFFF` | text on accent |
+| onAccentMuted | `rgba(255,255,255,0.86)` | `#FFFFFF` | secondary text on accent |
+| ok | `#16A34A` | `#4ADE80` | live dot |
+| okText | `#166534` | `#86EFAC` | live pill text |
+| okBg | `rgba(22,163,74,0.10)` | `rgba(74,222,128,0.12)` | live pill fill |
+| chipBg | `rgba(31,61,255,0.08)` | `rgba(140,154,255,0.12)` | chips |
+| inverseBg | `#000000` | `#F2F2F2` | black button, skip link |
+| inverseText | `#FFFFFF` | `#000000` | text on inverse |
+| inverseMuted | `#C9C9C9` | `#3A3A3A` | secondary text on inverse |
+| error | `#B42318` | `#FF8A80` | errors |
+| imgLine | `rgba(0,0,0,0.10)` | `rgba(255,255,255,0.10)` | `outline: 1px solid; outline-offset: -1px` on images |
+| shadow | `0 18px 40px rgba(0,0,0,0.14)` | `0 0 0 1px rgba(255,255,255,0.08), 0 18px 40px rgba(0,0,0,0.60)` | the only shadow |
+
+- Accent hover: `color-mix(in srgb, var(--accent) 86%, black)`. There is no other hover blue.
+- Disabled: fill `#E6E6E8` / `#262626`, text muted, no hover, `cursor: not-allowed`.
+- Theme: the first visit follows the system; a choice is saved in `localStorage` and applied before
+  first paint. `color-scheme` is set per theme on the root.
+
+## Type
+
+Bricolage Grotesque (English, opsz 12–96, weights 400–700) and Alexandria (Arabic, 400–700). No
+other fonts, no monospace. `text-wrap: balance` on h1–h3, `tabular-nums` for numbers. Arabic gets
+no letter-spacing.
+
+Desktop / mobile: size, weight, line-height, letter-spacing.
+
+| Role | English | Arabic |
+|---|---|---|
+| h1 page | 64 / 40, 600, 1.02, -0.04em | 64 / 40, 700, 1.32 / 1.3 |
+| h1 hero (Home) | 64 / 38, 600, 1.02, -0.04em | 54 / 32, 700, 1.32 / 1.3 |
+| h2 section | 48 / 34, 600, 1.0 / 1.05, -0.03em | 46 / 32, 700, 1.2 / 1.25 |
+| h2 panel | 24 / 22, 600, 1.2 | 24 / 22, 700, 1.4 |
+| h3 card | 24 / 21, 600, 1.2, -0.02em | 24 / 21, 700, 1.4 |
+| h3 row | 22 / 20, 600, 1.25 | 22 / 20, 600, 1.45 |
+| h3 label | 18 / 17, 600, 1.4 | 18 / 17, 600, 1.5 |
+| Next-case title | 40, 600 | 40, 700, 1.3 |
+| Body large | 18 / 16, 400, 1.6 | line-height 1.85 |
+| Body | 16 / 15, 400, 1.55 | line-height 1.8 |
+| Body small | 14, 1.5 | line-height 1.7 |
+| Caption | 14 / 13, 1.5 | line-height 1.8 |
+| Diagram label | 13, 500, 1.4 | same |
+| Field label | 15, 600, 1.4 | same |
+| Facts `dt` | 14, 500, 1.4, muted | 15, 500, 1.5 |
+| Large button | 17 / 16, 600, height 56 / 52, radius 14 | same |
+| Medium button | 15, 600, height 48, radius 12 | same |
+| Language pill | 15 / 14, 500, height 44, fully round | same |
+| Nav / inline link / footer | 16 500 / 16 600 / 15 400 | same |
+
+Minimum text size 12px. Running text stays under 75ch with `max-inline-size`: case prose 600px,
+rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case description 560px.
+
+## Space, radius, layout
+
+- Spacing scale: 2, 4, 6, 8, 10, 12, 14 inside components; 16, 20, 24, 28, 32, 40, 48, 56, 72, 88,
+  96, 128 for layout. Nothing else.
+- Page rhythm (desktop / mobile): page top 72 / 32, section 128 / 56, band 128 / 56, footer 96 / 48,
+  gutter 40 / 16, content max width 1280.
+- Radius: controls 12, large button 14, cards and media 20 / 16, panels 28 / 22, phone frame 30,
+  pill 999. Nested surfaces with padding up to 24: outer radius = inner radius + padding.
+- Borders: 1px `border` for dividers, 1px `strong` for inputs and tiles, 2px `error`, 2px accent for
+  a selected tile, 2px nav underline.
+- Breakpoints: the header switches to the Menu button below 1024; project cards 3 → 2 → 1; facts
+  strip 4 → 2 columns; rows stack below 768.
+- Logical properties only (`margin-inline-start`, `ps-*`, `end-0`), never left or right.
+- Header: 76px sticky on desktop, 60px on mobile. `scroll-padding-top` 92 / 76.
+
+## Motion
+
+- Durations: fast 150ms (hover), base 200ms (toggles, menu, form states), slow 250ms (language
+  mirror). Ease-out when something enters, ease-in when it leaves.
+- Press: `scale(0.97)` (next-case card 0.98). Links never scale.
+- Transition only `background-color, border-color, color, opacity, transform`. Never
+  `transition: all`. Focus rings never animate. No fade-in on scroll.
+- `prefers-reduced-motion: reduce`: no animation; every change is instant.
+
+## Interaction rules
+
+- **Focus ring:** 2px accent ring with a 2px gap in the colour behind the control (`bg` on the page,
+  `surface` in panels, cards and the band). Keyboard focus only (`:focus-visible`), shown at once.
+  Fields show it on click too.
+- **Hover:** only under `@media (hover: hover)`. Targets are at least 44px.
+- **Buttons:** black (hover → text2), cobalt (hover → accent hover), outline (hover → surface fill
+  and `strong` border). Pressed scales to 0.97. Busy: spinner, ignores clicks.
+- **Text link:** accentText, no underline; on hover an underline 4px below.
+- **Nav link:** hover 2px `strong` line; pressed line turns text colour; current page weight 600,
+  2px accent line, `aria-current="page"`.
+- **Footer link:** muted 400, hover text colour with a 1px underline, current page in text colour.
+- **Project card:** one link per card ("Read the case study" + visually hidden ": Name"), stretched
+  over the card with `::after { position: absolute; inset: 0 }`. Hover: image scales 1.02 inside its
+  frame and the title underlines, 150ms. Focus: the ring wraps the card, no scale.
+- **Skip link:** first tab stop, "Skip to main content" / "تخطَّ إلى المحتوى". Off-screen until
+  focused, then top-start with inverse fill and the accent ring. Moves focus to `<main>`.
+- **Theme button:** header, plus a labelled "Dark theme" row in the mobile menu. Page colours swap
+  at once; the sun and moon cross-fade with a slight turn over 200ms. Name: "Switch to dark theme" /
+  "Switch to light theme".
+- **Mobile menu:** below 1024. The button is always named "Menu" / "القائمة"; only `aria-expanded`
+  changes. Opens with a 16px slide and fade (200ms ease-out); focus moves to the first link and stays
+  inside. Esc, the close button or a link closes it (200ms ease-in); focus returns to the button.
+  The page behind does not scroll.
+- **Language mirror:** pressing العربية / English mirrors the page instead of jumping. The blocks
+  that exist in both languages move to their mirrored place (portrait, project images, case hero
+  image, figure screens); text fades in at its new place; the header does not move. 250ms ease-out,
+  transform and opacity only. Focus stays on the switch. Reduced motion: instant.
+
+## Contact form
+
+- One component, used in the Home band and on Contact. Fields: topic (radio tiles: a role, a
+  project, something else), name, email, message. All required; "All fields are required." sits
+  under the title. "I reply within 24 hours." sits once, next to the button.
+- States: **idle** (button enabled, checks run on send) → **sending** (fields locked, spinner,
+  "Sending…", status announced to screen readers) → **sent** (focus moves to the "Message sent."
+  heading, "Send another message" button) or **error** (a summary naming the field and giving the
+  email address; the fix under the field with a 2px error border; focus moves to the field; nothing
+  typed is lost). Each state fades in over 200ms.
+- Radio tiles: whole tile is the target, arrow keys move the choice, selected = 2px accent border
+  and weight 600.
+- Sends from the browser to Web3Forms with the public access key and the `botcheck` honeypot.
+
+## Pages and shared blocks
+
+- Shared: Header, Footer, SkipLink, the "Let's talk" band (every page except Home and Contact; Home
+  has the form version), ProjectCard, Facts strip, divided lists, the contact form.
+- Case-study template (all seven): breadcrumb, meta line, h1, lede, hero figure, Facts strip (one
+  component, 4 columns, status as a muted second line, inside `<section aria-label>`), then the h2
+  sections Summary, Problem, My role, How I built it (architecture figure + decision blocks), What
+  was hard (+ ideas I dropped), Result, What I learned, then the next-case card and the band. The
+  next-case order loops: Fantasy EG → Educoursez → Vodafone → TikVideo → Cultural Bridge → Qima →
+  Lean Academy → Fantasy EG.
+- Diagrams are HTML and inline SVG in the boards and become components, never images.
+
+## Accessibility and quality bars
+
+- Exactly one h1 per page, no skipped heading levels, a `<main>` landmark, labelled navs.
+- WCAG 2.2 AA: text contrast 4.5:1, UI 3:1, targets at least 44px (minimum 24).
+- Every image has alt text; decorative images use `alt=""`.
+- LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1. Lighthouse mobile: Performance ≥ 95; Accessibility, Best
+  Practices and SEO 100.
+
+## SEO
+
+- Title pattern `<topic> | Ahmed Gabal` (Arabic `… | أحمد جبل`), 50–60 characters; description
+  120–160 characters; no dates or agency names.
+- hreflang `en`, `ar` and `x-default` (→ `/en/`), canonical URLs with trailing slashes, Person
+  JSON-LD on Home, `sitemap.xml`, `robots.txt`.
