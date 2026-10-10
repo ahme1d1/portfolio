@@ -7,8 +7,8 @@ board wins and this file gets fixed.
 ## Stack
 
 - Next.js 16.4 App Router with Cache Components and Partial Prefetching (the 16.4 defaults).
-  `ensureStatic = 'navigation'` on the root layout: every page is prerendered and the build fails if
-  anything becomes request-time.
+  `ensureStatic = 'navigation'` on every page (a test enforces it): every page is prerendered and
+  the build fails if anything becomes request-time. The 404 catch-all is the one exception.
 - React 19.3, TypeScript 6.0 strict (+ `noUncheckedIndexedAccess`). TypeScript 7 is not used because
   typescript-eslint does not support it yet.
 - Tailwind CSS v4 (CSS-first, `@theme` mapped to the CSS variables below).
@@ -30,6 +30,22 @@ board wins and this file gets fixed.
 | anything else | 404 with HTTP status 404 (localized under `/en/` and `/ar/`, English elsewhere) |
 
 All URLs end with a trailing slash. The language switch links to the same page in the other locale.
+
+## Next.js 16.4 behaviours the code must respect
+
+- **404s render in the browser.** Every `notFound()` response is an error shell whose content
+  streams in and renders with JavaScript. The status is 404; `NotFoundView` sets the title itself
+  (React 19 `<title>`), because the metadata title is dropped. An unknown first segment (`/fr/`)
+  still gets the English shell from the layout, so its page's `notFound()` shows the site's 404.
+- **Previous pages stay in the DOM.** Next keeps up to three visited routes mounted and hidden
+  (`<Activity>`, `display: none`). So: every `id` must be unique across pages and languages (suffix
+  it with the locale and the page), transient UI such as the mobile menu resets in a
+  `useLayoutEffect` cleanup, and tests must query visible elements.
+- **The language mirror uses React `<ViewTransition>`.** The switch carries the `locale-switch`
+  transition type; `MirrorBlock` names blocks that move, `MirrorFade` (shared names) fades main and
+  footer. `enter` and `exit` do not fire on the switch, because the old page is hidden rather than
+  unmounted. React shrinks the `::view-transition` overlay to 0x0; `right: auto` on it keeps the
+  moving blocks on screen in RTL.
 
 ## Content rules
 

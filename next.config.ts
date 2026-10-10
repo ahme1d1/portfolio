@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   trailingSlash: true,
   typedRoutes: true,
-  experimental: {
-    globalNotFound: true,
-  },
   async redirects() {
     // The site has no language sniffing: the bare domain always opens English.
     return [{ source: "/", destination: "/en/", permanent: false }];

@@ -6,8 +6,9 @@
   (`*.dc.html`) and are the source of truth for layout and copy. Never copy files from `../docs/`
   into this repo: some of them name the agencies.
 - Scripts: `npm run dev | build | typecheck | lint | test | test:coverage | test:e2e`.
-- Every page is static: `ensureStatic = 'navigation'` on the root layout. Do not read cookies,
-  headers or server-side `searchParams`.
+- Every page is static: `ensureStatic = 'navigation'` on each page (tested). Do not read cookies,
+  headers or server-side `searchParams`. Read "Next.js 16.4 behaviours" in `docs/SPEC.md` first:
+  404s render in the browser, previous pages stay in the DOM (unique ids), view-transition quirks.
 - TypeScript stays on 6.0.x until typescript-eslint supports 7.
 - Content is typed TS in `content/`; each Arabic module is typed with the English one. Unknown values
   are `null` and are left out of the page.
