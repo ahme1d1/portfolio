@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
+import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { CASE_SLUGS, isCaseSlug } from "@/content/cases/slugs";
 import { getCaseSeo } from "@/content/seo";
 import { isLocale } from "@/lib/i18n/locale";
@@ -24,5 +24,5 @@ export default async function CaseStudyPage({ params }: PageProps<"/[locale]/wor
   const locale = await resolveLocale(params);
   const { slug } = await params;
   if (!isCaseSlug(slug)) notFound();
-  return <PagePlaceholder title={getCaseSeo(locale, slug).title} />;
+  return <CaseStudyView locale={locale} slug={slug} />;
 }

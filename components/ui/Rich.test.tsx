@@ -19,6 +19,16 @@ describe("Rich", () => {
     expect(container.textContent).toBe("إلى React و TypeScript.");
   });
 
+  it("renders an Arabic name inside English copy as RTL Arabic bdi", () => {
+    const { container } = render(
+      <p>
+        <Rich text="Qima ({منصة قيمة}) sells vouchers." />
+      </p>,
+    );
+    const bdi = container.querySelector("bdi");
+    expect([bdi?.textContent, bdi?.getAttribute("dir"), bdi?.getAttribute("lang")]).toEqual(["منصة قيمة", "rtl", "ar"]);
+  });
+
   it("renders emphasis and fills slots", () => {
     const { container } = render(
       <p>

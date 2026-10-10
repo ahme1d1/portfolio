@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n/locale";
 /**
  * A tiny inline markup for copy, so content stays plain typed strings:
  *   {React}       Latin text inside Arabic copy (rendered as <bdi dir="ltr" lang="en">)
+ *   {منصة قيمة}   Arabic text inside English copy (rendered as <bdi dir="rtl" lang="ar">); the script decides
  *   *Vodafone*    emphasis (may hold {…})
  *   {$email}      a slot the caller fills, e.g. a link
  * "و {X}", "بـ {X}" and "لـ {X}" are kept on one line automatically.
@@ -10,6 +11,7 @@ import type { Locale } from "@/lib/i18n/locale";
 export type RichNode =
   | { type: "text"; value: string }
   | { type: "latin"; value: string }
+  | { type: "arabic"; value: string }
   | { type: "slot"; name: string }
   | { type: "strong"; children: RichNode[] }
   | { type: "nowrap"; children: RichNode[] };
@@ -18,6 +20,14 @@ type Tokenized = { nodes: RichNode[]; errors: string[]; slots: string[] };
 
 /** A particle that must not end a line before the Latin word after it, e.g. " و " or "بـ ". */
 const PARTICLE = /(^|\s)(و|بـ|لـ) $/u;
+
+const ARABIC_LETTER = /[\u0600-\u06FF]/;
+const ASCII_LETTER = /[A-Za-z]/;
+
+/** A {…} run in Arabic script is an Arabic name in English copy; anything else is Latin. */
+function runNode(value: string): RichNode {
+  return ARABIC_LETTER.test(value) ? { type: "arabic", value } : { type: "latin", value };
+}
 
 function tokenize(text: string): Tokenized {
   const root: RichNode[] = [];
@@ -44,12 +54,13 @@ function tokenize(text: string): Tokenized {
       const inner = text.slice(i + 1, close);
       if (inner.includes("{")) errors.push("nested {");
       if (inner === "") errors.push("empty {}");
+      if (ARABIC_LETTER.test(inner) && ASCII_LETTER.test(inner)) errors.push(`mixed script {${inner}}`);
       flush();
       if (inner.startsWith("$")) {
         slots.push(inner.slice(1));
         target().push({ type: "slot", name: inner.slice(1) });
       } else {
-        target().push({ type: "latin", value: inner });
+        target().push(runNode(inner));
       }
       i = close;
     } else if (char === "*") {
@@ -111,7 +122,7 @@ export function plainText(text: string, slots: Readonly<Record<string, string>> 
   return text.replace(/\{\$([^}]*)\}/g, (_, name: string) => slots[name] ?? "").replace(/[{}*]/g, "");
 }
 
-/** The copy with its Latin tokens and slots removed: on Arabic pages nothing Latin may remain. */
+/** The copy with its {…} runs and slots removed: on Arabic pages nothing Latin may remain. */
 export function outsideLatin(text: string): string {
   return text.replace(/\{[^}]*\}/g, "");
 }

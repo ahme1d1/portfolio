@@ -93,6 +93,22 @@ describe("parseRich", () => {
     ]);
   });
 
+  it("marks a {…} run in Arabic script as Arabic, for Arabic names inside English copy", () => {
+    expect(parseRich("Qima ({منصة قيمة}) sells")).toEqual([
+      { type: "text", value: "Qima (" },
+      { type: "arabic", value: "منصة قيمة" },
+      { type: "text", value: ") sells" },
+    ]);
+    expect(parseRich("one package, {@fel/core}")[1]).toEqual({ type: "latin", value: "@fel/core" });
+  });
+
+  it("never glues a particle to an Arabic run", () => {
+    expect(parseRich("و {العربية}")).toEqual([
+      { type: "text", value: "و " },
+      { type: "arabic", value: "العربية" },
+    ]);
+  });
+
   it("falls back to plain text when the markup is broken", () => {
     expect(parseRich("an {open brace")).toEqual([{ type: "text", value: "an open brace" }]);
     expect(parseRich("one *star")).toEqual([{ type: "text", value: "one star" }]);
@@ -111,6 +127,7 @@ describe("validateRich", () => {
     expect(validateRich("empty {}")).toEqual(["empty {}"]);
     expect(validateRich("one *star")).toEqual(["unclosed *"]);
     expect(validateRich("{$phone}", ["email"])).toEqual(["unknown slot $phone"]);
+    expect(validateRich("{React و Vue}")).toEqual(["mixed script {React و Vue}"]);
   });
 });
 
@@ -119,6 +136,7 @@ describe("plainText", () => {
     expect(plainText("موقع {Fantasy EG} بالعربية")).toBe("موقع Fantasy EG بالعربية");
     expect(plainText("*Sent.* Write to {$email}.", { email: "a@b.co" })).toBe("Sent. Write to a@b.co.");
     expect(plainText("Write to {$email}.")).toBe("Write to .");
+    expect(plainText("Qima ({منصة قيمة}) and {@fel/core}")).toBe("Qima (منصة قيمة) and @fel/core");
   });
 });
 

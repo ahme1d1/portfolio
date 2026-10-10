@@ -160,3 +160,35 @@ export function SpinnerIcon({ className = "", ...props }: IconProps) {
     </Icon>
   );
 }
+
+/** Leaves the site (up and forward): up-right in English, up-left in Arabic. */
+export function ExternalArrowIcon({ className = "", ...props }: IconProps) {
+  return (
+    <Icon {...props} className={`shrink-0 rtl:-scale-x-100 ${className}`}>
+      <path d="M7 7h10v10M7 17 17 7" />
+    </Icon>
+  );
+}
+
+export function LockIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </Icon>
+  );
+}
+
+/** The six-dot handle of a block that can be dragged into a new order. */
+export function GripIcon({ size = 14, ...props }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" {...props}>
+      <circle cx="9" cy="6" r="1.7" />
+      <circle cx="15" cy="6" r="1.7" />
+      <circle cx="9" cy="12" r="1.7" />
+      <circle cx="15" cy="12" r="1.7" />
+      <circle cx="9" cy="18" r="1.7" />
+      <circle cx="15" cy="18" r="1.7" />
+    </svg>
+  );
+}

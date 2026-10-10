@@ -1,20 +1,32 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { HomeView } from "@/components/home/HomeView";
 import { EarlierWork } from "@/components/work/EarlierWork";
 import { WorkView } from "@/components/work/WorkView";
-import { LOCALES } from "@/lib/i18n/locale";
+import { CASE_SLUGS } from "@/content/cases/slugs";
+import { LOCALES, type Locale } from "@/lib/i18n/locale";
 import { router } from "@/tests/mocks/next";
 
 function headingLevels(container: HTMLElement): number[] {
   return [...container.querySelectorAll("h1, h2, h3, h4")].map((h) => Number(h.tagName[1]));
 }
 
+const caseView = (slug: (typeof CASE_SLUGS)[number]) =>
+  function CaseView({ locale }: { locale: Locale }) {
+    return <CaseStudyView locale={locale} slug={slug} />;
+  };
+
+type View = (props: { locale: Locale }) => React.ReactNode;
+
+const VIEWS: readonly (readonly [string, View])[] = [
+  ["Home", HomeView],
+  ["Work", WorkView],
+  ...CASE_SLUGS.map((slug) => [slug, caseView(slug)] as const),
+];
+
 describe.each(LOCALES)("pages in %s", (locale) => {
-  it.each([
-    ["Home", HomeView],
-    ["Work", WorkView],
-  ])("%s has one h1 and never skips a heading level", (_, View) => {
+  it.each(VIEWS)("%s has one h1 and never skips a heading level", (_, View) => {
     router.pathname = `/${locale}/`;
     const { container } = render(<View locale={locale} />);
     const levels = headingLevels(container);
@@ -26,7 +38,7 @@ describe.each(LOCALES)("pages in %s", (locale) => {
 });
 
 describe("page ids", () => {
-  it("never repeat, even with Home and Work mounted in both languages at once", () => {
+  it("never repeat, even with Home, Work and every case study mounted in both languages at once", () => {
     // Next keeps up to three visited pages in the DOM, hidden, so ids must not collide across them.
     const { container } = render(
       <>
@@ -34,6 +46,9 @@ describe("page ids", () => {
           <div key={locale}>
             <HomeView locale={locale} />
             <WorkView locale={locale} />
+            {CASE_SLUGS.map((slug) => (
+              <CaseStudyView key={slug} locale={locale} slug={slug} />
+            ))}
           </div>
         ))}
       </>,

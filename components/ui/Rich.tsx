@@ -8,6 +8,11 @@ type RichProps = {
   slots?: Readonly<Record<string, ReactNode>>;
 };
 
+/** Fails the type check when a new node type has no case above. */
+function unreachable(node: never): never {
+  throw new Error(`Unknown rich node: ${JSON.stringify(node)}`);
+}
+
 function renderNodes(nodes: readonly RichNode[], slots: RichProps["slots"]): ReactNode[] {
   return nodes.map((node, index) => {
     switch (node.type) {
@@ -16,6 +21,12 @@ function renderNodes(nodes: readonly RichNode[], slots: RichProps["slots"]): Rea
       case "latin":
         return (
           <bdi key={index} dir="ltr" lang="en">
+            {node.value}
+          </bdi>
+        );
+      case "arabic":
+        return (
+          <bdi key={index} dir="rtl" lang="ar">
             {node.value}
           </bdi>
         );
@@ -33,6 +44,8 @@ function renderNodes(nodes: readonly RichNode[], slots: RichProps["slots"]): Rea
             {renderNodes(node.children, slots)}
           </span>
         );
+      default:
+        return unreachable(node);
     }
   });
 }

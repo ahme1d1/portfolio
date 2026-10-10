@@ -12,20 +12,29 @@ export const CARD_SIZES = "(min-width: 1024px) 411px, (min-width: 768px) calc(50
 /** The class the card's hover grows a little inside the frame. */
 const GROWS = "project-card__media";
 
-function MediaContent({ media }: { media: CardMedia }) {
+type MediaContentProps = {
+  media: CardMedia;
+  /** The image's display width, for `sizes`; the card's by default. */
+  sizes?: string;
+  /** "next": the smaller phones of the next-case card. */
+  variant?: "card" | "next";
+};
+
+/** What fills a project's frame: a screenshot, two app screens, or a drawing. */
+export function MediaContent({ media, sizes = CARD_SIZES, variant = "card" }: MediaContentProps) {
   switch (media.kind) {
     case "image":
       return (
         <Image
           src={media.image}
           alt={media.alt}
-          sizes={CARD_SIZES}
+          sizes={sizes}
           placeholder="blur"
           className={`${GROWS} size-full object-cover object-top`}
         />
       );
     case "phones":
-      return <PhonePair images={media.images} className={GROWS} />;
+      return <PhonePair images={media.images} variant={variant} className={GROWS} />;
     case "vodafone":
       return <VodafoneMockup labels={media.labels} className={GROWS} />;
     case "lean":
