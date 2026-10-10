@@ -31,6 +31,7 @@ export function CaseStudyView({ locale, slug }: { locale: Locale; slug: CaseSlug
   const scope = caseScope(slug);
   const id = (part: string) => pageId(scope, part, locale);
   const work = getSiteCopy(locale).nav.items.find((item) => item.href === "/work/");
+  if (!work) throw new Error("The site navigation has no Work item for the breadcrumb.");
 
   return (
     <>
@@ -41,7 +42,7 @@ export function CaseStudyView({ locale, slug }: { locale: Locale; slug: CaseSlug
         shared={shared}
         site={data.site}
         status={getProjectCard(locale, slug).status}
-        work={{ label: work?.label ?? "", href: localePath(locale, "/work/") }}
+        work={{ label: work.label, href: localePath(locale, "/work/") }}
       />
       <HeroFigure slug={slug} hero={data.hero} copy={copy.hero} locale={locale} />
       <div className={`${PAGE_X} flex flex-col gap-7 pt-7 md:gap-14 lg:gap-32 lg:pt-10`}>

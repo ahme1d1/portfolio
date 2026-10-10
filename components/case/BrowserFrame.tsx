@@ -25,10 +25,10 @@ const STYLES: Record<FrameSize, { frame: string; bar: string; dot: string; url: 
 function AddressBar({ bar, size }: { bar: BrowserBar; size: FrameSize }) {
   const style = STYLES[size];
   return (
-    // The browser chrome reads left to right in both languages.
-    <div dir="ltr" lang="en" className={`flex shrink-0 items-center border-b border-line ${style.bar}`}>
+    // Decorative chrome, read left to right in both languages; the screenshot's alt names the site.
+    <div aria-hidden="true" dir="ltr" lang="en" className={`flex shrink-0 items-center border-b border-line ${style.bar}`}>
       {[0, 1, 2].map((dot) => (
-        <span key={dot} aria-hidden="true" className={`rounded-full bg-line ${style.dot}`} />
+        <span key={dot} className={`rounded-full bg-line ${style.dot}`} />
       ))}
       {bar.kind === "url" ? (
         <span
@@ -38,7 +38,7 @@ function AddressBar({ bar, size }: { bar: BrowserBar; size: FrameSize }) {
           {bar.url}
         </span>
       ) : null}
-      {bar.kind === "blank" ? <span aria-hidden="true" className={`rounded-full bg-surface ${style.blank}`} /> : null}
+      {bar.kind === "blank" ? <span className={`rounded-full bg-surface ${style.blank}`} /> : null}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { plainText } from "@/lib/rich/parse";
 import { CaseFigure } from "@/components/case/CaseFigure";
 import { CheckIcon } from "@/components/ui/icons";
 import { Rich } from "@/components/ui/Rich";
@@ -21,7 +22,7 @@ export function EducoursezPhases({ locale }: FigureProps) {
   return (
     <CaseFigure caption={null} panel="none">
       <ol
-        aria-label={phases.label}
+        aria-label={plainText(phases.label)}
         className="m-0 flex list-none flex-col p-0 md:grid md:grid-flow-col md:grid-cols-2 md:grid-rows-4 md:gap-x-10"
       >
         {phases.items.map((phase, index) => (

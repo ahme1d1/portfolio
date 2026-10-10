@@ -1,7 +1,7 @@
 import { CaseFigure } from "@/components/case/CaseFigure";
-import { ArrowIcon } from "@/components/ui/icons";
 import { Rich } from "@/components/ui/Rich";
 import { getLeanDiagrams } from "@/content/cases/lean-academy";
+import { FlowArrow } from "../primitives";
 import type { FigureProps } from "../registry";
 import { BuilderBlocks } from "./BuilderBlocks";
 import { BuilderEditPanel } from "./BuilderEditPanel";
@@ -19,23 +19,7 @@ const LAYOUT =
 function SameOrder({ text }: { text: string }) {
   return (
     <div className="flex items-center justify-center gap-2 lg:flex-col">
-      <span aria-hidden="true" className="inline-flex text-accent-ink">
-        <svg
-          width="28"
-          height="28"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          focusable="false"
-          className="lg:hidden"
-        >
-          <path d="M12 5v14m7-7-7 7-7-7" />
-        </svg>
-        <ArrowIcon size={36} className="hidden lg:block" />
-      </span>
+      <FlowArrow size={36} stackedBelow="lg" />
       <span className="text-[13px] leading-[1.35] text-muted lg:text-center ar:leading-relaxed">
         <Rich text={text} />
       </span>

@@ -139,8 +139,21 @@ export function Drops({ count, className = "", lineClassName = "h-5 md:h-[22px]"
   );
 }
 
-/** "A becomes B": points forward (right in English, left in Arabic), and down on phones when stacked. */
-export function FlowArrow({ size = 36, stacked = true, className = "" }: { size?: number; stacked?: boolean; className?: string }) {
+const STACKED_BELOW = {
+  md: { down: "md:hidden", forward: "hidden md:block" },
+  lg: { down: "lg:hidden", forward: "hidden lg:block" },
+} as const;
+
+type FlowArrowProps = {
+  size?: number;
+  /** Points down below this breakpoint, where the figure stacks; `false` keeps it pointing forward. */
+  stackedBelow?: keyof typeof STACKED_BELOW | false;
+  className?: string;
+};
+
+/** "A becomes B": points forward (right in English, left in Arabic), and down where the figure stacks. */
+export function FlowArrow({ size = 36, stackedBelow = "md", className = "" }: FlowArrowProps) {
+  const stacked = stackedBelow ? STACKED_BELOW[stackedBelow] : null;
   return (
     <span aria-hidden="true" className={`inline-flex text-accent-ink ${className}`}>
       {stacked ? (
@@ -154,12 +167,12 @@ export function FlowArrow({ size = 36, stacked = true, className = "" }: { size?
           strokeLinecap="round"
           strokeLinejoin="round"
           focusable="false"
-          className="md:hidden"
+          className={stacked.down}
         >
           <path d="M12 5v14m-7-7 7 7 7-7" />
         </svg>
       ) : null}
-      <ArrowIcon size={size} className={stacked ? "hidden md:block" : ""} />
+      <ArrowIcon size={size} className={stacked ? stacked.forward : ""} />
     </span>
   );
 }

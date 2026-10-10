@@ -48,7 +48,7 @@ export function BuilderEditPanel({ edit }: { edit: EditCopy }) {
       </Field>
       <Field label={edit.paragraph.label}>
         <span className="flex flex-col rounded-lg border border-line">
-          <span dir="ltr" className="flex gap-1 border-b border-line px-2 py-1.5 ar:justify-end">
+          <span aria-hidden="true" dir="ltr" className="flex gap-1 border-b border-line px-2 py-1.5 ar:justify-end">
             {edit.paragraph.tools.map((tool, index) => (
               <span
                 key={tool}
