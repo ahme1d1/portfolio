@@ -19,6 +19,16 @@ describe("Rich", () => {
     expect(container.textContent).toBe("إلى React و TypeScript.");
   });
 
+  it("keeps several runs in one span, so a flex parent can't split them and drop their spaces", () => {
+    const { container } = render(
+      <p className="flex">
+        <Rich text="مكوّن {jQuery}" />
+      </p>,
+    );
+    expect(container.querySelector("p")?.children).toHaveLength(1);
+    expect(container.querySelector("p > span")?.textContent).toBe("مكوّن jQuery");
+  });
+
   it("renders an Arabic name inside English copy as RTL Arabic bdi", () => {
     const { container } = render(
       <p>

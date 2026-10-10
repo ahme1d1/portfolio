@@ -50,7 +50,13 @@ function renderNodes(nodes: readonly RichNode[], slots: RichProps["slots"]): Rea
   });
 }
 
-/** Renders copy with Latin words in <bdi>, emphasis and slots. No hooks: works on the server and the client. */
+/**
+ * Renders copy with Latin words in <bdi>, emphasis and slots. No hooks: works on the server and the
+ * client. Several runs sit in one <span>, so a flex parent can't split them into items and drop the
+ * spaces between them ("مكوّن jQuery").
+ */
 export function Rich({ text, slots }: RichProps) {
-  return <>{renderNodes(parseRich(text), slots)}</>;
+  const nodes = parseRich(text);
+  const rendered = renderNodes(nodes, slots);
+  return nodes.length > 1 ? <span>{rendered}</span> : <>{rendered}</>;
 }
