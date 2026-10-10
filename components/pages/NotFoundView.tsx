@@ -16,13 +16,13 @@ export function NotFoundView({ locale }: { locale: Locale }) {
 
   return (
     <section
-      aria-labelledby={`not-found-title-${locale}`}
-      className="mx-auto flex min-h-[60vh] max-w-[1280px] flex-col items-center justify-center gap-5 px-4 py-14 text-center lg:min-h-[620px] lg:px-10"
+      data-footer="compact"
+      className="mx-auto flex min-h-[60vh] max-w-page flex-col items-center justify-center gap-5 px-4 py-14 text-center lg:min-h-[620px] lg:px-10"
     >
       {/* React 19 hoists these into <head>. */}
       <title>{notFoundTitle(locale)}</title>
       <meta name="robots" content="noindex" />
-      <h1 id={`not-found-title-${locale}`} className="type-h1">
+      <h1 className="type-h1">
         {notFound.title}
       </h1>
       <p className="m-0 type-lede text-ink-2">{notFound.lead}</p>

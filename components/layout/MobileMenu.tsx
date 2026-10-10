@@ -2,21 +2,25 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { CloseIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon, MenuIcon, WhatsAppIcon } from "@/components/ui/icons";
-import { CV_PATH, EMAIL, GITHUB_URL, LINKEDIN_URL, WHATSAPP_URL } from "@/content/links";
+import { CloseIcon, DownloadIcon, MenuIcon } from "@/components/ui/icons";
+import { CV_PATH } from "@/content/links";
 import type { SiteCopy } from "@/content/site";
 import type { Locale } from "@/lib/i18n/locale";
 import { localePath } from "@/lib/i18n/paths";
+import { MenuSocialLinks } from "./MenuSocialLinks";
 import { NavLink } from "./NavLink";
 import { ThemeRow } from "./ThemeToggle";
 import { useFocusTrap } from "./useFocusTrap";
+
+/** The menu replaces the header navigation below this width (Tailwind's lg). */
+const DESKTOP_QUERY = "(min-width: 1024px)";
 
 type MobileMenuProps = { locale: Locale; copy: SiteCopy };
 
 /**
  * The menu below 1024px. The button keeps its name ("Menu"); only aria-expanded changes.
- * While open: focus starts on the first link and stays in the header and menu, Esc closes,
- * and the page behind does not scroll.
+ * While open: focus starts on the first link and Tab cycles between the button and the menu,
+ * Esc closes, and the page behind neither scrolls nor takes focus (inert).
  */
 export function MobileMenu({ locale, copy }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,25 +43,18 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
   useLayoutEffect(() => () => setIsOpen(false), []);
 
   useFocusTrap({ isActive: isOpen, containerRef: panelRef, extraRef: buttonRef, onEscape: close });
+  useLockedBackground(isOpen);
 
   useEffect(() => {
     if (!isOpen) return;
     // The panel turns visible in the same frame (only closing is animated), so it can take focus.
     panelRef.current?.querySelector<HTMLElement>("a")?.focus();
-    const root = document.documentElement;
-    const previous = root.style.overflow;
-    root.style.overflow = "hidden";
-    return () => {
-      root.style.overflow = previous;
-    };
+    // Widening past 1024px hides the menu and its button; close it so nothing stays locked.
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const onChange = () => desktop.matches && setIsOpen(false);
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
   }, [isOpen]);
-
-  const social = [
-    { href: GITHUB_URL, label: copy.social.github, Icon: GitHubIcon },
-    { href: LINKEDIN_URL, label: copy.social.linkedin, Icon: LinkedInIcon },
-    { href: WHATSAPP_URL, label: copy.social.whatsapp, Icon: WhatsAppIcon },
-    { href: `mailto:${EMAIL}`, label: copy.social.email, Icon: MailIcon },
-  ];
 
   return (
     <>
@@ -85,7 +82,7 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
               key={item.href}
               href={localePath(locale, item.href)}
               onNavigate={close}
-              className="flex min-h-16 items-center border-b border-line text-[30px] font-semibold tracking-[-0.03em] text-ink data-current:text-accent-ink ar:tracking-normal"
+              className="flex min-h-16 items-center border-b border-line text-[30px] font-semibold tracking-[-0.03em] text-ink ar:tracking-normal"
             >
               {item.label}
             </NavLink>
@@ -101,19 +98,28 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
           </a>
           <ThemeRow labels={copy.theme} />
         </nav>
-        <div className="flex justify-center gap-1 border-t border-line px-2.5 pt-4 pb-7">
-          {social.map(({ href, label, Icon }) => (
-            <a
-              key={href}
-              href={href}
-              aria-label={label}
-              className="grid size-12 place-items-center rounded-control text-muted transition-colors duration-150 hover:text-ink"
-            >
-              <Icon size={22} />
-            </a>
-          ))}
-        </div>
+        <MenuSocialLinks labels={copy.social} />
       </div>
     </>
   );
+}
+
+/** While the menu is open the page behind does not scroll and cannot be reached (inert). */
+function useLockedBackground(isLocked: boolean) {
+  useEffect(() => {
+    if (!isLocked) return;
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    const behind = Array.from(document.querySelectorAll<HTMLElement>("body > main, body > footer"));
+    root.style.overflow = "hidden";
+    behind.forEach((element) => {
+      element.inert = true;
+    });
+    return () => {
+      root.style.overflow = previousOverflow;
+      behind.forEach((element) => {
+        element.inert = false;
+      });
+    };
+  }, [isLocked]);
 }

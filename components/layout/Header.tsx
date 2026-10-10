@@ -19,7 +19,7 @@ export function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-page [view-transition-name:site-header]">
-      <div className="mx-auto flex h-15 max-w-[1280px] items-center gap-1.5 ps-[18px] pe-2 lg:h-19 lg:gap-5 lg:px-10">
+      <div className="mx-auto flex h-15 max-w-page items-center gap-1.5 ps-[18px] pe-2 lg:h-19 lg:gap-5 lg:px-10">
         <Link
           href={localePath(locale, "/") as Route}
           className="inline-flex min-h-11 flex-1 items-center text-[17px] font-bold tracking-[-0.02em] text-ink lg:flex-none lg:text-lg ar:tracking-normal"

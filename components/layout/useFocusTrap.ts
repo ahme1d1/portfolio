@@ -17,10 +17,12 @@ export function useFocusTrap({ isActive, containerRef, extraRef, onEscape }: Foc
   useEffect(() => {
     if (!isActive) return;
 
+    /** Only controls that are rendered: focus() on a hidden element does nothing. */
     function focusables(): HTMLElement[] {
       const inside = Array.from(containerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE) ?? []);
       const extra = extraRef?.current;
-      return extra ? [extra, ...inside] : inside;
+      const all = extra ? [extra, ...inside] : inside;
+      return all.filter((element) => element.checkVisibility?.() ?? true);
     }
 
     function onKeyDown(event: KeyboardEvent) {

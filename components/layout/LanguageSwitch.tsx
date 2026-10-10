@@ -11,6 +11,11 @@ import { switchLocalePath } from "@/lib/i18n/paths";
 /** Which switch was used, so the same one on the new page can take focus. */
 let refocusPlacement: string | null = null;
 
+/** Test helper: forget a pending refocus. */
+export function resetLanguageSwitchFocus() {
+  refocusPlacement = null;
+}
+
 type LanguageSwitchProps = {
   /** The language the link opens. Its name is shown in its own script. */
   target: Locale;
@@ -39,7 +44,7 @@ export function LanguageSwitch({ target, placement, className, children }: Langu
       lang={target}
       hrefLang={target}
       transitionTypes={[LOCALE_SWITCH]}
-      onClick={() => {
+      onNavigate={() => {
         refocusPlacement = placement;
       }}
       className={className}

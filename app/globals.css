@@ -95,6 +95,9 @@
 
   --font-sans: var(--font-en);
 
+  /* The boards measure 1280px of content between the 40px gutters. */
+  --container-page: 1360px;
+
   --radius-control: 12px;
   --radius-button: 14px;
   --radius-card: 20px;
@@ -421,4 +424,9 @@
 
 ::view-transition-new(site-header) {
   animation: none;
+}
+
+/* The 404 board sits closer to the footer than the other pages (32px instead of 96px). */
+main:has([data-footer="compact"]) + footer {
+  padding-top: 32px;
 }

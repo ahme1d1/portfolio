@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { router } from "@/tests/mocks/next";
-import { LanguageSwitch } from "./LanguageSwitch";
+import { LanguageSwitch, resetLanguageSwitchFocus } from "./LanguageSwitch";
 
 describe("LanguageSwitch", () => {
+  afterEach(() => resetLanguageSwitchFocus());
+
   it("opens the same page in the other language, named in its own script", () => {
     router.pathname = "/en/work/qima/";
     render(
@@ -50,5 +52,26 @@ describe("LanguageSwitch", () => {
       </LanguageSwitch>,
     );
     expect(screen.getByRole("link", { name: "العربية" })).not.toHaveFocus();
+  });
+
+  it("leaves focus alone after a click that opens a new tab", async () => {
+    router.pathname = "/en/";
+    const { unmount } = render(
+      <LanguageSwitch target="ar" placement="header">
+        العربية
+      </LanguageSwitch>,
+    );
+    const user = userEvent.setup();
+    await user.keyboard("{Control>}");
+    await user.click(screen.getByRole("link", { name: "العربية" }));
+    await user.keyboard("{/Control}");
+    unmount();
+
+    render(
+      <LanguageSwitch target="en" placement="header">
+        English
+      </LanguageSwitch>,
+    );
+    expect(screen.getByRole("link", { name: "English" })).not.toHaveFocus();
   });
 });

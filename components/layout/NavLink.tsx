@@ -23,7 +23,7 @@ export function NavLink({ href, className, children, onNavigate }: NavLinkProps)
       aria-current={current}
       data-current={current ? "" : undefined}
       className={className}
-      onClick={onNavigate}
+      onNavigate={onNavigate}
     >
       {children}
     </Link>
