@@ -3,7 +3,7 @@ import { personJsonLd, serializeJsonLd } from "./person";
 
 describe("personJsonLd", () => {
   it("describes Ahmed as a Person in the page's language", () => {
-    const person = personJsonLd("ar", "/_next/static/media/portrait.png");
+    const person = personJsonLd("ar");
     expect(person).toMatchObject({
       "@context": "https://schema.org",
       "@type": "Person",
@@ -11,7 +11,7 @@ describe("personJsonLd", () => {
       alternateName: "Ahmed Gabal",
       jobTitle: "مهندس واجهات أمامية أول",
       url: "https://ahmedgabal.vercel.app/ar/",
-      image: "https://ahmedgabal.vercel.app/_next/static/media/portrait.png",
+      image: "https://ahmedgabal.vercel.app/share/ahmed-gabal.jpg",
       email: "mailto:ahmedadel8045@gmail.com",
       sameAs: ["https://www.linkedin.com/in/ahmedadelgabal", "https://github.com/ahme1d1"],
       worksFor: { "@type": "Organization", name: "VOIS", url: "https://www.voiscentre.com/" },
@@ -20,7 +20,7 @@ describe("personJsonLd", () => {
   });
 
   it("has no inline markup left in its text", () => {
-    expect(JSON.stringify(personJsonLd("ar", "/p.png"))).not.toMatch(/[{}*]\w/);
+    expect(JSON.stringify(personJsonLd("ar"))).not.toMatch(/[{}*]\w/);
   });
 });
 

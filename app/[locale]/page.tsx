@@ -1,4 +1,3 @@
-import portrait from "@/assets/images/portrait.png";
 import { HomeView } from "@/components/home/HomeView";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { resolveLocale } from "@/lib/i18n/server";
@@ -14,7 +13,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const locale = await resolveLocale(params);
   return (
     <>
-      <JsonLd data={personJsonLd(locale, portrait.src)} />
+      <JsonLd data={personJsonLd(locale)} />
       <HomeView locale={locale} />
     </>
   );

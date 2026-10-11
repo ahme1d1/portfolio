@@ -80,4 +80,6 @@ test("the sitemap lists every page in both languages", async ({ request }) => {
   const body = await (await request.get("/sitemap.xml")).text();
   expect(body.match(/<url>/g)).toHaveLength(PAGE_PATHS.length * 2);
   expect(body).toContain("/ar/work/lean-academy/");
+  // Each page names both languages and English as the default, as its <head> does.
+  expect(body.match(/hreflang="x-default"/g)).toHaveLength(PAGE_PATHS.length * 2);
 });
