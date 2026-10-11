@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { describeCaseStudy, describeContentModule, findDates, type ContentModule } from "@/lib/testing/content-guards";
+import { arAbout } from "./about/ar";
+import { enAbout } from "./about/en";
 import { CASE_DATA } from "./cases/data";
 import { caseModules } from "./cases";
 import { arCaseShared } from "./cases/shared/ar";
@@ -29,6 +31,7 @@ const MODULES: readonly ContentModule[] = [
   { name: "companies", en: enCompanies, ar: arCompanies, rich: true },
   { name: "work", en: enWork, ar: arWork, rich: true },
   { name: "contact", en: enContact, ar: arContact, rich: true },
+  { name: "about", en: enAbout, ar: arAbout, rich: true },
   { name: "case-shared", en: enCaseShared, ar: arCaseShared, rich: true },
 ];
 

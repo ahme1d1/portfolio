@@ -1,5 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { AboutView } from "@/components/about/AboutView";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { ContactView } from "@/components/contact/ContactView";
 import { HomeView } from "@/components/home/HomeView";
@@ -25,6 +26,7 @@ const VIEWS: readonly (readonly [string, View])[] = [
   ["Work", WorkView],
   ...CASE_SLUGS.map((slug) => [slug, caseView(slug)] as const),
   ["Contact", ContactView],
+  ["About", AboutView],
 ];
 
 describe.each(LOCALES)("pages in %s", (locale) => {

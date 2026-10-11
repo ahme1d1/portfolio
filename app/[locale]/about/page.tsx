@@ -1,5 +1,4 @@
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
-import { getSiteCopy } from "@/content/site";
+import { AboutView } from "@/components/about/AboutView";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -10,5 +9,5 @@ export const generateMetadata = pageMetadata("about", "/about/");
 
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
   const locale = await resolveLocale(params);
-  return <PagePlaceholder title={getSiteCopy(locale).nav.items[3]?.label ?? ""} />;
+  return <AboutView locale={locale} />;
 }
