@@ -408,10 +408,16 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   alias.
 - Icons: `app/icon.png` (64px) and `app/apple-icon.png` (180px), "AG" in Bricolage 600 on black, made by
   `../tools/make-icons.mjs`.
+- `text-transparent` on images hides the alt text while they load, as next/image's style did; the images
+  are local static files, so a broken one is not expected.
 
 ## SEO
 
 - Title pattern `<topic> | Ahmed Gabal` (Arabic `… | أحمد جبل`), 50–60 characters; description
   120–160 characters; no dates or agency names.
-- hreflang `en`, `ar` and `x-default` (→ `/en/`), canonical URLs with trailing slashes, Person
-  JSON-LD on Home, `sitemap.xml`, `robots.txt`.
+- hreflang `en`, `ar` and `x-default` (→ `/en/`) in every page's head and in `sitemap.xml`, canonical URLs
+  with trailing slashes, Person JSON-LD on Home, `robots.txt`.
+- **Link previews:** every page names its language's card, `public/share/ahmed-gabal-{en,ar}.png` (1200 x 630:
+  name, role, the Home sentence and the portrait, made by `../tools/make-share-images.mjs` from the Home copy),
+  as Open Graph and as an X `summary_large_image` card, alt "name, role". The Person data's image is the stable
+  square `public/share/ahmed-gabal.jpg`, never a hashed build file. A test checks the files and their sizes.
