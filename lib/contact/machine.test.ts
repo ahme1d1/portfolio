@@ -68,7 +68,13 @@ describe("contactReducer", () => {
 
   it("starts over from sent with an empty form", () => {
     const sent = contactReducer(contactReducer(filled(initialState("role")), { type: "submit" }), { type: "succeeded" });
-    expect(contactReducer(sent, { type: "reset" })).toEqual(initialState("role"));
+    expect(contactReducer(sent, { type: "reset" })).toEqual({ ...initialState("role"), hasStartedOver: true });
+  });
+
+  it("marks only a form that came back after a sent message, so only that one fades in", () => {
+    expect(initialState("role").hasStartedOver).toBe(false);
+    const sent = contactReducer(contactReducer(filled(initialState(null)), { type: "submit" }), { type: "succeeded" });
+    expect(contactReducer(sent, { type: "hidden" }).hasStartedOver).toBe(false);
   });
 
   it("when the page is hidden: forgets a sent message, keeps a draft, leaves a send running", () => {

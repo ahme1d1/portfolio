@@ -16,6 +16,8 @@ export type ContactState = {
   failure: Failure | null;
   /** The topic from the link that opened the form; "Send another message" starts from it again. */
   defaultTopic: Topic | null;
+  /** The form came back after "Send another message": it fades in (never on page load). */
+  hasStartedOver: boolean;
 };
 
 export type ContactAction =
@@ -36,6 +38,7 @@ export function initialState(defaultTopic: Topic | null): ContactState {
     errors: {},
     failure: null,
     defaultTopic,
+    hasStartedOver: false,
   };
 }
 
@@ -78,7 +81,7 @@ export function contactReducer(state: ContactState, action: ContactAction): Cont
     case "failed":
       return { ...state, status: "error", errors: {}, failure: action.reason };
     case "reset":
-      return initialState(state.defaultTopic);
+      return { ...initialState(state.defaultTopic), hasStartedOver: true };
     case "hidden":
       if (state.status === "sent") return initialState(state.defaultTopic);
       if (state.status === "error") return { ...state, status: "idle", errors: {}, failure: null };

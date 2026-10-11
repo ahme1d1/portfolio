@@ -96,7 +96,7 @@ function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: For
       aria-label={title ? undefined : label}
       aria-labelledby={title ? titleId : undefined}
       onSubmit={submit}
-      className="flex flex-col gap-4 lg:gap-[18px]"
+      className={`flex flex-col gap-4 lg:gap-[18px] ${state.hasStartedOver ? "animate-state-in" : ""}`}
     >
       <input type="hidden" name="access_key" value={accessKey()} />
       <input type="hidden" name="subject" value="Portfolio message" />
@@ -167,8 +167,13 @@ function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: For
 
       <div className="flex flex-col gap-4 lg:mt-1 lg:flex-row lg:flex-wrap lg:items-center">
         <Button type="submit" variant="cobalt" busy={isSending} className="w-full lg:w-auto lg:px-7">
-          {isSending ? <SpinnerIcon size={18} /> : null}
-          {isSending ? copy.sending : copy.submit}
+          {/* The sending state fades in like every other state change. */}
+          {isSending ? (
+            <span className="grid animate-state-in">
+              <SpinnerIcon size={18} />
+            </span>
+          ) : null}
+          {isSending ? <span className="animate-state-in">{copy.sending}</span> : copy.submit}
         </Button>
         <ReplyNote text={reply} className="justify-center text-sm lg:justify-start lg:text-[15px]" />
       </div>
