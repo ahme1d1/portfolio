@@ -163,6 +163,9 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   a selected tile, 2px nav underline.
 - Breakpoints: the header switches to the Menu button below 1024; project cards 3 → 2 → 1; facts
   strip 4 → 2 columns; rows stack below 768.
+- **Portrait card (Home, About; Ahmed's option C, 2026-10-11):** phones under 480 crop it as the board does; from
+  480 the whole photo shows (`object-contain`, bottom), since a full-width card at a fixed height would cut the face
+  off; from 768 (md) it sits beside the text as on desktop. No board covers 480–1023. `e2e/portrait.spec.ts`.
 - Logical properties only (`margin-inline-start`, `ps-*`, `end-0`), never left or right.
 - Header: 76px sticky on desktop, 60px on mobile. `scroll-padding-top` 92 / 76.
 
@@ -310,7 +313,7 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - **Contact layout:** h1, lede and the "Reach me directly" rows in the start column, the form panel
   in the end column (5fr / 7fr from lg). On phones the form comes first and the direct links follow
   it; the two link groups are responsive variants of one block, and only the desktop one has ids.
-- **About:** one DOM order (title, portrait, text); from lg a grid puts the portrait beside both,
+- **About:** one DOM order (title, portrait, text); from md a grid puts the portrait beside both,
   as tall as the text. The portrait is the LCP image (`fetchPriority="high"`) in
   `MirrorBlock name="about-portrait"`.
 - **Resolved board differences** (listed for Ahmed at the Phase 5 checkpoint): the Arabic follows
@@ -377,6 +380,12 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - Every image has alt text; decorative images use `alt=""`.
 - LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1. Lighthouse mobile: Performance ≥ 95; Accessibility, Best
   Practices and SEO 100.
+- **Measured (Phase 7):** Accessibility, Best Practices and SEO 100 on every page tested; desktop 100 x 4. Phone
+  Performance is 87–90 with Lighthouse's default *simulated* throttling: the hero fades in from opacity 0 (the
+  play-in motion), so the largest paint lands 0.25–0.7s after first paint and the simulation then counts every
+  script loaded by then (simulated LCP 3.6–4.1s). With the same throttling applied for real it is 99 and LCP 1.8s.
+  Ahmed chose to keep the motion (2026-10-11). Don't "fix" this by starting the fade above 0: that only games the
+  metric.
 
 ## Security headers
 
@@ -406,8 +415,8 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   needs a directive and a test that uses it.
 - Vercel preview deployments load their toolbar from `vercel.live`, which the policy blocks: check the production
   alias.
-- Icons: `app/icon.png` (64px) and `app/apple-icon.png` (180px), "AG" in Bricolage 600 on black, made by
-  `../tools/make-icons.mjs`.
+- Icons: `app/icon.png` (64px) and `app/apple-icon.png` (180px), white "AG" in Bricolage 600 on cobalt `#1F3DFF`
+  (Ahmed's pick 2026-10-11), made by `../tools/make-icons.mjs site/app "#1F3DFF" "#FFFFFF"`.
 - `text-transparent` on images hides the alt text while they load, as next/image's style did; the images
   are local static files, so a broken one is not expected.
 
