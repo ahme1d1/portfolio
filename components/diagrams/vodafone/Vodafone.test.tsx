@@ -93,7 +93,7 @@ describe("VodafoneArchitecture", () => {
   it("draws the Arabic labels", () => {
     const { container } = render(<VodafoneArchitecture locale="ar" />);
     expect(screen.getByText("طبقة واجهة برمجية محددة الأنواع")).toBeInTheDocument();
-    expect(screen.getByText("الطلب 1").closest("s")).not.toBeNull();
+    expect(screen.getByText("الطلب 1 مُلغى").closest("s")).not.toBeNull();
     expect(screen.getAllByText("المفتاح مفعّل")).toHaveLength(2);
     expect(screen.getByText("مفتاح الإيقاف")).toBeInTheDocument();
     expect(container.querySelector("figcaption")).toHaveTextContent(/^لكل وحدة مفتاح إطلاق خاص بها/);

@@ -281,7 +281,9 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   where a mobile board differs; Arabic facts use name + muted second line; Vodafone's facts keep
   the English order; stacks are language-neutral; the next-case card reuses the Work card copy;
   section gaps 20 / 14 and 128 above the first section in both languages; hero phones keep their
-  390:844 ratio.
+  390:844 ratio. Where the EN and AR boards say different things, the Arabic follows the English
+  (Ahmed, 2026-10-11). A struck-through label still says its state in words (strikethrough isn't
+  announced), e.g. «الطلب 1 مُلغى».
 
 ## Accessibility and quality bars
 

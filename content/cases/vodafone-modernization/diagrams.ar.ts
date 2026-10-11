@@ -21,7 +21,7 @@ export const arVodafoneDiagrams: VodafoneDiagramsCopy = {
       eyebrow: "طبقة واجهة برمجية محددة الأنواع",
       title: "تُلغي الطلبات التي تجاوزها طلب أحدث",
       detail: "لا يمكن لاستجابة بطيئة أن تحلّ محل استجابة أحدث منها.",
-      cancelled: "الطلب 1",
+      cancelled: "الطلب 1 مُلغى",
       used: "يُعتمد الطلب 2",
     },
     modules: {
