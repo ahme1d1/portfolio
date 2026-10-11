@@ -2,7 +2,7 @@ import type { ChangeEvent, HTMLInputAutoCompleteAttribute } from "react";
 import { FieldError } from "./FieldError";
 
 const CONTROL =
-  "w-full rounded-control border border-strong bg-page px-3.5 text-base font-normal text-ink transition-[border-color] duration-150 ease-enter hover:border-ink-2 focus:outline-2 focus:outline-offset-2 focus:outline-accent aria-[invalid=true]:border-error aria-[invalid=true]:shadow-[inset_0_0_0_1px_var(--error)] read-only:cursor-default read-only:border-line read-only:bg-disabled read-only:text-ink-2";
+  "w-full rounded-control border border-strong bg-page px-3.5 text-base font-normal text-ink transition-fast not-read-only:hover:border-ink-2 focus:outline-2 focus:outline-offset-2 focus:outline-accent aria-[invalid=true]:border-error aria-[invalid=true]:shadow-[inset_0_0_0_1px_var(--error)] read-only:cursor-default read-only:border-line read-only:bg-disabled read-only:text-ink-2";
 
 type FieldProps = {
   id: string;

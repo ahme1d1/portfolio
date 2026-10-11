@@ -16,7 +16,7 @@ export function ThemeToggle({ labels }: { labels: ThemeLabels }) {
     <button
       type="button"
       onClick={switchTheme}
-      className="grid size-11 cursor-pointer place-items-center rounded-full border border-line bg-page text-ink transition-[background-color,border-color,transform] duration-150 ease-enter hover:border-strong hover:bg-surface active:scale-[0.97]"
+      className="grid size-11 cursor-pointer place-items-center rounded-full border border-line bg-page text-ink transition-fast hover:border-strong hover:bg-surface active:scale-[0.97]"
     >
       <MoonIcon className="theme-icon theme-icon-moon" />
       <SunIcon className="theme-icon theme-icon-sun" />
@@ -32,21 +32,15 @@ export function ThemeRow({ labels }: { labels: ThemeLabels }) {
     <button
       type="button"
       onClick={switchTheme}
-      className="mt-2.5 flex h-13 cursor-pointer items-center justify-center gap-2.5 rounded-button border border-line bg-page text-base font-semibold text-ink transition-[background-color,border-color,transform] duration-150 ease-enter hover:border-strong hover:bg-surface active:scale-[0.97]"
+      className="mt-2.5 flex h-13 cursor-pointer items-center justify-center gap-2.5 rounded-button border border-line bg-page text-base font-semibold text-ink transition-fast hover:border-strong hover:bg-surface active:scale-[0.97]"
     >
-      {/* The outer spans only switch visibility; the inner ones lay out icon and text. */}
-      <span className="theme-show-light">
-        <span className="inline-flex items-center gap-2.5">
-          <MoonIcon />
-          {labels.darkRow}
-        </span>
+      {/* The icons turn like the header button's; the label swaps at once. */}
+      <span className="grid">
+        <MoonIcon className="theme-icon theme-icon-moon" />
+        <SunIcon className="theme-icon theme-icon-sun" />
       </span>
-      <span className="theme-show-dark">
-        <span className="inline-flex items-center gap-2.5">
-          <SunIcon />
-          {labels.lightRow}
-        </span>
-      </span>
+      <span className="theme-show-light">{labels.darkRow}</span>
+      <span className="theme-show-dark">{labels.lightRow}</span>
     </button>
   );
 }

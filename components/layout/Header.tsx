@@ -11,7 +11,7 @@ import { NavLink } from "./NavLink";
 import { ThemeToggle } from "./ThemeToggle";
 
 const PILL =
-  "inline-flex h-11 shrink-0 items-center rounded-full font-medium transition-[background-color,border-color,transform] duration-150 ease-enter active:scale-[0.97]";
+  "inline-flex h-11 shrink-0 items-center rounded-full font-medium transition-fast active:scale-[0.97]";
 
 export function Header({ locale }: { locale: Locale }) {
   const copy = getSiteCopy(locale);
@@ -32,7 +32,7 @@ export function Header({ locale }: { locale: Locale }) {
             <NavLink
               key={item.href}
               href={localePath(locale, item.href)}
-              className="border-b-2 border-transparent px-3.5 pt-3 pb-2.5 text-base font-medium text-ink transition-colors duration-150 ease-enter hover:border-strong active:border-ink data-current:border-accent data-current:font-semibold"
+              className="border-b-2 border-transparent px-3.5 pt-3 pb-2.5 text-base font-medium text-ink transition-fast hover:border-strong active:border-ink data-current:border-accent data-current:font-semibold"
             >
               {item.label}
             </NavLink>

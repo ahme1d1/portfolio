@@ -65,7 +65,7 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
         aria-expanded={isOpen}
         aria-controls={panelId}
         onClick={() => (isOpen ? close() : setIsOpen(true))}
-        className="grid size-11 cursor-pointer place-items-center rounded-control text-ink lg:hidden"
+        className="grid size-11 cursor-pointer place-items-center rounded-control text-ink transition-fast active:scale-[0.97] active:bg-surface lg:hidden"
       >
         {isOpen ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
       </button>
@@ -74,7 +74,7 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
         ref={panelRef}
         id={panelId}
         data-open={isOpen ? "" : undefined}
-        className="invisible fixed inset-x-0 top-15 bottom-0 z-20 flex -translate-y-4 flex-col overflow-y-auto bg-page opacity-0 transition-[opacity,transform,visibility] duration-200 ease-leave data-open:visible data-open:translate-y-0 data-open:opacity-100 data-open:transition-[opacity,transform] data-open:ease-enter lg:hidden"
+        className="invisible fixed inset-x-0 top-15 bottom-0 z-20 flex pointer-events-none -translate-y-4 flex-col overflow-y-auto bg-page opacity-0 transition-[opacity,translate,visibility] duration-200 ease-leave data-open:visible data-open:translate-y-0 data-open:opacity-100 data-open:pointer-events-auto data-open:transition-[opacity,translate] data-open:ease-enter lg:hidden"
       >
         <nav aria-label={copy.nav.mainLabel} className="flex flex-1 flex-col px-4 pt-5">
           {copy.nav.items.map((item) => (
@@ -89,7 +89,7 @@ export function MobileMenu({ locale, copy }: MobileMenuProps) {
           ))}
           <a
             href={CV_PATH}
-            className="mt-6 flex h-13 items-center justify-center gap-2.5 rounded-button bg-inverse text-base font-semibold text-on-inverse transition-[background-color,transform] duration-150 ease-enter hover:bg-ink-2 active:scale-[0.97]"
+            className="mt-6 flex h-13 items-center justify-center gap-2.5 rounded-button bg-inverse text-base font-semibold text-on-inverse transition-fast hover:bg-ink-2 active:scale-[0.97]"
           >
             <DownloadIcon />
             <span>

@@ -18,7 +18,7 @@ export function MenuSocialLinks({ labels }: { labels: SiteCopy["social"] }) {
           key={href}
           href={href}
           aria-label={label}
-          className="grid size-12 place-items-center rounded-control text-muted transition-colors duration-150 hover:text-ink"
+          className="grid size-12 place-items-center rounded-control text-muted transition-fast hover:text-ink"
         >
           <Icon size={22} />
         </a>

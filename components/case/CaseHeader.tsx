@@ -18,7 +18,7 @@ function Breadcrumb({ label, workLabel, workHref, current }: BreadcrumbProps) {
         <li>
           <AnyLink
             href={workHref}
-            className="inline-flex min-h-11 min-w-11 items-center rounded-md text-muted underline underline-offset-4 transition-colors duration-150 hover:text-ink ar:underline-offset-6"
+            className="inline-flex min-h-11 min-w-11 items-center rounded-md text-muted underline underline-offset-4 transition-fast hover:text-ink ar:underline-offset-6"
           >
             {workLabel}
           </AnyLink>

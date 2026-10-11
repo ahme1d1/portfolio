@@ -19,9 +19,9 @@ describe("buttonClass", () => {
     expect(buttonClass({ variant: "black" })).not.toContain("w-full");
   });
 
-  it("only transitions the allowed properties and presses to 0.97", () => {
+  it("eases hover and press with the shared fast transition and presses to 0.97", () => {
     const classes = buttonClass({ variant: "cobalt" });
-    expect(classes).toContain("transition-[background-color,border-color,transform]");
+    expect(classes).toContain("transition-fast");
     expect(classes).toContain("active:scale-[0.97]");
     expect(classes).not.toContain("transition-all");
   });

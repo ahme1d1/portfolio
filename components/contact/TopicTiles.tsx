@@ -7,7 +7,7 @@ import { FieldError } from "./FieldError";
  * radios stay focusable (aria-disabled, changes ignored), like the busy button.
  */
 const TILE =
-  "flex h-12 cursor-pointer items-center gap-2.5 rounded-control border border-strong bg-page px-3.5 text-[15px] text-ink transition-[border-color,transform] duration-150 ease-enter hover:border-ink-2 active:scale-[0.97] has-checked:border-accent has-checked:font-semibold has-checked:shadow-[inset_0_0_0_1px_var(--accent)] has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent has-aria-disabled:cursor-default has-aria-disabled:border-line has-aria-disabled:bg-disabled has-aria-disabled:text-ink-2 has-aria-disabled:hover:border-line has-aria-disabled:active:scale-100 has-[:checked[aria-disabled=true]]:border-strong has-[:checked[aria-disabled=true]]:shadow-[inset_0_0_0_1px_var(--strong)] lg:justify-center lg:gap-2 lg:px-0";
+  "flex h-12 cursor-pointer items-center gap-2.5 rounded-control border border-strong bg-page px-3.5 text-[15px] text-ink transition-fast hover:border-ink-2 active:scale-[0.97] has-checked:border-accent has-checked:font-semibold has-checked:shadow-[inset_0_0_0_1px_var(--accent)] has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent has-aria-disabled:cursor-default has-aria-disabled:border-line has-aria-disabled:bg-disabled has-aria-disabled:text-ink-2 has-aria-disabled:hover:border-line has-aria-disabled:active:scale-100 has-[:checked[aria-disabled=true]]:border-strong has-[:checked[aria-disabled=true]]:shadow-[inset_0_0_0_1px_var(--strong)] lg:justify-center lg:gap-2 lg:px-0";
 
 type TopicTilesProps = {
   id: string;

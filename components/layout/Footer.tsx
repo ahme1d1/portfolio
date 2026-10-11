@@ -5,7 +5,7 @@ import { LanguageSwitch } from "./LanguageSwitch";
 import { NavLink } from "./NavLink";
 
 const LINK =
-  "flex min-h-11 items-center text-[15px] text-muted transition-colors duration-150 ease-enter hover:text-ink hover:underline hover:underline-offset-4 data-current:text-ink lg:px-3";
+  "flex min-h-11 items-center text-[15px] text-muted decoration-1 transition-fast hover:text-ink hover:underline hover:underline-offset-4 active:opacity-80 data-current:text-ink lg:px-3";
 
 export function Footer({ locale }: { locale: Locale }) {
   const copy = getSiteCopy(locale);
@@ -20,7 +20,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {item.label}
             </NavLink>
           ))}
-          <LanguageSwitch target={other} placement="footer" className={`${LINK} text-ink`}>
+          <LanguageSwitch target={other} placement="footer" className={LINK}>
             {getSiteCopy(other).languageName}
           </LanguageSwitch>
         </nav>

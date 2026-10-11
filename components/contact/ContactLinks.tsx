@@ -42,7 +42,7 @@ const LINK: Record<Exclude<ContactLinksVariant, "rows">, string> = {
   divided: "min-h-13 w-full gap-3 border-b border-line text-base",
 };
 
-const HOVER = "transition-colors duration-150 ease-enter hover:text-accent-ink";
+const HOVER = "transition-fast hover:text-accent-ink active:text-accent-pressed";
 
 /** Latin text (the address, the handles, the brand names) in an Arabic page reads left to right. */
 function Text({ text }: { text: string }) {

@@ -18,6 +18,8 @@
   --accent: light-dark(#1f3dff, #3d57ff);
   --accent-text: light-dark(#1f3dff, #8c9aff);
   --accent-hover: color-mix(in srgb, var(--accent) 86%, black);
+  /* A pressed accent link deepens toward the text colour (Interactions board). */
+  --accent-pressed: color-mix(in srgb, var(--accent-text) 70%, var(--text));
   --on-accent: #ffffff;
   --on-accent-muted: light-dark(rgb(255 255 255 / 0.86), #ffffff);
   --ok: light-dark(#16a34a, #4ade80);
@@ -78,6 +80,7 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-ink: var(--accent-text);
+  --color-accent-pressed: var(--accent-pressed);
   --color-on-accent: var(--on-accent);
   --color-on-accent-muted: var(--on-accent-muted);
   --color-ok: var(--ok);
@@ -287,6 +290,17 @@
 /* Latin words inside Arabic headings stay at the Latin heading weight (Arabic headings are 700). */
 :lang(ar) :is(h1, h2, h3) bdi:lang(en) {
   font-weight: 600;
+}
+
+/*
+ * Hover and press on every control (Interactions board, "Fast"): 150ms ease-out on named properties.
+ * Never the focus ring (Tailwind's transition-colors includes outline-color), and Tailwind 4's
+ * scale-* and translate-* set the `scale` and `translate` properties, not `transform`.
+ */
+@utility transition-fast {
+  transition-property: color, background-color, border-color, text-decoration-color, opacity, scale, translate;
+  transition-duration: 150ms;
+  transition-timing-function: var(--ease-enter);
 }
 
 /*

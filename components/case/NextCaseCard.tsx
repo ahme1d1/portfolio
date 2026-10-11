@@ -29,7 +29,7 @@ export function NextCaseCard({ card, label, labelId, titleId }: NextCaseCardProp
       <AnyLink
         href={card.href}
         aria-labelledby={`${labelId} ${titleId}`}
-        className="group flex flex-col gap-2.5 rounded-[32px] border border-line p-4 text-ink transition-[background-color,border-color,transform] duration-150 ease-enter hover:border-strong hover:bg-surface active:scale-[0.98] active:border-strong active:bg-surface md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-center md:gap-10 md:rounded-panel md:p-8 lg:grid-cols-[minmax(0,1fr)_380px]"
+        className="group flex flex-col gap-2.5 rounded-[32px] border border-line p-4 text-ink transition-fast hover:border-strong hover:bg-surface active:scale-[0.98] active:border-strong active:bg-surface md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,320px)] md:items-center md:gap-10 md:rounded-panel md:p-8 lg:grid-cols-[minmax(0,1fr)_380px]"
       >
         <div className="flex flex-col gap-2.5 md:gap-3 ar:md:gap-2.5">
           <span id={labelId} className="mt-1.5 text-sm font-medium text-muted md:mt-0 md:text-base">
