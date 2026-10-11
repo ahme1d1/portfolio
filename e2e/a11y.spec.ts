@@ -41,27 +41,29 @@ test.describe("accessibility of other states", () => {
     }
   });
 
-  test("the contact form's error and sent states in both languages", async ({ page }) => {
-    await page.route("https://api.web3forms.com/submit", (route) => route.fulfill({ json: { success: true } }));
-    for (const locale of ["en", "ar"] as const) {
-      const t = locale === "en" ? { send: "Send message", project: "A project", name: "Name", email: "Email", message: "Message" } : { send: "إرسال الرسالة", project: "مشروع", name: "الاسم", email: "البريد الإلكتروني", message: "الرسالة" };
-      await page.goto(`/${locale}/`);
-      await page.getByRole("button", { name: t.send }).click();
-      await expect(page.locator("form").getByRole("alert")).toHaveCSS("opacity", "1");
-      // Focus scrolled the form into view; at the top nothing sits under the sticky header.
-      await page.evaluate(() => window.scrollTo(0, 0));
-      expect((await scan(page)).violations.map((v) => v.id)).toEqual([]);
+  for (const path of ["/", "/contact/"]) {
+    test(`the contact form's error and sent states in both languages on ${path}`, async ({ page }) => {
+      await page.route("https://api.web3forms.com/submit", (route) => route.fulfill({ json: { success: true } }));
+      for (const locale of ["en", "ar"] as const) {
+        const t = locale === "en" ? { send: "Send message", project: "A project", name: "Name", email: "Email", message: "Message" } : { send: "إرسال الرسالة", project: "مشروع", name: "الاسم", email: "البريد الإلكتروني", message: "الرسالة" };
+        await page.goto(`/${locale}${path}`);
+        await page.getByRole("button", { name: t.send }).click();
+        await expect(page.locator("form").getByRole("alert")).toHaveCSS("opacity", "1");
+        // Focus scrolled the form into view; at the top nothing sits under the sticky header.
+        await page.evaluate(() => window.scrollTo(0, 0));
+        expect((await scan(page)).violations.map((v) => v.id)).toEqual([]);
 
-      await page.getByRole("radio", { name: t.project }).check();
-      await page.getByRole("textbox", { name: t.name }).fill("Sara");
-      await page.getByRole("textbox", { name: t.email }).fill("sara@company.com");
-      await page.getByRole("textbox", { name: t.message }).fill("Hello");
-      await page.getByRole("button", { name: t.send }).click();
-      await expect(page.getByRole("status").filter({ has: page.getByRole("heading") })).toHaveCSS("opacity", "1");
-      await page.evaluate(() => window.scrollTo(0, 0));
-      expect((await scan(page)).violations.map((v) => v.id)).toEqual([]);
-    }
-  });
+        await page.getByRole("radio", { name: t.project }).check();
+        await page.getByRole("textbox", { name: t.name }).fill("Sara");
+        await page.getByRole("textbox", { name: t.email }).fill("sara@company.com");
+        await page.getByRole("textbox", { name: t.message }).fill("Hello");
+        await page.getByRole("button", { name: t.send }).click();
+        await expect(page.getByRole("status").filter({ has: page.getByRole("heading") })).toHaveCSS("opacity", "1");
+        await page.evaluate(() => window.scrollTo(0, 0));
+        expect((await scan(page)).violations.map((v) => v.id)).toEqual([]);
+      }
+    });
+  }
 
   test("the 404 page in both languages", async ({ page }) => {
     for (const url of ["/en/nope/", "/ar/nope/"]) {

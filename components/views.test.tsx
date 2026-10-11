@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
+import { ContactView } from "@/components/contact/ContactView";
 import { HomeView } from "@/components/home/HomeView";
 import { EarlierWork } from "@/components/work/EarlierWork";
 import { WorkView } from "@/components/work/WorkView";
@@ -23,6 +24,7 @@ const VIEWS: readonly (readonly [string, View])[] = [
   ["Home", HomeView],
   ["Work", WorkView],
   ...CASE_SLUGS.map((slug) => [slug, caseView(slug)] as const),
+  ["Contact", ContactView],
 ];
 
 describe.each(LOCALES)("pages in %s", (locale) => {
@@ -38,16 +40,14 @@ describe.each(LOCALES)("pages in %s", (locale) => {
 });
 
 describe("page ids", () => {
-  it("never repeat, even with Home, Work and every case study mounted in both languages at once", () => {
+  it("never repeat, even with every page mounted in both languages at once", () => {
     // Next keeps up to three visited pages in the DOM, hidden, so ids must not collide across them.
     const { container } = render(
       <>
         {LOCALES.map((locale) => (
           <div key={locale}>
-            <HomeView locale={locale} />
-            <WorkView locale={locale} />
-            {CASE_SLUGS.map((slug) => (
-              <CaseStudyView key={slug} locale={locale} slug={slug} />
+            {VIEWS.map(([name, View]) => (
+              <View key={name} locale={locale} />
             ))}
           </div>
         ))}

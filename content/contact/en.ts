@@ -1,5 +1,11 @@
 /** Contact band and form copy, shared by Home, Contact and every "Let's talk" band. */
 export const enContact = {
+  /** The Contact page; its lede is the band's. */
+  page: {
+    title: "Contact",
+    directTitle: "Reach me directly",
+    whatsappValue: "Message me",
+  },
   band: {
     title: "Let's talk.",
     lede: "Write to me about a role you're hiring for or a product you want built.",

@@ -1,5 +1,4 @@
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
-import { getSiteCopy } from "@/content/site";
+import { ContactView } from "@/components/contact/ContactView";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -10,5 +9,5 @@ export const generateMetadata = pageMetadata("contact", "/contact/");
 
 export default async function ContactPage({ params }: PageProps<"/[locale]/contact">) {
   const locale = await resolveLocale(params);
-  return <PagePlaceholder title={getSiteCopy(locale).nav.items[4]?.label ?? ""} />;
+  return <ContactView locale={locale} />;
 }

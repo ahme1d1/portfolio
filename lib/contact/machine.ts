@@ -25,7 +25,9 @@ export type ContactAction =
   | { type: "failed"; reason: Exclude<Failure, "fields"> }
   | { type: "reset" }
   /** The page was hidden (Next keeps visited pages mounted). */
-  | { type: "hidden" };
+  | { type: "hidden" }
+  /** The topic in the page's link (`?topic=`), read once the page runs in the browser. */
+  | { type: "linked"; topic: Topic | null };
 
 export function initialState(defaultTopic: Topic | null): ContactState {
   return {
@@ -45,6 +47,18 @@ function change(state: ContactState, field: ContactField, value: string): Contac
   const errors: ContactErrors = problem ? { ...rest, [field]: problem } : rest;
   const isFixed = state.failure === "fields" && Object.keys(errors).length === 0;
   return isFixed ? { ...state, values, errors, status: "idle", failure: null } : { ...state, values, errors };
+}
+
+/**
+ * A new link's topic replaces the topic only while the person hasn't picked one themselves, and
+ * never while a message is on its way. Reading the same link again changes nothing.
+ */
+function linked(state: ContactState, topic: Topic | null): ContactState {
+  if (state.defaultTopic === topic) return state;
+  const withDefault = { ...state, defaultTopic: topic };
+  const isUntouched = state.values.topic === (state.defaultTopic ?? "");
+  const isLocked = state.status === "sending" || state.status === "sent";
+  return isUntouched && !isLocked ? change(withDefault, "topic", topic ?? "") : withDefault;
 }
 
 /** Nothing typed is ever lost: every transition keeps `values` unless the person starts over. */
@@ -69,5 +83,7 @@ export function contactReducer(state: ContactState, action: ContactAction): Cont
       if (state.status === "sent") return initialState(state.defaultTopic);
       if (state.status === "error") return { ...state, status: "idle", errors: {}, failure: null };
       return state;
+    case "linked":
+      return linked(state, action.topic);
   }
 }

@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { Activity } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getContactCopy } from "@/content/contact";
+import { router } from "@/tests/mocks/next";
 import { ContactForm } from "./ContactForm";
 
 const { form: copy, reply } = getContactCopy("en");
@@ -32,6 +33,7 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.unstubAllGlobals();
+  router.search = "";
 });
 
 describe("ContactForm", () => {
@@ -49,6 +51,28 @@ describe("ContactForm", () => {
   it("picks the topic it was opened with", () => {
     renderForm({ defaultTopic: "role" });
     expect(screen.getByRole("radio", { name: "A role" })).toBeChecked();
+  });
+
+  it("shows its title and takes its name from it", () => {
+    renderForm({ title: "Send a message" });
+    expect(screen.getByRole("form", { name: "Send a message" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Send a message" })).toBeInTheDocument();
+  });
+
+  it("picks the topic in the page's link", async () => {
+    router.search = "?topic=project";
+    renderForm({ linkTopic: true });
+    expect(await screen.findByRole("radio", { name: "A project", checked: true })).toBeInTheDocument();
+  });
+
+  it("ignores a topic it doesn't know, and the link unless asked to read it", () => {
+    router.search = "?topic=admin";
+    const { unmount } = renderForm({ linkTopic: true });
+    expect(screen.queryByRole("radio", { checked: true })).not.toBeInTheDocument();
+    unmount();
+    router.search = "?topic=role";
+    renderForm();
+    expect(screen.queryByRole("radio", { checked: true })).not.toBeInTheDocument();
   });
 
   it("still posts to Web3Forms without JavaScript", () => {
@@ -112,6 +136,16 @@ describe("ContactForm", () => {
     expect(heading).toHaveFocus();
     expect(heading.tagName).toBe("H3");
     expect(screen.getByText("Thanks. I'll reply within 24 hours at the email you gave.")).toBeInTheDocument();
+  });
+
+  it("swaps its title for an h2 sent heading on the Contact page", async () => {
+    vi.stubGlobal("fetch", vi.fn<typeof fetch>().mockResolvedValue(new Response(JSON.stringify({ success: true }))));
+    const user = userEvent.setup();
+    renderForm({ title: "Send a message", sentHeadingLevel: 2 });
+    await fillIn(user);
+    await user.click(screen.getByRole("button", { name: "Send message" }));
+    expect((await screen.findByRole("heading", { name: "Message sent." })).tagName).toBe("H2");
+    expect(screen.queryByRole("heading", { name: "Send a message" })).not.toBeInTheDocument();
   });
 
   it("starts a fresh message from the sent state", async () => {

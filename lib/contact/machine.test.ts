@@ -82,3 +82,43 @@ describe("contactReducer", () => {
     expect(contactReducer(sent, { type: "hidden" })).toEqual(initialState(null));
   });
 });
+
+describe("the topic from the link (linked)", () => {
+  it("picks the topic on a form the person hasn't touched", () => {
+    const state = contactReducer(initialState(null), { type: "linked", topic: "role" });
+    expect(state.values.topic).toBe("role");
+    expect(state.defaultTopic).toBe("role");
+  });
+
+  it("follows a new link while the topic is still the one the last link picked", () => {
+    const linked = contactReducer(initialState(null), { type: "linked", topic: "role" });
+    expect(contactReducer(linked, { type: "linked", topic: "project" }).values.topic).toBe("project");
+    expect(contactReducer(linked, { type: "linked", topic: null }).values.topic).toBe("");
+  });
+
+  it("keeps a topic the person chose, but starts over from the link", () => {
+    const chosen = contactReducer(initialState(null), { type: "change", field: "topic", value: "other" });
+    const state = contactReducer(chosen, { type: "linked", topic: "project" });
+    expect(state.values.topic).toBe("other");
+    expect(contactReducer(state, { type: "reset" }).values.topic).toBe("project");
+  });
+
+  it("changes nothing when the same link is read again", () => {
+    const linked = contactReducer(initialState(null), { type: "linked", topic: "role" });
+    expect(contactReducer(linked, { type: "linked", topic: "role" })).toBe(linked);
+  });
+
+  it("leaves a message that is sending alone", () => {
+    const sending = contactReducer(filled(initialState(null)), { type: "submit" });
+    const state = contactReducer(sending, { type: "linked", topic: "project" });
+    expect(state.values).toEqual(sending.values);
+    expect(state.status).toBe("sending");
+  });
+
+  it("clears the missing-topic error when the link picks one", () => {
+    const failed = contactReducer(initialState(null), { type: "submit" });
+    const state = contactReducer(failed, { type: "linked", topic: "project" });
+    expect(state.values.topic).toBe("project");
+    expect(state.errors).not.toHaveProperty("topic");
+  });
+});

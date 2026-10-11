@@ -1,10 +1,11 @@
 import { vi } from "vitest";
 
-/** The pathname the mocked router reports; set it per test. */
-export const router = { pathname: "/en/" };
+/** The pathname and query string the mocked router reports; set them per test. */
+export const router = { pathname: "/en/", search: "" };
 
 vi.mock("next/navigation", () => ({
   usePathname: () => router.pathname,
+  useSearchParams: () => new URLSearchParams(router.search),
 }));
 
 /** next/link needs the App Router at runtime; in unit tests a plain anchor is enough. */

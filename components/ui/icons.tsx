@@ -1,7 +1,7 @@
 import type { SVGProps } from "react";
 
 /** Stroke icons from the boards (Lucide shapes). Always decorative: the control carries the name. */
-type IconProps = Omit<SVGProps<SVGSVGElement>, "children"> & { size?: number };
+export type IconProps = Omit<SVGProps<SVGSVGElement>, "children"> & { size?: number };
 
 function Icon({ size = 18, children, ...props }: IconProps & { children: React.ReactNode }) {
   return (

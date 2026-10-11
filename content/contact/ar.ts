@@ -1,6 +1,11 @@
 import type { ContactCopy } from "./en";
 
 export const arContact: ContactCopy = {
+  page: {
+    title: "تواصل",
+    directTitle: "أو تواصل معي مباشرة",
+    whatsappValue: "راسلني",
+  },
   band: {
     title: "لنتحدث.",
     lede: "لديك وظيفة شاغرة أو منتج تريد بناءه؟ أخبرني بما لديك.",

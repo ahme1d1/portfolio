@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useReducer, useRef, type FormEvent } from "react";
+import { useCallback, useLayoutEffect, useReducer, useRef, type FormEvent } from "react";
 import { flushSync } from "react-dom";
 import { contactReducer, initialState } from "@/lib/contact/machine";
 import { CONTACT_FIELDS, validateContact, type ContactErrors, type ContactField } from "@/lib/contact/schema";
@@ -71,10 +71,13 @@ export function useContactForm(defaultTopic: Topic | null) {
     }
   }
 
+  /** The topic in the page's link; the reducer decides whether it may replace the current one. */
+  const linkTopic = useCallback((topic: Topic | null) => dispatch({ type: "linked", topic }), []);
+
   function startOver() {
     flushSync(() => dispatch({ type: "reset" }));
     focusField("topic");
   }
 
-  return { state, formRef, sentHeadingRef, change, submit, startOver };
+  return { state, formRef, sentHeadingRef, change, submit, startOver, linkTopic };
 }

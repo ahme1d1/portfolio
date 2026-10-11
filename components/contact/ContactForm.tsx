@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { Suspense, useId } from "react";
 import { Button } from "@/components/ui/Button";
 import { SpinnerIcon } from "@/components/ui/icons";
 import type { FormCopy } from "@/content/contact";
@@ -12,16 +12,21 @@ import { ErrorSummary } from "./ErrorSummary";
 import { Field } from "./Field";
 import { ReplyNote } from "./ReplyNote";
 import { SentPanel } from "./SentPanel";
+import { TopicFromUrl } from "./TopicFromUrl";
 import { TopicTiles } from "./TopicTiles";
 import { useContactForm } from "./useContactForm";
 
 type ContactFormProps = {
   copy: FormCopy;
   reply: string;
-  /** The form's accessible name ("Contact form"). */
+  /** The form's accessible name ("Contact form") when it has no visible title. */
   label: string;
-  /** From `?topic=` on the Contact page; nothing is picked without it. */
+  /** A visible h2 above the fields that also names the form (Contact page). */
+  title?: string;
+  /** The topic to start from; nothing is picked without it. */
   defaultTopic?: Topic | null;
+  /** Take the topic from the page's link (`?topic=role`), as the Contact page does. */
+  linkTopic?: boolean;
   /** The "Message sent." heading sits one level under the section around the form. */
   sentHeadingLevel?: 2 | 3;
 };
@@ -36,9 +41,39 @@ function summaryText(copy: FormCopy, state: ContactState): string | null {
  * The one contact form (Home band and Contact page): idle → sending → sent, or an error. It posts to
  * Web3Forms from the browser; without JavaScript the same form posts there directly.
  */
-export function ContactForm({ copy, reply, label, defaultTopic = null, sentHeadingLevel = 3 }: ContactFormProps) {
+export function ContactForm({
+  copy,
+  reply,
+  label,
+  title,
+  defaultTopic = null,
+  linkTopic = false,
+  sentHeadingLevel = 3,
+}: ContactFormProps) {
   const id = useId();
-  const { state, formRef, sentHeadingRef, change, submit, startOver } = useContactForm(defaultTopic);
+  const form = useContactForm(defaultTopic);
+  const urlTopic = linkTopic ? (
+    <Suspense fallback={null}>
+      <TopicFromUrl onTopic={form.linkTopic} />
+    </Suspense>
+  ) : null;
+
+  return (
+    <>
+      {urlTopic}
+      <FormBody id={id} form={form} copy={copy} reply={reply} label={label} title={title} sentHeadingLevel={sentHeadingLevel} />
+    </>
+  );
+}
+
+type FormBodyProps = Pick<ContactFormProps, "copy" | "reply" | "label" | "title"> & {
+  id: string;
+  form: ReturnType<typeof useContactForm>;
+  sentHeadingLevel: 2 | 3;
+};
+
+function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: FormBodyProps) {
+  const { state, formRef, sentHeadingRef, change, submit, startOver } = form;
   const isSending = state.status === "sending";
   const message = (field: keyof ContactState["errors"]) => {
     const code = state.errors[field];
@@ -50,13 +85,16 @@ export function ContactForm({ copy, reply, label, defaultTopic = null, sentHeadi
   }
 
   const summary = summaryText(copy, state);
+  const titleId = `${id}-title`;
+  const required = <p className="m-0 type-small text-muted">{copy.required}</p>;
 
   return (
     <form
       ref={formRef}
       action={WEB3FORMS_URL}
       method="post"
-      aria-label={label}
+      aria-label={title ? undefined : label}
+      aria-labelledby={title ? titleId : undefined}
       onSubmit={submit}
       className="flex flex-col gap-4 lg:gap-[18px]"
     >
@@ -66,7 +104,16 @@ export function ContactForm({ copy, reply, label, defaultTopic = null, sentHeadi
       {/* Web3Forms' bot trap: people never see it, bots tick it. */}
       <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" hidden />
 
-      <p className="m-0 type-small text-muted">{copy.required}</p>
+      {title ? (
+        <div className="flex flex-col gap-1.5 lg:gap-3">
+          <h2 id={titleId} className="type-h2-panel">
+            {title}
+          </h2>
+          {required}
+        </div>
+      ) : (
+        required
+      )}
       {summary ? <ErrorSummary text={summary} /> : null}
 
       <TopicTiles
