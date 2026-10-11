@@ -9,12 +9,12 @@ import { markLocaleSwitch } from "@/lib/motion/reveal";
 import type { Locale } from "@/lib/i18n/locale";
 import { switchLocalePath } from "@/lib/i18n/paths";
 
-/** Which switch was used, so the same one on the new page can take focus. */
-let refocusPlacement: string | null = null;
+/** Which switch was used and the page it opens, so the same switch on that page can take focus. */
+let pendingRefocus: { placement: string; path: string } | null = null;
 
 /** Test helper: forget a pending refocus. */
 export function resetLanguageSwitchFocus() {
-  refocusPlacement = null;
+  pendingRefocus = null;
 }
 
 type LanguageSwitchProps = {
@@ -30,25 +30,28 @@ type LanguageSwitchProps = {
 export function LanguageSwitch({ target, placement, className, children }: LanguageSwitchProps) {
   const pathname = usePathname();
   const ref = useRef<HTMLAnchorElement>(null);
+  const href = switchLocalePath(pathname, target);
 
-  // The other language is a separate page tree, so focus would fall back to <body>.
+  // The other language is a separate page tree, so focus would fall back to <body>. A switch whose
+  // page never opened (another link won) is forgotten instead of taking focus somewhere else.
   useEffect(() => {
-    if (refocusPlacement !== placement) return;
-    refocusPlacement = null;
-    ref.current?.focus({ preventScroll: true });
-  }, [placement]);
+    if (pendingRefocus?.placement !== placement) return;
+    const isItsPage = pendingRefocus.path === pathname;
+    pendingRefocus = null;
+    if (isItsPage) ref.current?.focus({ preventScroll: true });
+  }, [placement, pathname]);
 
   return (
     <Link
       ref={ref}
-      href={switchLocalePath(pathname, target) as Route}
+      href={href as Route}
       lang={target}
       hrefLang={target}
       transitionTypes={[LOCALE_SWITCH]}
       onNavigate={() => {
         // Only a switch that had focus gets it back. Safari never focuses a clicked link, and focus
         // moved there by script would draw a ring the person did not ask for.
-        refocusPlacement = document.activeElement === ref.current ? placement : null;
+        pendingRefocus = document.activeElement === ref.current ? { placement, path: href } : null;
         // The new page mirrors this one; its hero and blocks on screen don't play in.
         markLocaleSwitch(target);
       }}

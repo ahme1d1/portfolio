@@ -65,6 +65,26 @@ describe("LanguageSwitch", () => {
     expect(screen.getByRole("link", { name: "English" })).not.toHaveFocus();
   });
 
+  it("forgets the refocus when another link wins before the switch's page opens", async () => {
+    router.pathname = "/en/work/";
+    const { unmount } = render(
+      <LanguageSwitch target="ar" placement="header">
+        العربية
+      </LanguageSwitch>,
+    );
+    await userEvent.click(screen.getByRole("link", { name: "العربية" }));
+    unmount();
+
+    // A quicker click on an English link opened Contact instead: its switch must not take focus.
+    router.pathname = "/en/contact/";
+    render(
+      <LanguageSwitch target="ar" placement="header">
+        العربية
+      </LanguageSwitch>,
+    );
+    expect(screen.getByRole("link", { name: "العربية" })).not.toHaveFocus();
+  });
+
   it("does not steal focus on a normal page load", () => {
     router.pathname = "/en/";
     render(
