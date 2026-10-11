@@ -5,6 +5,7 @@ import {
   THEME_SWITCHING_CLASS,
   applyTheme,
   readEffectiveTheme,
+  restoreSavedTheme,
   toggledTheme,
 } from "./theme";
 
@@ -87,6 +88,26 @@ describe("theme", () => {
     });
     applyTheme("dark");
     expect(document.documentElement.dataset.theme).toBe("dark");
+  });
+
+  it("puts a saved choice back on <html> after React has cleared it (the language switch)", () => {
+    localStorage.setItem(THEME_STORAGE_KEY, "dark");
+    restoreSavedTheme();
+    expect(document.documentElement.dataset.theme).toBe("dark");
+  });
+
+  it("leaves the system theme alone when nothing valid was saved", () => {
+    localStorage.setItem(THEME_STORAGE_KEY, "purple");
+    restoreSavedTheme();
+    expect(document.documentElement.dataset.theme).toBeUndefined();
+  });
+
+  it("restores nothing when storage is blocked", () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new Error("blocked");
+    });
+    expect(() => restoreSavedTheme()).not.toThrow();
+    expect(document.documentElement.dataset.theme).toBeUndefined();
   });
 
   it("toggles between light and dark", () => {

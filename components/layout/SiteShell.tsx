@@ -5,6 +5,7 @@ import { THEME_SCRIPT } from "@/lib/theme/theme";
 import { MirrorFade } from "@/components/motion/MirrorBlock";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { KeepTheme } from "./KeepTheme";
 import { SkipLink } from "./SkipLink";
 
 /** The document every page shares: language, direction, theme, header, main and footer. */
@@ -26,6 +27,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
+        <KeepTheme />
         <SkipLink label={copy.skipLink} targetId={mainId} />
         <Header locale={locale} />
         <MirrorFade name="main">

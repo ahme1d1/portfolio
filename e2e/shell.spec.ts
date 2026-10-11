@@ -21,6 +21,16 @@ test.describe("theme", () => {
     await expect(page.getByRole("button", { name: "Switch to light theme" })).toBeVisible();
   });
 
+  test("a chosen theme stays through the language switch", async ({ page }, { project }) => {
+    test.skip(isMobile(project.name), "The header button is desktop only.");
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "Switch to dark theme" }).click();
+    await page.locator("header").getByRole("link", { name: "العربية" }).click();
+    await expect(page).toHaveURL(/\/ar\/$/);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  });
+
   test("the first visit follows the system", async ({ browser }) => {
     const context = await browser.newContext({ colorScheme: "dark" });
     const page = await context.newPage();

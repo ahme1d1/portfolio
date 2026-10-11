@@ -11,6 +11,19 @@ export const THEME_SWITCHING_CLASS = "theme-switching";
  */
 export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}})()`;
 
+/**
+ * The saved choice back on <html>, as THEME_SCRIPT does at load. The language switch swaps the root
+ * layout, and React then clears the attributes it didn't set on <html>, data-theme among them.
+ */
+export function restoreSavedTheme(): void {
+  try {
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
+  } catch {
+    // Storage can be blocked; the page then follows the system, as it did at load.
+  }
+}
+
 export function readEffectiveTheme(): Theme {
   const chosen = document.documentElement.dataset.theme;
   if (chosen === "light" || chosen === "dark") return chosen;
