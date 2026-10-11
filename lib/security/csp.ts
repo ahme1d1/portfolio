@@ -3,7 +3,20 @@
  * next.config.ts imports this file, so it imports nothing itself.
  */
 
-export type CspDirectives = Readonly<Record<string, readonly string[]>>;
+type Directive =
+  | "default-src"
+  | "script-src"
+  | "style-src"
+  | "img-src"
+  | "font-src"
+  | "connect-src"
+  | "form-action"
+  | "frame-ancestors"
+  | "base-uri"
+  | "object-src";
+
+/** A typo in a directive name is a type error, not a directive the browser silently ignores. */
+export type CspDirectives = Readonly<Partial<Record<Directive, readonly string[]>>>;
 
 /** The contact form's endpoint (`lib/contact/send.ts`, tested to match) and the page it lands on without JavaScript. */
 const WEB3FORMS_API = "https://api.web3forms.com";
@@ -28,6 +41,6 @@ export const CSP_DIRECTIVES: CspDirectives = {
 /** "name source source; name source" from a directive table. */
 export function buildCsp(directives: CspDirectives = CSP_DIRECTIVES): string {
   return Object.entries(directives)
-    .map(([name, sources]) => [name, ...sources].join(" "))
+    .map(([name, sources = []]) => [name, ...sources].join(" "))
     .join("; ");
 }

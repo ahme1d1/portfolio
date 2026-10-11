@@ -21,8 +21,15 @@ export const MAX_STAGGER_STEP = 4;
 /** The longest a block's entrance runs (500ms, a diagram's lines about 950ms) before its styles come off. */
 export const SETTLE_MS = 1000;
 
+const REVEAL_STATES = ["pending", "play", "done"] as const;
+
 /** pending: hidden, waiting to come into view. play: animating in. done: plain again. */
-export type RevealState = "pending" | "play" | "done";
+export type RevealState = (typeof REVEAL_STATES)[number];
+
+/** A block's `data-reveal` value, or null when it has none (or one this code never wrote). */
+export function readRevealState(value: string | undefined): RevealState | null {
+  return REVEAL_STATES.find((state) => state === value) ?? null;
+}
 
 /** How the current page appeared. */
 export type PageEntry = "load" | "navigation" | "locale-switch";

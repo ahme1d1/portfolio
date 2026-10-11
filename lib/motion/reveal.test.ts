@@ -3,6 +3,7 @@ import {
   MAX_STAGGER_STEP,
   initialRevealState,
   markLocaleSwitch,
+  readRevealState,
   resetPageEntry,
   staggerStep,
   takePageEntry,
@@ -27,6 +28,14 @@ describe("initialRevealState", () => {
     expect(initialRevealState("locale-switch", 100, SCREEN)).toBe("done");
     expect(initialRevealState("locale-switch", 980, SCREEN)).toBe("done");
     expect(initialRevealState("locale-switch", 1200, SCREEN)).toBe("pending");
+  });
+});
+
+describe("readRevealState", () => {
+  it("reads a block's state, and nothing for a missing or unknown value", () => {
+    expect(["pending", "play", "done"].map(readRevealState)).toEqual(["pending", "play", "done"]);
+    expect(readRevealState(undefined)).toBeNull();
+    expect(readRevealState("hidden")).toBeNull();
   });
 });
 

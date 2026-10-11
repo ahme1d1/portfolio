@@ -8,10 +8,10 @@ import {
   STAGGER_MS,
   TRIGGER_MARGIN_PX,
   initialRevealState,
+  readRevealState,
   staggerStep,
   takePageEntry,
   type PageEntry,
-  type RevealState,
 } from "@/lib/motion/reveal";
 
 const MOTION_QUERY = "screen and (prefers-reduced-motion: no-preference)";
@@ -39,7 +39,7 @@ function play(blocks: readonly HTMLElement[]) {
 }
 
 function onIntersect(entries: readonly IntersectionObserverEntry[], observer: IntersectionObserver) {
-  const arrived = entries.filter((item) => item.isIntersecting).map((item) => item.target as HTMLElement);
+  const arrived = entries.map((item) => (item.isIntersecting ? item.target : null)).filter((block) => block instanceof HTMLElement);
   arrived.forEach((block) => observer.unobserve(block));
   play(arrived);
 }
@@ -69,7 +69,7 @@ export function RevealOnScroll() {
     // Read every block first, then write, so the browser lays the page out once.
     const screenHeight = window.innerHeight;
     const plan = [...document.querySelectorAll<HTMLElement>(REVEAL_BLOCKS)].filter(isRendered).map((block) => {
-      const current = (block.dataset.reveal as RevealState | undefined) ?? null;
+      const current = readRevealState(block.dataset.reveal);
       const next = current ? null : initialRevealState(entry, block.getBoundingClientRect().top, screenHeight);
       return { block, state: next ?? current, isNew: next !== null };
     });
