@@ -28,7 +28,7 @@ export function RoleItem({ locale, roleKey, isLast }: RoleItemProps) {
   const subRole = role.subRole !== null && data.subRole !== null ? { ...role.subRole, stack: data.subRole.stack } : null;
 
   return (
-    <li id={pageId("experience", data.anchor, locale)} data-reveal-style="fade" className={`relative ps-6 md:ps-10 ${isLast ? "" : "pb-7 md:pb-8"}`}>
+    <li id={pageId("experience", data.anchor, locale)} data-reveal-style="still" className={`relative ps-6 md:ps-10 ${isLast ? "" : "pb-7 md:pb-8"}`}>
       {isLast ? null : <TimelineRule />}
       <TimelineDot isCurrent={data.end === null} />
       <MetaLine when={when} where={role.location} />

@@ -5,7 +5,9 @@
  *   waits for JavaScript and nothing is ever hidden without it.
  * - Then `components/motion/RevealOnScroll.tsx` holds back the blocks below the screen
  *   (data-reveal="pending") and plays each one as it comes into view (data-reveal="play").
- * Screens only, and nothing moves with reduced motion.
+ * Reading text (case-study paragraphs and rows, Experience roles) is `data-reveal-style="still"`: it
+ * never hides or moves, but lines inside it still draw. After the first page (`data-browsing` on
+ * <html>) everything plays quicker. Screens only, and nothing moves with reduced motion.
  */
 :root {
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
@@ -62,17 +64,13 @@
   }
 
   /* Every block on load, unless the script has taken it over (it then has data-reveal). */
-  :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) {
+  :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal], [data-reveal-style="still"]) {
     animation: reveal-up 500ms var(--ease-reveal) backwards;
     animation-delay: calc(360ms + var(--load-index, 0) * 120ms);
   }
 
   :is(.reveal-children > *, .reveal-children > :is(ul, ol) > li):not([data-reveal])[data-reveal-style="scale"] {
     animation-name: reveal-grow;
-  }
-
-  :is(.reveal-children > *, .reveal-children > :is(ul, ol) > li):not([data-reveal])[data-reveal-style="fade"] {
-    animation-name: reveal-fade;
   }
 
   :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) [data-line] {
@@ -95,8 +93,8 @@
     animation: none;
   }
 
-  /* Waiting below the screen: rise (default), grow from 90% (the bands, the next case), or fade. */
-  [data-reveal="pending"] {
+  /* Waiting below the screen: rise (default) or grow from 90% (the bands, the next case). */
+  [data-reveal="pending"]:not([data-reveal-style="still"]) {
     opacity: 0;
     translate: 0 24px;
   }
@@ -104,10 +102,6 @@
   [data-reveal="pending"][data-reveal-style="scale"] {
     translate: none;
     scale: 0.9;
-  }
-
-  [data-reveal="pending"][data-reveal-style="fade"] {
-    translate: none;
   }
 
   [data-reveal="play"] {
@@ -146,6 +140,31 @@
     animation: tip-in 200ms ease-out backwards;
     animation-delay: calc(var(--reveal-order, 0) * 120ms + 700ms);
   }
+
+  /* Browsing (after the first page): 350ms and a 70ms cascade, so clicking around never drags. */
+  :root[data-browsing] .intro-children > * {
+    animation-duration: 350ms;
+    animation-delay: calc((var(--intro-index, 0) + var(--intro-offset, 0)) * 70ms);
+  }
+
+  :root[data-browsing] .intro-scale {
+    animation-duration: 400ms;
+  }
+
+  :root[data-browsing] [data-reveal="play"] {
+    transition-duration: 350ms;
+    transition-delay: calc(var(--reveal-order, 0) * 70ms);
+  }
+
+  :root[data-browsing] [data-reveal="play"] [data-line] {
+    animation-duration: 450ms;
+    animation-delay: calc(var(--reveal-order, 0) * 70ms + 120ms);
+  }
+
+  :root[data-browsing] [data-reveal="play"] [data-line="tip"] {
+    animation-duration: 150ms;
+    animation-delay: calc(var(--reveal-order, 0) * 70ms + 500ms);
+  }
 }
 
 @keyframes reveal-up {
@@ -159,12 +178,6 @@
   from {
     opacity: 0;
     scale: 0.9;
-  }
-}
-
-@keyframes reveal-fade {
-  from {
-    opacity: 0;
   }
 }
 

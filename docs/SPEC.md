@@ -192,9 +192,12 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
     the hero doesn't replay (`markLocaleSwitch()` and `:root[data-locale-switch]`, which the
     component sets again because React clears `<html>`'s attributes on the new root layout).
   - Variants by `data-reveal-style`: `scale` (grows from 90%: the "Let's talk" bands, the next-case
-    card) and `fade` (Experience roles, so the timeline line never breaks). Lines marked `data-line`
-    (diagrams, the timeline rule) draw from the start corner when their block plays; arrowheads
-    (`data-line="tip"`) fade in last.
+    card) and `still` for reading text, which never hides or moves (case-study paragraphs, rows and
+    number rows; Experience roles). Lines marked `data-line` (diagrams, the timeline rule) draw from
+    the start corner when their block plays, inside still blocks too; arrowheads (`data-line="tip"`)
+    fade in last.
+  - After the first page (`data-browsing` on `<html>`, set from the first link on) everything plays
+    quicker: 350ms and a 70ms cascade, so clicking around never drags.
   - Screens only, and nothing moves with reduced motion. Axe runs with reduced motion, so it
     measures every block in place.
 - **Theme change:** the page colours swap at once. `applyTheme` puts `theme-switching` on `<html>`

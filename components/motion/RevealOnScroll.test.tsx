@@ -65,6 +65,7 @@ describe("RevealOnScroll", () => {
     observed.clear();
     document.body.innerHTML = "";
     delete document.documentElement.dataset.localeSwitch;
+    delete document.documentElement.dataset.browsing;
   });
 
   it("at load, leaves what is on screen to its load animation and holds back what is below", () => {
@@ -160,6 +161,14 @@ describe("RevealOnScroll", () => {
     router.pathname = "/en/about/";
     rerender(<RevealOnScroll />);
     expect(observed.has(below as Element)).toBe(true);
+  });
+
+  it("plays quicker once the person is browsing: after the first page, not on it", () => {
+    const { rerender } = render(<RevealOnScroll />);
+    expect(document.documentElement.dataset.browsing).toBeUndefined();
+    router.pathname = "/en/work/";
+    rerender(<RevealOnScroll />);
+    expect(document.documentElement.dataset.browsing).toBe("");
   });
 
   it("does nothing when the person asks for reduced motion", () => {

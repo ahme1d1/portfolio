@@ -92,6 +92,32 @@ test.describe("blocks play in", () => {
     expect(onScreenWaiting).toBe(0);
   });
 
+  test("reading text on case studies and Experience just shows; the timeline line still draws", async ({ page }) => {
+    await page.goto("/en/work/fantasy-eg/", { waitUntil: "networkidle" });
+    const stillHidden = () =>
+      page.evaluate(() =>
+        [...document.querySelectorAll<HTMLElement>('[data-reveal-style="still"]')].filter(
+          (block) => block.getClientRects().length > 0 && Number(getComputedStyle(block).opacity) < 1,
+        ).length,
+      );
+    expect(await page.locator('[data-reveal-style="still"][data-reveal="pending"]').count()).toBeGreaterThan(0);
+    expect(await stillHidden()).toBe(0);
+
+    await page.goto("/en/experience/", { waitUntil: "networkidle" });
+    expect(await stillHidden()).toBe(0);
+    const waitingLine = page.locator('[data-reveal="pending"] [data-line]').first();
+    await expect(waitingLine).not.toHaveCSS("clip-path", "none");
+  });
+
+  test("after the first page, blocks play in quicker", async ({ page }) => {
+    await page.goto("/en/", { waitUntil: "networkidle" });
+    await expect(page.locator("html")).not.toHaveAttribute("data-browsing");
+    await page.getByRole("link", { name: "All work" }).locator("visible=true").first().click();
+    await expect(page).toHaveURL(/\/en\/work\/$/);
+    await expect(page.locator("html")).toHaveAttribute("data-browsing", "");
+    await expect(page.locator('[data-reveal="play"]').first()).toHaveCSS("transition-duration", /0\.35s/);
+  });
+
   test("a diagram draws its lines when its figure plays in", async ({ page }) => {
     await page.goto("/en/work/fantasy-eg/", { waitUntil: "networkidle" });
     await page.evaluate(() => {

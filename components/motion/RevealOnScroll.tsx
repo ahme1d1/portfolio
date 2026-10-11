@@ -62,6 +62,8 @@ export function RevealOnScroll() {
     // CSS keeps the hero still; any other page lets it play.
     if (entry === "locale-switch") document.documentElement.dataset.localeSwitch = "";
     else delete document.documentElement.dataset.localeSwitch;
+    // After the first page everything plays quicker (`app/reveal.css`), so clicking around never drags.
+    if (entry !== "load") document.documentElement.dataset.browsing = "";
     if (!("IntersectionObserver" in window) || !window.matchMedia(MOTION_QUERY).matches) return;
 
     // Read every block first, then write, so the browser lays the page out once.

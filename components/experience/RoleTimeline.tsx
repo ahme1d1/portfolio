@@ -7,7 +7,7 @@ import { RoleItem } from "./RoleItem";
 
 /**
  * Roles, newest first, on a timeline. The first section: 56px below the hero in both languages.
- * Each role fades in where it stands (rising would break the line), and its line draws down.
+ * The roles are reading text, so they just show; each one's line draws down as it comes into view.
  */
 export function RoleTimeline({ locale }: { locale: Locale }) {
   const { roles } = getExperienceCopy(locale);

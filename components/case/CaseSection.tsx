@@ -14,10 +14,10 @@ export function CaseSection({ headingId, title, children }: { headingId: string;
   );
 }
 
-/** Running text in a section, kept to 600px. */
+/** Running text in a section, kept to 600px. It doesn't play in: reading text just shows. */
 export function Prose({ text }: { text: string }) {
   return (
-    <p className="m-0 max-w-[600px] type-body-lg text-ink-2">
+    <p data-reveal-style="still" className="m-0 max-w-[600px] type-body-lg text-ink-2">
       <Rich text={text} />
     </p>
   );
