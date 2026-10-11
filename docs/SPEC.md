@@ -23,7 +23,7 @@ board wins and this file gets fixed.
 | `/{en,ar}/` | Home |
 | `/{en,ar}/work/` | Work |
 | `/{en,ar}/work/{fantasy-eg,educoursez,vodafone-modernization,tikvideo,cultural-bridge,qima,lean-academy}/` | case studies |
-| `/{en,ar}/experience/` | Experience (anchor `#eva-pharma`) |
+| `/{en,ar}/experience/` | Experience (the EVA Pharma row is `#experience-eva-pharma-en` / `-ar`) |
 | `/{en,ar}/services/`, `/{en,ar}/about/` | Services, About |
 | `/{en,ar}/contact/` | Contact, `?topic=role` or `?topic=project` pre-selects the topic |
 | `/cv/<file>.pdf` | the CV (one React-first PDF) |
@@ -218,7 +218,14 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   Without JavaScript the same `<form action method="post">` posts there directly (hidden
   `access_key`, `subject`, `from_name`). With no key the send ends in the "form not set up" error,
   without a request. Playwright builds with a stand-in key and every test intercepts the post.
-- No topic is picked unless `?topic=role|project` says so. Errors are language-neutral codes
+- No topic is picked unless `?topic=role|project` says so. The Contact page reads it in the browser:
+  `TopicFromUrl` calls `useSearchParams` inside its own `<Suspense fallback={null}>` and renders
+  nothing, so the form itself stays in the static HTML (a boundary around the form would replace it
+  with the fallback). It dispatches `linked`, which replaces the topic only while the person hasn't
+  picked one and nothing is sending, and does nothing when the same link is read again (effects
+  re-run when Next shows a kept page). Without JavaScript nothing is pre-selected.
+- On Contact the form has a visible "Send a message" h2 that names it (`title`), and the sent
+  heading is an h2; on Home it is named by `label` and the sent heading is an h3. Errors are language-neutral codes
   (`lib/contact/schema.ts`); the sentences live in `content/contact`. The copy for errors the boards
   don't show (no topic, name, message, other email problems, several fields, network, no key) was
   drafted in Phase 3 for Ahmed's approval.
@@ -236,6 +243,36 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   next-case order loops: Fantasy EG → Educoursez → Vodafone → TikVideo → Cultural Bridge → Qima →
   Lean Academy → Fantasy EG.
 - Diagrams are HTML and inline SVG in the boards and become components, never images.
+
+## Experience, Services, About, Contact (Phase 5)
+
+- **Content:** `content/{experience,services,about}/` (`en`, `ar` typed by the English, `index`, and a
+  `data.ts` for what is the same in both languages); Contact's page copy is `content/contact` `page`.
+  Experience dates are `{year, month}` data formatted by `formatMonthRange` with the copy's month
+  names (Western digits in Arabic); a test keeps their years equal to `content/companies`. About's
+  availability line is Home's (`hero.availability`). Unknown or optional copy is `null` and left
+  out (About's "Outside work").
+- **Anchors and ids:** every id comes from `pageId(page, part, locale)`. The EVA Pharma row is
+  `experience-eva-pharma-<locale>`, and Services links to it with that hash: a plain `#eva-pharma`
+  would exist twice once both languages are mounted. No inline `scroll-margin`; the root
+  `scroll-padding-top` already clears the header.
+- **Shared pieces:** `DefinitionRows` (a divided `<dl>`, term beside value from md: Skills, About's
+  quick facts); `ContactLinks` variants `rows` (label + muted value, Contact on desktop) and
+  `divided` (Contact on phones); `LetsTalkBand` ends Experience, Services and About (Services passes
+  its own lede).
+- **Contact layout:** h1, lede and the "Reach me directly" rows in the start column, the form panel
+  in the end column (5fr / 7fr from lg). On phones the form comes first and the direct links follow
+  it; the two link groups are responsive variants of one block, and only the desktop one has ids.
+- **About:** one DOM order (title, portrait, text); from lg a grid puts the portrait beside both,
+  as tall as the text. The portrait is the LCP image (`fetchPriority="high"`) in
+  `MirrorBlock name="about-portrait"`.
+- **Resolved board differences** (listed for Ahmed at the Phase 5 checkpoint): the Arabic follows
+  the English (Experience skills row and bullets, About p2/p3 and two How-I-work headings, Services
+  items and lede); mobile uses the desktop copy; the "Outside work" panel and the Services steps
+  note never ship; one form structure at every width (visible title, panel-size "Reach me
+  directly"); Services "Start a project" carries `?topic=project`; spacing and type from the
+  Tokens scale (About gap 56, portrait radius 20 / 16, Experience content 56 below the hero in
+  both languages).
 
 ## Case studies (Phase 4)
 
