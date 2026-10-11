@@ -15,7 +15,7 @@ export function ShotPair({ slug, shots, copy }: ShotPairProps) {
   const alt = (index: number) => plainText(copy.alts[index] ?? "");
   if (shots.frame === "bare") {
     return (
-      <CaseFigure caption={copy.caption} panel="none" panelClassName="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5">
+      <CaseFigure caption={copy.caption} panel="none" shouldDrawLines={false} panelClassName="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5">
         {shots.shots.map((shot, index) => (
           <MirrorBlock key={shot.image.src} name={`case-${slug}-shot-${index}`}>
             <Image
@@ -31,7 +31,7 @@ export function ShotPair({ slug, shots, copy }: ShotPairProps) {
     );
   }
   return (
-    <CaseFigure caption={copy.caption} panel="tint" panelClassName="flex flex-col gap-4 md:grid md:grid-cols-2 md:items-start md:gap-7">
+    <CaseFigure caption={copy.caption} panel="tint" shouldDrawLines={false} panelClassName="flex flex-col gap-4 md:grid md:grid-cols-2 md:items-start md:gap-7">
       {shots.shots.map((shot, index) => (
         <MirrorBlock key={shot.image.src} name={`case-${slug}-shot-${index}`}>
           <div>

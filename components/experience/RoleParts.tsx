@@ -39,7 +39,14 @@ export function TimelineDot({ isCurrent }: { isCurrent: boolean }) {
   );
 }
 
-/** The line from under a dot down to the next one, centred on the dot (10px, 12px from md). */
+/**
+ * The line from under a dot down to the next one, centred on the dot (10px, 12px from md). An
+ * accent line fills it in as the page scrolls (`app/scroll-motion.css`).
+ */
 export function TimelineRule() {
-  return <span aria-hidden="true" className="absolute start-1 top-6 -bottom-1.5 w-0.5 bg-line md:start-[5px]" />;
+  return (
+    <span aria-hidden="true" className="absolute start-1 top-6 -bottom-1.5 w-0.5 bg-line md:start-[5px]">
+      <span className="timeline-progress block size-full origin-top bg-accent" />
+    </span>
+  );
 }

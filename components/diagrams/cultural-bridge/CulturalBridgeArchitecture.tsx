@@ -25,9 +25,10 @@ function UprightArrow({ direction }: { direction: Direction }) {
   const isDown = direction === "forward";
   return (
     <span aria-hidden="true" className={`row-span-2 flex h-10 w-3 items-center lg:hidden ${isDown ? "flex-col" : "flex-col-reverse"}`}>
-      <span className="w-0.5 flex-1 bg-accent" />
+      <span data-line="" className="w-0.5 flex-1 bg-accent" />
       <svg
         data-arrow={isDown ? "down" : "up"}
+        data-line="tip"
         width="12"
         height="8"
         viewBox="0 0 12 8"
@@ -45,6 +46,7 @@ function SideArrow({ direction }: { direction: Direction }) {
   const isForward = direction === "forward";
   const head = (
     <svg
+      data-line="tip"
       width="8"
       height="12"
       viewBox="0 0 8 12"
@@ -57,7 +59,7 @@ function SideArrow({ direction }: { direction: Direction }) {
   return (
     <span aria-hidden="true" className="hidden w-full items-center lg:flex">
       {isForward ? null : head}
-      <span className="h-0.5 flex-1 bg-accent" />
+      <span data-line="" className="h-0.5 flex-1 bg-accent" />
       {isForward ? head : null}
     </span>
   );
@@ -89,8 +91,8 @@ function AppBox({ app }: { app: App }) {
 function Rail({ piece }: { piece: "first" | "join" | "through" }) {
   return (
     <span aria-hidden="true" className="relative lg:hidden">
-      {piece === "through" ? null : <span className="absolute start-0 end-[11px] top-1/2 -mt-px h-0.5 bg-strong" />}
-      <span className={`absolute start-[11px] bottom-0 w-0.5 bg-strong ${piece === "first" ? "top-1/2 -mt-px" : "top-0"}`} />
+      {piece === "through" ? null : <span data-line="" className="absolute start-0 end-[11px] top-1/2 -mt-px h-0.5 bg-strong" />}
+      <span data-line="" className={`absolute start-[11px] bottom-0 w-0.5 bg-strong ${piece === "first" ? "top-1/2 -mt-px" : "top-0"}`} />
     </span>
   );
 }
@@ -101,8 +103,8 @@ function RailEnd() {
     <>
       <span aria-hidden="true" className="lg:hidden" />
       <span aria-hidden="true" className="relative h-6 lg:hidden">
-        <span className="absolute start-[11px] top-0 bottom-1 w-0.5 bg-strong" />
-        <svg width="12" height="8" viewBox="0 0 12 8" focusable="false" className="absolute start-1.5 bottom-0 block text-strong">
+        <span data-line="" className="absolute start-[11px] top-0 bottom-1 w-0.5 bg-strong" />
+        <svg width="12" height="8" viewBox="0 0 12 8" focusable="false" data-line="tip" className="absolute start-1.5 bottom-0 block text-strong">
           <path d="M1 1l5 6 5-6" {...STROKE} />
         </svg>
       </span>
@@ -115,13 +117,13 @@ function Bracket() {
   return (
     <>
       <div aria-hidden="true" className={`hidden h-3.5 lg:grid ${ROW}`}>
-        <span className="w-1/2 justify-self-end border-s-2 border-b-2 border-strong" />
-        <span className="border-b-2 border-strong" />
-        <span className="flex justify-center border-b-2 border-strong">
-          <span className="w-0.5 bg-strong" />
+        <span data-line="" className="w-1/2 justify-self-end border-s-2 border-b-2 border-strong" />
+        <span data-line="" className="border-b-2 border-strong" />
+        <span data-line="" className="flex justify-center border-b-2 border-strong">
+          <span data-line="" className="w-0.5 bg-strong" />
         </span>
-        <span className="border-b-2 border-strong" />
-        <span className="w-1/2 justify-self-start border-e-2 border-b-2 border-strong" />
+        <span data-line="" className="border-b-2 border-strong" />
+        <span data-line="" className="w-1/2 justify-self-start border-e-2 border-b-2 border-strong" />
       </div>
       <Stem className="hidden h-3.5 lg:block" />
       <Chevron className="hidden lg:block" />

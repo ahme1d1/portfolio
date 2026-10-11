@@ -177,7 +177,21 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   naming `transform` never animates them, and `transition-colors` also animates `outline-color`.
   `tests/motion-guard.test.ts` fails on `transition`, `transition-colors`, `transition-all`,
   `transform` inside `transition-[…]`, and a press scale without `transition-fast`.
-- Never `transition: all`. Focus rings never animate. No fade-in on scroll.
+- Never `transition: all`. Focus rings never animate.
+- **Scroll motion** (`app/scroll-motion.css`, Ahmed 2026-10-11, brought back from the original
+  brief's "scroll reveals"): scroll-driven CSS, no JavaScript, inside `@supports (animation-timeline:
+  view())` and `prefers-reduced-motion: no-preference`, so unsupported browsers and reduced motion
+  show everything in place, and print shows every block. A page's first section (and a case
+  study's hero image) never moves.
+  - Sections after the first (`SECTION` carries `REVEAL` = `reveal-children`, also the case facts
+    and the next-case card): each child, and each row of a child list, fades in and rises 12px over
+    `entry 0%` to `entry 25vh`. The Experience roles don't (a rising row would break the line).
+  - Experience timeline: an accent line fills each rule behind a reading line 60% down the screen,
+    and past roles' dots turn accent as it passes.
+  - Case diagrams: `CaseFigure` is a `--figure` view timeline (screenshots opt out with
+    `shouldDrawLines={false}`); lines marked `data-line` wipe in from the start corner while the
+    figure's top rises from 85% to 45% of the screen, arrowheads (`data-line="tip"`) fade in last.
+  - Axe runs with reduced motion, so it measures every block in place.
 - **Theme change:** the page colours swap at once. `applyTheme` puts `theme-switching` on `<html>`
   for two frames and CSS turns every transition off under it, except the theme icons (header button
   and menu row), which turn and cross-fade over 200ms: ease-out arriving, ease-in leaving.

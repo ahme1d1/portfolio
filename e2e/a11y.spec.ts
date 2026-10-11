@@ -2,6 +2,10 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { PAGE_PATHS } from "../content/routes";
 
+// Axe measures the settled page. With motion, blocks below the first screen wait at opacity 0 (axe
+// skips them) and the ones at the bottom edge are mid-fade; reduced motion shows every block in place.
+test.use({ reducedMotion: "reduce" });
+
 for (const colorScheme of ["light", "dark"] as const) {
   test.describe(`accessibility (${colorScheme})`, () => {
     test.use({ colorScheme });

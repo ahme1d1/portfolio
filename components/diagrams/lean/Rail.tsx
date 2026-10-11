@@ -9,9 +9,10 @@ export function RailBranch() {
     <>
       <span
         aria-hidden="true"
+        data-line=""
         className="absolute -end-[14px] -top-[11px] -bottom-px w-0.5 bg-strong group-first/rail:-top-[13px] group-last/rail:bottom-1/2 md:hidden"
       />
-      <span aria-hidden="true" className="absolute top-1/2 -end-[14px] -mt-px h-0.5 w-[14px] bg-strong md:hidden" />
+      <span aria-hidden="true" data-line="" className="absolute top-1/2 -end-[14px] -mt-px h-0.5 w-[14px] bg-strong md:hidden" />
     </>
   );
 }

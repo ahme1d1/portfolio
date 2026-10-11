@@ -22,7 +22,7 @@ function ChainLink({ above, below, tone }: ChainLinkProps) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_2px_minmax(0,1fr)] items-center gap-3 lg:flex lg:flex-col lg:gap-1.5 lg:px-2.5 lg:text-center">
       <DiagramLabel text={above} className="text-end lg:text-center" />
-      <span aria-hidden="true" className={`block h-10 lg:h-0.5 lg:w-full ${LINE_TONES[tone]}`} />
+      <span aria-hidden="true" data-line="" className={`block h-10 lg:h-0.5 lg:w-full ${LINE_TONES[tone]}`} />
       <DiagramLabel text={below} />
     </div>
   );

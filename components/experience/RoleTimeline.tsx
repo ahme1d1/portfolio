@@ -5,7 +5,10 @@ import type { Locale } from "@/lib/i18n/locale";
 import { pageId } from "@/lib/ids";
 import { RoleItem } from "./RoleItem";
 
-/** Roles, newest first, on a timeline. The first section: 56px below the hero in both languages. */
+/**
+ * Roles, newest first, on a timeline. The first section: 56px below the hero in both languages.
+ * Its rows don't settle in like other sections: a rising row would break the line; the line draws instead.
+ */
 export function RoleTimeline({ locale }: { locale: Locale }) {
   const { roles } = getExperienceCopy(locale);
   const headingId = pageId("experience", "roles", locale);

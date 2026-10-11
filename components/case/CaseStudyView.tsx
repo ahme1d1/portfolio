@@ -1,5 +1,5 @@
 import { LetsTalkBand } from "@/components/contact/LetsTalkBand";
-import { PAGE_X } from "@/components/ui/layout";
+import { PAGE_X, REVEAL } from "@/components/ui/layout";
 import { getCaseCopy } from "@/content/cases";
 import { CASE_DATA } from "@/content/cases/data";
 import { getCaseSharedCopy } from "@/content/cases/shared";
@@ -45,7 +45,7 @@ export function CaseStudyView({ locale, slug }: { locale: Locale; slug: CaseSlug
         work={{ label: work.label, href: localePath(locale, "/work/") }}
       />
       <HeroFigure slug={slug} hero={data.hero} copy={copy.hero} locale={locale} />
-      <div className={`${PAGE_X} flex flex-col gap-7 pt-7 md:gap-14 lg:gap-32 lg:pt-10`}>
+      <div className={`${PAGE_X} ${REVEAL} flex flex-col gap-7 pt-7 md:gap-14 lg:gap-32 lg:pt-10`}>
         <FactsStrip keys={data.facts} facts={copy.facts} stack={data.stack} labels={shared.facts} label={shared.factsLabel} />
         <SummaryPanel headingId={id("summary")} title={sections.summary} labels={shared.summary} summary={copy.summary} />
       </div>

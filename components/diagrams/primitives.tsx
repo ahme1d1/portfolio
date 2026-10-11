@@ -5,7 +5,8 @@ import { Rich } from "@/components/ui/Rich";
 /**
  * Shared pieces of the case-study diagrams (HTML and inline SVG, never images). Labels are real
  * text; lines, arrows and dots are aria-hidden. Copy goes through <Rich>, so Arabic labels can
- * hold {Latin}.
+ * hold {Latin}. Lines carry `data-line` and arrowheads `data-line="tip"`: in a figure they draw as
+ * it scrolls in (`app/scroll-motion.css`).
  */
 
 export type BoxTone = "surface" | "page" | "accent" | "accentOutline" | "dashed";
@@ -99,7 +100,7 @@ export function FanIn({ drops, height = 28, className = "" }: { drops: readonly 
   const last = Math.max(...drops);
   const middle = height / 2;
   return (
-    <svg width="100%" height={height} aria-hidden="true" focusable="false" className={`block text-strong ${className}`}>
+    <svg width="100%" height={height} aria-hidden="true" focusable="false" data-line="" className={`block text-strong ${className}`}>
       {drops.map((x) => (
         <line key={x} x1={`${x}%`} y1="0" x2={`${x}%`} y2={middle} stroke="currentColor" strokeWidth="2" />
       ))}
@@ -112,7 +113,7 @@ export function FanIn({ drops, height = 28, className = "" }: { drops: readonly 
 /** A small down chevron at the end of a line. */
 export function Chevron({ className = "" }: { className?: string }) {
   return (
-    <svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true" focusable="false" className={`mx-auto block shrink-0 text-strong ${className}`}>
+    <svg width="14" height="9" viewBox="0 0 14 9" aria-hidden="true" focusable="false" data-line="tip" className={`mx-auto block shrink-0 text-strong ${className}`}>
       <path d="M1 1l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -120,7 +121,7 @@ export function Chevron({ className = "" }: { className?: string }) {
 
 /** A short vertical line between two stacked boxes. */
 export function Stem({ className = "h-3 md:h-4" }: { className?: string }) {
-  return <span aria-hidden="true" className={`mx-auto block w-0.5 shrink-0 bg-strong ${className}`} />;
+  return <span aria-hidden="true" data-line="" className={`mx-auto block w-0.5 shrink-0 bg-strong ${className}`} />;
 }
 
 const COLUMNS = { 1: "grid-cols-1", 2: "grid-cols-2", 3: "grid-cols-3", 4: "grid-cols-4" } as const;
@@ -133,7 +134,7 @@ export function Drops({ count, className = "", lineClassName = "h-5 md:h-[22px]"
   return (
     <div aria-hidden="true" className={`grid ${COLUMNS[count]} ${className}`}>
       {Array.from({ length: count }, (_, index) => (
-        <span key={index} className={`mx-auto block w-0.5 bg-strong ${lineClassName}`} />
+        <span key={index} data-line="" className={`mx-auto block w-0.5 bg-strong ${lineClassName}`} />
       ))}
     </div>
   );
@@ -155,7 +156,7 @@ type FlowArrowProps = {
 export function FlowArrow({ size = 36, stackedBelow = "md", className = "" }: FlowArrowProps) {
   const stacked = stackedBelow ? STACKED_BELOW[stackedBelow] : null;
   return (
-    <span aria-hidden="true" className={`inline-flex text-accent-ink ${className}`}>
+    <span aria-hidden="true" data-line="tip" className={`inline-flex text-accent-ink ${className}`}>
       {stacked ? (
         <svg
           width={Math.round(size * 0.78)}
@@ -182,7 +183,7 @@ export function Connector({ above, below, tone = "accent", className = "" }: { a
   return (
     <div className={`flex flex-col items-center gap-1.5 px-2.5 text-center ${className}`}>
       <DiagramLabel text={above} />
-      <span aria-hidden="true" className={`block h-0.5 w-full ${tone === "accent" ? "bg-accent" : "bg-strong"}`} />
+      <span aria-hidden="true" data-line="" className={`block h-0.5 w-full ${tone === "accent" ? "bg-accent" : "bg-strong"}`} />
       <DiagramLabel text={below} />
     </div>
   );

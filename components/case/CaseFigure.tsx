@@ -25,14 +25,16 @@ type CaseFigureProps = {
   panel: FigurePanel;
   /** Extra classes for the panel, e.g. its own grid. */
   panelClassName?: string;
+  /** A diagram's lines (`data-line`) draw as the figure scrolls in; screenshots leave this off. */
+  shouldDrawLines?: boolean;
   children: ReactNode;
 };
 
 /** A figure in a case-study section: the drawing or screens on a panel, then the caption. */
-export function CaseFigure({ caption, panel, panelClassName = "", children }: CaseFigureProps) {
+export function CaseFigure({ caption, panel, panelClassName = "", shouldDrawLines = true, children }: CaseFigureProps) {
   return (
     <figure className="m-0 mt-1 flex flex-col gap-2.5 lg:mt-2 lg:gap-3">
-      <div className={`${PANELS[panel]} ${panelClassName}`}>{children}</div>
+      <div className={`${PANELS[panel]} ${shouldDrawLines ? "figure-draw" : ""} ${panelClassName}`}>{children}</div>
       {caption ? <FigureCaption text={caption} /> : null}
     </figure>
   );

@@ -13,7 +13,7 @@ function Wire({ protocol, realtime }: WireProps) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_2px_minmax(0,1fr)] items-center gap-3 md:flex md:flex-col md:gap-1.5 md:px-2.5 md:text-center">
       <DiagramLabel text={protocol} className="text-end md:text-center" />
-      <span aria-hidden="true" className="block h-10 bg-accent md:h-0.5 md:w-full" />
+      <span aria-hidden="true" data-line="" className="block h-10 bg-accent md:h-0.5 md:w-full" />
       <DiagramLabel text={realtime} />
     </div>
   );

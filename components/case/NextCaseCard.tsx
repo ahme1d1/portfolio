@@ -1,7 +1,7 @@
 import { MediaContent } from "@/components/cards/media/ProjectMedia";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
 import { AnyLink } from "@/components/ui/AnyLink";
-import { PAGE_X } from "@/components/ui/layout";
+import { SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import type { CardMedia, ProjectCardData } from "@/content/projects";
 
@@ -25,7 +25,7 @@ type NextCaseCardProps = { card: ProjectCardData; label: string; labelId: string
  */
 export function NextCaseCard({ card, label, labelId, titleId }: NextCaseCardProps) {
   return (
-    <div className={`${PAGE_X} pt-14 lg:pt-32`}>
+    <div className={SECTION}>
       <AnyLink
         href={card.href}
         aria-labelledby={`${labelId} ${titleId}`}
