@@ -438,3 +438,25 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   name, role, the Home sentence and the portrait, made by `../tools/make-share-images.mjs` from the Home copy),
   as Open Graph and as an X `summary_large_image` card, alt "name, role". The Person data's image is the stable
   square `public/share/ahmed-gabal.jpg`, never a hashed build file. A test checks the files and their sizes.
+
+## Deploy
+
+- **Live:** https://ahmedgabal.vercel.app (Vercel Hobby, project `ahmedgabal` in the team "Ahmed Gabal's
+  projects"), source https://github.com/ahme1d1/portfolio. A push to `main` builds and ships production;
+  other branches get preview deployments behind Vercel's login (their toolbar from `vercel.live` is blocked
+  by the CSP, so check the production alias).
+- **Env:** `NEXT_PUBLIC_WEB3FORMS_KEY` (Production only; public by design, it is in the form's HTML, so it is a
+  plain "Config" variable). Changing it needs a new deployment: `NEXT_PUBLIC_` values are baked in at build.
+  `NEXT_PUBLIC_SITE_URL` is unset because `content/links.ts` already defaults to the production address; set
+  it only when the domain changes (canonical URLs, the sitemap, share cards and the Person data use it).
+- **Web3Forms:** the form "Portfolio" on Ahmed's account (`ahmedadel8045@gmail.com` receives the messages).
+  Spam protection is the `botcheck` honeypot plus Web3Forms' own filter (his call, 2026-10-11): domain
+  restriction is a paid Pro feature, and hCaptcha would add a widget, a third-party script and CSP origins.
+  The free plan allows 250 messages a month.
+- **Live check:** `node ../tools/smoke-live.mjs https://ahmedgabal.vercel.app` fetches every sitemap page
+  (status, the exact CSP from `lib/security/csp.ts`, HSTS, framing, `lang`/`dir`, one h1, canonical, share
+  card), the 404s, the redirect from `/`, the CV (PDF, no CSP), the share images, robots and the form key.
+  Lighthouse on the live site: `SITE_URL=https://ahmedgabal.vercel.app node ../tools/lighthouse.mjs …`.
+- **Agency names:** the public repo never names them. `tests/no-agency-names.test.ts` holds only SHA-256
+  hashes of the names (and of one's domain) and checks every text file; history was rewritten on 2026-10-11 so
+  no earlier commit spells them either.

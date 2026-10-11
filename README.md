@@ -2,6 +2,8 @@
 
 Source of my portfolio site, in English and Arabic (full right-to-left), light and dark.
 
+Live: **https://ahmedgabal.vercel.app**
+
 - Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS 4
 - Every page is prerendered; client JavaScript is limited to the theme toggle, the mobile menu,
   the language transition and the contact form
