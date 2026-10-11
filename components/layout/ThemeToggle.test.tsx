@@ -30,10 +30,10 @@ describe("theme controls", () => {
     expect(document.documentElement.dataset.theme).toBe("light");
   });
 
-  it("starts from the system theme when nothing was chosen", async () => {
+  it("starts from light when nothing was chosen, even on a dark system", async () => {
     vi.stubGlobal("matchMedia", () => ({ matches: true }));
     render(<ThemeRow labels={enSite.theme} />);
     await userEvent.click(screen.getByRole("button"));
-    expect(document.documentElement.dataset.theme).toBe("light");
+    expect(document.documentElement.dataset.theme).toBe("dark");
   });
 });

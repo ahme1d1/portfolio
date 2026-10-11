@@ -43,7 +43,7 @@ describe("MobileMenu", () => {
 
   it("moves focus to the first link and locks the page behind", async () => {
     await userEvent.click(renderMenu());
-    expect(screen.getByRole("link", { name: "Work" })).toHaveFocus();
+    expect(screen.getByRole("link", { name: "Home" })).toHaveFocus();
     expect(document.documentElement.style.overflow).toBe("hidden");
   });
 

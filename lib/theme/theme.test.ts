@@ -29,14 +29,14 @@ describe("theme", () => {
     vi.restoreAllMocks();
   });
 
-  it("follows the system when nothing was chosen", () => {
-    expect(readEffectiveTheme()).toBe("light");
+  it("is light when nothing was chosen, even on a dark system", () => {
     mockSystemDark(true);
-    expect(readEffectiveTheme()).toBe("dark");
+    expect(readEffectiveTheme()).toBe("light");
   });
 
-  it("prefers the choice on <html> over the system", () => {
-    mockSystemDark(true);
+  it("reads the choice on <html>", () => {
+    document.documentElement.dataset.theme = "dark";
+    expect(readEffectiveTheme()).toBe("dark");
     document.documentElement.dataset.theme = "light";
     expect(readEffectiveTheme()).toBe("light");
   });

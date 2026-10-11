@@ -7,7 +7,7 @@ export const THEME_SWITCHING_CLASS = "theme-switching";
 
 /**
  * Runs in <head> before first paint: restores a saved choice so the page never flashes the wrong
- * theme. With nothing saved the CSS follows the system setting on its own.
+ * theme. With nothing saved the page is light (Ahmed's call), whatever the system setting.
  */
 export const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}})()`;
 
@@ -20,14 +20,12 @@ export function restoreSavedTheme(): void {
     const saved = localStorage.getItem(THEME_STORAGE_KEY);
     if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
   } catch {
-    // Storage can be blocked; the page then follows the system, as it did at load.
+    // Storage can be blocked; the page then stays light, as it was at load.
   }
 }
 
 export function readEffectiveTheme(): Theme {
-  const chosen = document.documentElement.dataset.theme;
-  if (chosen === "light" || chosen === "dark") return chosen;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
 /** The frame that will take THEME_SWITCHING_CLASS off; a quicker second switch cancels it. */

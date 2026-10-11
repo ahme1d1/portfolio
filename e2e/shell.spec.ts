@@ -31,11 +31,11 @@ test.describe("theme", () => {
     await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
   });
 
-  test("the first visit follows the system", async ({ browser }) => {
+  test("the first visit is light, even on a dark system", async ({ browser }) => {
     const context = await browser.newContext({ colorScheme: "dark" });
     const page = await context.newPage();
     await page.goto("/ar/");
-    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(0, 0, 0)");
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(255, 255, 255)");
     await context.close();
   });
 });
@@ -50,7 +50,7 @@ test.describe("mobile menu", () => {
     const button = page.getByRole("button", { name: "Menu" });
     await button.click();
     await expect(button).toHaveAttribute("aria-expanded", "true");
-    await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Work" })).toBeFocused();
+    await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Home" })).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(button).toHaveAttribute("aria-expanded", "false");
     await expect(button).toBeFocused();

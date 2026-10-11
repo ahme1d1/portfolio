@@ -27,12 +27,13 @@ export function Header({ locale }: { locale: Locale }) {
           {copy.name}
         </Link>
 
+        {/* Six links fit the narrowest desktop (1024px, Arabic) with 10px sides; from 1280 they get the board's 14px. */}
         <nav aria-label={copy.nav.mainLabel} className="hidden flex-1 justify-center gap-0.5 lg:flex">
           {copy.nav.items.map((item) => (
             <NavLink
               key={item.href}
               href={localePath(locale, item.href)}
-              className="border-b-2 border-transparent px-3.5 pt-3 pb-2.5 text-base font-medium text-ink transition-fast hover:border-strong active:border-ink data-current:border-accent data-current:font-semibold"
+              className="border-b-2 border-transparent px-2.5 pt-3 pb-2.5 text-base font-medium whitespace-nowrap text-ink transition-fast hover:border-strong active:border-ink data-current:border-accent data-current:font-semibold xl:px-3.5"
             >
               {item.label}
             </NavLink>

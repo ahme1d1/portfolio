@@ -7,6 +7,7 @@ export const enSite = {
     mainLabel: "Main",
     footerLabel: "Footer",
     items: [
+      { href: "/", label: "Home" },
       { href: "/work/", label: "Work" },
       { href: "/experience/", label: "Experience" },
       { href: "/services/", label: "Services" },

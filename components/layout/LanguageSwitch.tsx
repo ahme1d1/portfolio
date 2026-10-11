@@ -20,7 +20,7 @@ export function resetLanguageSwitchFocus() {
 type LanguageSwitchProps = {
   /** The language the link opens. Its name is shown in its own script. */
   target: Locale;
-  /** Where this switch sits ("header", "footer"); focus returns to the same place after switching. */
+  /** Where this switch sits ("header"); focus returns to the same place after switching. */
   placement: string;
   className?: string;
   children: React.ReactNode;

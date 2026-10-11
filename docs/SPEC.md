@@ -115,8 +115,11 @@ All URLs end with a trailing slash. The language switch links to the same page i
 
 - Accent hover: `color-mix(in srgb, var(--accent) 86%, black)`. There is no other hover blue.
 - Disabled: fill `#E6E6E8` / `#262626`, text muted, no hover, `cursor: not-allowed`.
-- Theme: the first visit follows the system; a choice is saved in `localStorage` and applied before
-  first paint. `color-scheme` is set per theme on the root.
+- Theme: **light by default**, whatever the system setting (Ahmed's call, 2026-10-11; it followed the
+  system before). Dark only when the visitor picks it: the choice is saved in `localStorage` and
+  applied before first paint as `data-theme="dark"`. `color-scheme` is `light` on the root and `dark`
+  under `data-theme="dark"`; the browser bar colour (`theme-color`) is white. Tests and the
+  screenshot tools reach dark through the saved choice, not by emulating a dark system.
 
 ## Type
 
@@ -227,7 +230,10 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - **Text link:** accentText, no underline; on hover an underline 4px below; pressed deepens toward
   the text colour (`--accent-pressed`). The underlined "All work" link turns accent on hover.
 - **Nav link:** hover 2px `strong` line; pressed line turns text colour; current page weight 600,
-  2px accent line, `aria-current="page"`.
+  2px accent line, `aria-current="page"`. The nav is Home, Work, Experience, Services, About, Contact
+  (Home added at Ahmed's request, 2026-10-11, not on the boards) in the header, the mobile menu and the
+  footer. Header links never wrap; their sides are 10px from 1024 to 1279 (six Arabic links fit at
+  1024) and the board's 14px from 1280.
 - **Footer link:** muted 400, hover text colour with a 1px underline, pressed 80% opacity, current
   page in text colour. Band contact rows: hover accent, pressed `--accent-pressed`.
 - **Project card:** one link per card ("Read the case study" + visually hidden ": Name"), stretched
@@ -284,6 +290,8 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 
 ## Pages and shared blocks
 
+- The language switch sits in the header only (and the mobile menu's header row); the footer has
+  none (Ahmed's call, 2026-10-11).
 - Shared: Header, Footer, SkipLink, the "Let's talk" band (every page except Home and Contact; Home
   has the form version), ProjectCard, Facts strip, divided lists, the contact form.
 - Case-study template (all seven): breadcrumb, meta line, h1, lede, hero figure, Facts strip (one

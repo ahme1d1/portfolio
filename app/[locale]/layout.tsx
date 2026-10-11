@@ -12,11 +12,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 };
 
+/** The site opens light whatever the system setting, so the browser bar matches the white page. */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
+  themeColor: "#ffffff",
 };
 
 /**

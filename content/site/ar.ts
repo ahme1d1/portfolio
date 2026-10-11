@@ -8,6 +8,7 @@ export const arSite: SiteCopy = {
     mainLabel: "القائمة الرئيسية",
     footerLabel: "روابط التذييل",
     items: [
+      { href: "/", label: "الرئيسية" },
       { href: "/work/", label: "الأعمال" },
       { href: "/experience/", label: "الخبرات" },
       { href: "/services/", label: "الخدمات" },

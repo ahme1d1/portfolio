@@ -1,16 +1,18 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "./fixtures";
 import { PAGE_PATHS } from "../content/routes";
+import { THEME_STORAGE_KEY } from "../lib/theme/theme";
 
 // Axe measures the settled page. With motion, blocks below the first screen wait at opacity 0 (axe
 // skips them) and the ones at the bottom edge are mid-fade; reduced motion shows every block in place.
 test.use({ reducedMotion: "reduce" });
 
-for (const colorScheme of ["light", "dark"] as const) {
-  test.describe(`accessibility (${colorScheme})`, () => {
-    test.use({ colorScheme });
-    test.beforeEach(async ({}, { project }) => {
+for (const theme of ["light", "dark"] as const) {
+  test.describe(`accessibility (${theme})`, () => {
+    test.beforeEach(async ({ page }, { project }) => {
       test.skip(project.name === "safari", "Axe runs in Chromium; WebKit covers behaviour.");
+      // The site is light until a visitor picks dark; the saved choice is how dark is reached.
+      await page.addInitScript(([key, value]) => localStorage.setItem(key, value), [THEME_STORAGE_KEY, theme] as const);
     });
 
     for (const locale of ["en", "ar"]) {
