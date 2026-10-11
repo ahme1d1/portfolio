@@ -73,7 +73,8 @@ function HeroStage({ slug, hero, alts, locale }: HeroProps) {
 export function HeroFigure({ slug, hero, copy, locale }: { slug: CaseSlug; hero: HeroData; copy: CaseCopy["hero"]; locale: Locale }) {
   return (
     <div className={`${PAGE_X} pt-7 lg:pt-12`}>
-      <figure className="m-0 flex flex-col gap-2.5 lg:gap-3">
+      {/* The page's largest image: it grows in at once, so it is never held back from first paint. */}
+      <figure className="intro-scale m-0 flex flex-col gap-2.5 lg:gap-3">
         <HeroStage slug={slug} hero={hero} alts={copy.alts} locale={locale} />
         <FigureCaption text={copy.caption} />
       </figure>

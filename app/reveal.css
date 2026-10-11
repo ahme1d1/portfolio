@@ -1,0 +1,201 @@
+/*
+ * Blocks play in once, like TikVideo's home page (Ahmed, 2026-10-11): they rise 24px and fade in over
+ * 500ms on a soft ease-out, and blocks that arrive together cascade 120ms apart.
+ * - On load, CSS alone plays the hero, then every block (on screen or not), so the first screen never
+ *   waits for JavaScript and nothing is ever hidden without it.
+ * - Then `components/motion/RevealOnScroll.tsx` holds back the blocks below the screen
+ *   (data-reveal="pending") and plays each one as it comes into view (data-reveal="play").
+ * Screens only, and nothing moves with reduced motion.
+ */
+:root {
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Each child of an intro container plays 120ms after the one before it. */
+.intro-children > :nth-child(2) {
+  --intro-index: 1;
+}
+.intro-children > :nth-child(3) {
+  --intro-index: 2;
+}
+.intro-children > :nth-child(4) {
+  --intro-index: 3;
+}
+.intro-children > :nth-child(n + 5) {
+  --intro-index: 4;
+}
+
+/* On load, blocks cascade by their place in their row or list, after the hero. */
+:is(.reveal-children, .reveal-children > :is(ul, ol)) > :nth-child(2) {
+  --load-index: 1;
+}
+:is(.reveal-children, .reveal-children > :is(ul, ol)) > :nth-child(3) {
+  --load-index: 2;
+}
+:is(.reveal-children, .reveal-children > :is(ul, ol)) > :nth-child(n + 4) {
+  --load-index: 3;
+}
+
+[data-reveal-order="1"] {
+  --reveal-order: 1;
+}
+[data-reveal-order="2"] {
+  --reveal-order: 2;
+}
+[data-reveal-order="3"] {
+  --reveal-order: 3;
+}
+[data-reveal-order="4"] {
+  --reveal-order: 4;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* The hero, on load. Not after the language switch, which mirrors the page instead. */
+  .intro-children > * {
+    animation: reveal-up 500ms var(--ease-reveal) backwards;
+    animation-delay: calc((var(--intro-index, 0) + var(--intro-offset, 0)) * 120ms);
+  }
+
+  /* A page's largest image (the LCP): it grows in from the first frame, never delayed. */
+  .intro-scale {
+    animation: reveal-scale 600ms var(--ease-reveal) backwards;
+  }
+
+  /* Every block on load, unless the script has taken it over (it then has data-reveal). */
+  :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) {
+    animation: reveal-up 500ms var(--ease-reveal) backwards;
+    animation-delay: calc(360ms + var(--load-index, 0) * 120ms);
+  }
+
+  :is(.reveal-children > *, .reveal-children > :is(ul, ol) > li):not([data-reveal])[data-reveal-style="scale"] {
+    animation-name: reveal-grow;
+  }
+
+  :is(.reveal-children > *, .reveal-children > :is(ul, ol) > li):not([data-reveal])[data-reveal-style="fade"] {
+    animation-name: reveal-fade;
+  }
+
+  :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) [data-line] {
+    animation: line-draw 650ms var(--ease-reveal) backwards;
+    animation-delay: calc(560ms + var(--load-index, 0) * 120ms);
+  }
+
+  :root[dir="rtl"] :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) [data-line] {
+    animation-name: line-draw-rtl;
+  }
+
+  :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) [data-line="tip"],
+  :root[dir="rtl"] :is(.reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li):not([data-reveal]) [data-line="tip"] {
+    animation: tip-in 200ms ease-out backwards;
+    animation-delay: calc(1060ms + var(--load-index, 0) * 120ms);
+  }
+
+  :root[data-locale-switch] :is(.intro-children > *, .intro-scale, .reveal-children > *, .reveal-children > :is(ul, ol) > li),
+  :root[data-locale-switch] :is(.reveal-children > *, .reveal-children > :is(ul, ol) > li) [data-line] {
+    animation: none;
+  }
+
+  /* Waiting below the screen: rise (default), grow from 90% (the bands, the next case), or fade. */
+  [data-reveal="pending"] {
+    opacity: 0;
+    translate: 0 24px;
+  }
+
+  [data-reveal="pending"][data-reveal-style="scale"] {
+    translate: none;
+    scale: 0.9;
+  }
+
+  [data-reveal="pending"][data-reveal-style="fade"] {
+    translate: none;
+  }
+
+  [data-reveal="play"] {
+    transition-property: opacity, translate, scale;
+    transition-duration: 500ms;
+    transition-timing-function: var(--ease-reveal);
+    transition-delay: calc(var(--reveal-order, 0) * 120ms);
+  }
+
+  /* A block's lines (diagrams, the timeline) draw from the start corner once it plays; arrowheads last. */
+  [data-reveal="pending"] [data-line] {
+    clip-path: inset(0 100% 100% 0);
+  }
+
+  :root[dir="rtl"] [data-reveal="pending"] [data-line] {
+    clip-path: inset(0 0 100% 100%);
+  }
+
+  [data-reveal="pending"] [data-line="tip"],
+  :root[dir="rtl"] [data-reveal="pending"] [data-line="tip"] {
+    clip-path: none;
+    opacity: 0;
+  }
+
+  [data-reveal="play"] [data-line] {
+    animation: line-draw 650ms var(--ease-reveal) backwards;
+    animation-delay: calc(var(--reveal-order, 0) * 120ms + 200ms);
+  }
+
+  :root[dir="rtl"] [data-reveal="play"] [data-line] {
+    animation-name: line-draw-rtl;
+  }
+
+  [data-reveal="play"] [data-line="tip"],
+  :root[dir="rtl"] [data-reveal="play"] [data-line="tip"] {
+    animation: tip-in 200ms ease-out backwards;
+    animation-delay: calc(var(--reveal-order, 0) * 120ms + 700ms);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+@keyframes reveal-grow {
+  from {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes reveal-scale {
+  from {
+    opacity: 0;
+    scale: 0.94;
+  }
+}
+
+/* inset() to inset() so the wipe interpolates; a line has nothing outside its own box. */
+@keyframes line-draw {
+  from {
+    clip-path: inset(0 100% 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes line-draw-rtl {
+  from {
+    clip-path: inset(0 0 100% 100%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes tip-in {
+  from {
+    opacity: 0;
+  }
+}

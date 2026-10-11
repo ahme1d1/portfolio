@@ -2,7 +2,7 @@ import Image from "next/image";
 import portrait from "@/assets/images/portrait.png";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
 import { ButtonLink, ButtonPrefix } from "@/components/ui/Button";
-import { PAGE_X } from "@/components/ui/layout";
+import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { getHomeCopy } from "@/content/home";
 import { getSiteCopy } from "@/content/site";
@@ -30,7 +30,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
       <div className="flex flex-col gap-[18px] lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start lg:gap-14">
-        <div className="flex flex-col gap-[18px] lg:gap-8 lg:pt-1">
+        <div className={`${INTRO} flex flex-col gap-[18px] lg:gap-8 lg:pt-1`}>
           <div className="flex flex-col gap-[18px] lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
             <p className="m-0 flex flex-col gap-0.5">
               <span className="text-base leading-[1.25] font-semibold lg:text-lg">{name}</span>
@@ -51,7 +51,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
           </div>
         </div>
         <MirrorBlock name="portrait">
-          <figure className="order-first m-0 h-70 overflow-hidden rounded-card-sm bg-tint md:h-100 lg:order-none lg:h-130 lg:rounded-card">
+          <figure className="intro-scale order-first m-0 h-70 overflow-hidden rounded-card-sm bg-tint md:h-100 lg:order-none lg:h-130 lg:rounded-card">
             <Image
               src={portrait}
               alt={hero.portraitAlt}

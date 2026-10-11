@@ -1,4 +1,4 @@
-import { PAGE_X } from "@/components/ui/layout";
+import { PAGE_X, REVEAL } from "@/components/ui/layout";
 import { getExperienceCopy } from "@/content/experience";
 import { ROLE_KEYS } from "@/content/experience/data";
 import type { Locale } from "@/lib/i18n/locale";
@@ -7,14 +7,14 @@ import { RoleItem } from "./RoleItem";
 
 /**
  * Roles, newest first, on a timeline. The first section: 56px below the hero in both languages.
- * Its rows don't settle in like other sections: a rising row would break the line; the line draws instead.
+ * Each role fades in where it stands (rising would break the line), and its line draws down.
  */
 export function RoleTimeline({ locale }: { locale: Locale }) {
   const { roles } = getExperienceCopy(locale);
   const headingId = pageId("experience", "roles", locale);
 
   return (
-    <section aria-labelledby={headingId} className={`${PAGE_X} pt-14`}>
+    <section aria-labelledby={headingId} className={`${PAGE_X} ${REVEAL} pt-14`}>
       <h2 id={headingId} className="mb-6 type-h2 md:mb-7">
         {roles.title}
       </h2>

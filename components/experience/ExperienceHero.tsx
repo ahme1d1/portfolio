@@ -1,6 +1,6 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { DownloadIcon } from "@/components/ui/icons";
-import { PAGE_X } from "@/components/ui/layout";
+import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { getExperienceCopy } from "@/content/experience";
 import { CV_PATH } from "@/content/links";
@@ -21,7 +21,7 @@ export function ExperienceHero({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={titleId} className={`${PAGE_X} pt-8 lg:pt-18`}>
-      <div className="grid gap-3.5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-x-8 lg:gap-y-4 lg:border-b lg:border-line lg:pb-10">
+      <div className={`${INTRO} grid gap-3.5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-x-8 lg:gap-y-4 lg:border-b lg:border-line lg:pb-10`}>
         <h1 id={titleId} className="type-h1">
           {copy.title}
         </h1>

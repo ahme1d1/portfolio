@@ -1,5 +1,5 @@
 import { ButtonLink } from "@/components/ui/Button";
-import { PAGE_X } from "@/components/ui/layout";
+import { INTRO, PAGE_X } from "@/components/ui/layout";
 import type { ServicesCopy } from "@/content/services";
 import { contactHref } from "@/lib/contact/topics";
 import type { Locale } from "@/lib/i18n/locale";
@@ -14,7 +14,7 @@ export function ServicesHero({ locale, copy }: ServicesHeroProps) {
   const buttonWidth = "w-full lg:w-auto";
 
   return (
-    <section aria-labelledby={titleId} className={`${PAGE_X} flex flex-col gap-4 pt-8 lg:gap-6 lg:pt-18`}>
+    <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-4 pt-8 lg:gap-6 lg:pt-18`}>
       <h1 id={titleId} className="type-h1">
         {copy.title}
       </h1>

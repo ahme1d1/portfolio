@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./scroll-motion.css";
+@import "./reveal.css";
 
 /*
  * Design tokens from the Tokens board (docs/SPEC.md). Every colour is declared once with

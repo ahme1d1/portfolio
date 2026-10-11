@@ -1,7 +1,7 @@
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ProjectGrid } from "@/components/cards/ProjectGrid";
 import { LetsTalkBand } from "@/components/contact/LetsTalkBand";
-import { PAGE_X, SECTION } from "@/components/ui/layout";
+import { INTRO, PAGE_X, SECTION } from "@/components/ui/layout";
 import { getProjectCard, MAIN_PROJECT_SLUGS } from "@/content/projects";
 import { getWorkCopy } from "@/content/work";
 import type { Locale } from "@/lib/i18n/locale";
@@ -17,7 +17,7 @@ export function WorkView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <section aria-labelledby={titleId} className={`${PAGE_X} flex flex-col gap-3 pt-8 lg:gap-4 lg:pt-18`}>
+      <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-3 pt-8 lg:gap-4 lg:pt-18`}>
         <h1 id={titleId} className="type-h1">
           {copy.title}
         </h1>

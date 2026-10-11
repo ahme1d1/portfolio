@@ -178,20 +178,25 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   `tests/motion-guard.test.ts` fails on `transition`, `transition-colors`, `transition-all`,
   `transform` inside `transition-[…]`, and a press scale without `transition-fast`.
 - Never `transition: all`. Focus rings never animate.
-- **Scroll motion** (`app/scroll-motion.css`, Ahmed 2026-10-11, brought back from the original
-  brief's "scroll reveals"): scroll-driven CSS, no JavaScript, inside `@supports (animation-timeline:
-  view())` and `prefers-reduced-motion: no-preference`, so unsupported browsers and reduced motion
-  show everything in place, and print shows every block. A page's first section (and a case
-  study's hero image) never moves.
-  - Sections after the first (`SECTION` carries `REVEAL` = `reveal-children`, also the case facts
-    and the next-case card): each child, and each row of a child list, fades in and rises 12px over
-    `entry 0%` to `entry 25vh`. The Experience roles don't (a rising row would break the line).
-  - Experience timeline: an accent line fills each rule behind a reading line 60% down the screen,
-    and past roles' dots turn accent as it passes.
-  - Case diagrams: `CaseFigure` is a `--figure` view timeline (screenshots opt out with
-    `shouldDrawLines={false}`); lines marked `data-line` wipe in from the start corner while the
-    figure's top rises from 85% to 45% of the screen, arrowheads (`data-line="tip"`) fade in last.
-  - Axe runs with reduced motion, so it measures every block in place.
+- **Blocks play in** (Ahmed 2026-10-11: "like TikVideo's home page", the reveal he built there): a
+  block rises 24px and fades in over 500ms (`cubic-bezier(0.16, 1, 0.3, 1)`), once; blocks that
+  arrive together cascade 120ms apart. `app/reveal.css`, `lib/motion/reveal.ts`,
+  `components/motion/RevealOnScroll.tsx`.
+  - On load, CSS alone plays the hero (`INTRO` = `intro-children`: its children cascade; the Home
+    portrait grows in with `intro-scale`), then every block of the sections (`REVEAL` =
+    `reveal-children`: each child, and each row of a child list). Nothing waits for JavaScript, and
+    without it nothing is ever hidden.
+  - `RevealOnScroll` (a layout effect on every page) then holds back the blocks below the screen
+    (`data-reveal="pending"`) and plays each as it comes into view (`play`, then `done`). After an
+    ordinary link the whole new page plays in; after the language switch what is on screen stays and
+    the hero doesn't replay (`markLocaleSwitch()` and `:root[data-locale-switch]`, which the
+    component sets again because React clears `<html>`'s attributes on the new root layout).
+  - Variants by `data-reveal-style`: `scale` (grows from 90%: the "Let's talk" bands, the next-case
+    card) and `fade` (Experience roles, so the timeline line never breaks). Lines marked `data-line`
+    (diagrams, the timeline rule) draw from the start corner when their block plays; arrowheads
+    (`data-line="tip"`) fade in last.
+  - Screens only, and nothing moves with reduced motion. Axe runs with reduced motion, so it
+    measures every block in place.
 - **Theme change:** the page colours swap at once. `applyTheme` puts `theme-switching` on `<html>`
   for two frames and CSS turns every transition off under it, except the theme icons (header button
   and menu row), which turn and cross-fade over 200ms: ease-out arriving, ease-in leaving.

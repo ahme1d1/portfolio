@@ -1,7 +1,7 @@
 import Image from "next/image";
 import portrait from "@/assets/images/portrait.png";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
-import { PAGE_X } from "@/components/ui/layout";
+import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { TextLink } from "@/components/ui/TextLink";
 import type { AboutCopy } from "@/content/about";
@@ -23,12 +23,12 @@ export function AboutHero({ locale, copy }: { locale: Locale; copy: AboutCopy })
 
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
-      <div className="flex flex-col gap-[18px] lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-7">
+      <div className={`${INTRO} flex flex-col gap-[18px] lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-7`}>
         <h1 id={headingId} className="type-h1 lg:pt-2">
           {copy.title}
         </h1>
         <MirrorBlock name="about-portrait">
-          <figure className="relative m-0 h-95 overflow-hidden rounded-card-sm bg-tint lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-auto lg:min-h-150 lg:rounded-card">
+          <figure className="intro-scale relative m-0 h-95 overflow-hidden rounded-card-sm bg-tint lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-auto lg:min-h-150 lg:rounded-card">
             <Image
               src={portrait}
               alt={copy.portraitAlt}

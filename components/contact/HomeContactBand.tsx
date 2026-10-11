@@ -15,7 +15,7 @@ export function HomeContactBand({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <div className="flex flex-col gap-4 rounded-panel-sm bg-surface px-4 py-6 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:rounded-panel lg:p-12">
+      <div data-reveal-style="scale" className="flex flex-col gap-4 rounded-panel-sm bg-surface px-4 py-6 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:rounded-panel lg:p-12">
         <div className="flex flex-col gap-4">
           <h2 id={headingId} className="type-h2">
             {band.title}

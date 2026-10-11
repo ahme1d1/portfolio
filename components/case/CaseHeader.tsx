@@ -2,7 +2,7 @@ import { StatusPill } from "@/components/cards/StatusPill";
 import { AnyLink } from "@/components/ui/AnyLink";
 import { ButtonLink } from "@/components/ui/Button";
 import { ExternalArrowIcon, LockIcon } from "@/components/ui/icons";
-import { PAGE_X } from "@/components/ui/layout";
+import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import type { CaseSharedCopy } from "@/content/cases/shared";
 import type { CaseCopy, CaseData } from "@/content/cases/types";
@@ -49,7 +49,7 @@ type CaseHeaderProps = {
 /** Breadcrumb, status and role, the title, what it is, and the live site when there is one. */
 export function CaseHeader({ titleId, title, copy, shared, site, status, work }: CaseHeaderProps) {
   return (
-    <section aria-labelledby={titleId} className={`${PAGE_X} flex flex-col gap-3.5 pt-3 lg:gap-5 lg:pt-8`}>
+    <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-3.5 pt-3 lg:gap-5 lg:pt-8`}>
       <Breadcrumb label={shared.breadcrumbLabel} workLabel={work.label} workHref={work.href} current={title} />
       <div className="flex flex-wrap items-center gap-2.5 lg:gap-3.5">
         {status ? <StatusPill kind={status.kind} label={status.label} className="lg:px-3 lg:text-sm" /> : null}

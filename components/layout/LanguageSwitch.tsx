@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Route } from "next";
 import { LOCALE_SWITCH } from "@/components/motion/MirrorBlock";
+import { markLocaleSwitch } from "@/lib/motion/reveal";
 import type { Locale } from "@/lib/i18n/locale";
 import { switchLocalePath } from "@/lib/i18n/paths";
 
@@ -48,6 +49,8 @@ export function LanguageSwitch({ target, placement, className, children }: Langu
         // Only a switch that had focus gets it back. Safari never focuses a clicked link, and focus
         // moved there by script would draw a ring the person did not ask for.
         refocusPlacement = document.activeElement === ref.current ? placement : null;
+        // The new page mirrors this one; its hero and blocks on screen don't play in.
+        markLocaleSwitch(target);
       }}
       className={className}
     >

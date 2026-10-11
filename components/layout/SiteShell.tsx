@@ -3,6 +3,7 @@ import { getSiteCopy } from "@/content/site";
 import { dirOf, type Locale } from "@/lib/i18n/locale";
 import { THEME_SCRIPT } from "@/lib/theme/theme";
 import { MirrorFade } from "@/components/motion/MirrorBlock";
+import { RevealOnScroll } from "@/components/motion/RevealOnScroll";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { KeepTheme } from "./KeepTheme";
@@ -38,6 +39,8 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
         <MirrorFade name="footer">
           <Footer locale={locale} />
         </MirrorFade>
+        {/* After the page, so its layout effect runs once Next has scrolled the new page. */}
+        <RevealOnScroll />
       </body>
     </html>
   );

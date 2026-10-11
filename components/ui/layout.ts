@@ -2,10 +2,13 @@
 export const PAGE_X = "mx-auto w-full max-w-page px-4 lg:px-10";
 
 /**
- * Below the first screen, each block settles in as it reaches the screen (`app/scroll-motion.css`):
- * every child, and every row of a child list.
+ * Each block plays in once as it comes into view (`lib/motion/reveal.ts`): every child, and every
+ * row of a child list.
  */
 export const REVEAL = "reveal-children";
 
-/** A section after the first: 128px above on desktop, 56px on phones. Its blocks settle in. */
+/** A section after the first: 128px above on desktop, 56px on phones. Its blocks play in. */
 export const SECTION = `${PAGE_X} ${REVEAL} pt-14 lg:pt-32`;
+
+/** A page's hero: its children play in on load, one after another (`app/reveal.css`). */
+export const INTRO = "intro-children";
