@@ -1,5 +1,4 @@
-import { PagePlaceholder } from "@/components/pages/PagePlaceholder";
-import { getSiteCopy } from "@/content/site";
+import { ExperienceView } from "@/components/experience/ExperienceView";
 import { resolveLocale } from "@/lib/i18n/server";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -10,5 +9,5 @@ export const generateMetadata = pageMetadata("experience", "/experience/");
 
 export default async function ExperiencePage({ params }: PageProps<"/[locale]/experience">) {
   const locale = await resolveLocale(params);
-  return <PagePlaceholder title={getSiteCopy(locale).nav.items[1]?.label ?? ""} />;
+  return <ExperienceView locale={locale} />;
 }

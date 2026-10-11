@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { AboutView } from "@/components/about/AboutView";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { ContactView } from "@/components/contact/ContactView";
+import { ExperienceView } from "@/components/experience/ExperienceView";
 import { HomeView } from "@/components/home/HomeView";
 import { ServicesView } from "@/components/services/ServicesView";
 import { EarlierWork } from "@/components/work/EarlierWork";
@@ -29,6 +30,7 @@ const VIEWS: readonly (readonly [string, View])[] = [
   ["Contact", ContactView],
   ["About", AboutView],
   ["Services", ServicesView],
+  ["Experience", ExperienceView],
 ];
 
 describe.each(LOCALES)("pages in %s", (locale) => {
