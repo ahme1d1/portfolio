@@ -1,6 +1,7 @@
-import { expect, test, type Page, type Route } from "@playwright/test";
+import { expect, test, watchCsp, type Page, type Route } from "./fixtures";
 
 const WEB3FORMS = "https://api.web3forms.com/submit";
+const WEB3FORMS_SUCCESS = "https://web3forms.com/success";
 
 async function fillIn(page: Page, email = "sara@company.com") {
   await page.getByRole("radio", { name: "A project" }).check();
@@ -105,14 +106,27 @@ for (const { name, url, form: formName, sentLevel } of PAGES) {
     });
   });
 
-  test(`without JavaScript the form on ${name} still posts to Web3Forms`, async ({ browser }) => {
+  test(`without JavaScript the form on ${name} still posts to Web3Forms and reaches its success page`, async ({ browser, browserName }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
+    const violations = await watchCsp(page);
+    // Web3Forms answers a plain post by redirecting to its own success page; the CSP's form-action must allow both.
+    // Playwright can't fake a redirect in WebKit, so there the API answers with the page itself.
+    const canRedirect = browserName !== "webkit";
+    const successPage = { contentType: "text/html", body: "<h1>Success</h1>" };
+    await context.route(WEB3FORMS, (route) =>
+      route.fulfill(canRedirect ? { status: 303, headers: { location: WEB3FORMS_SUCCESS } } : successPage),
+    );
+    await context.route(WEB3FORMS_SUCCESS, (route) => route.fulfill(successPage));
     await page.goto(url);
     const form = page.getByRole("form", { name: formName });
     await expect(form).toHaveAttribute("action", WEB3FORMS);
     await expect(form).toHaveAttribute("method", "post");
     await expect(form.locator('input[name="access_key"]')).toHaveValue("e2e-key");
+    await fillIn(page);
+    await send(page);
+    await expect(page).toHaveURL(canRedirect ? WEB3FORMS_SUCCESS : WEB3FORMS);
+    expect(violations).toEqual([]);
     await context.close();
   });
 }

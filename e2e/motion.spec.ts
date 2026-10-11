@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 /** A view transition the page started, and the pseudo-elements it animated once it was ready. */
 type Recorded = { types: string[]; animated: string[]; isSettled: boolean };

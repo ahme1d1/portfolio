@@ -1,5 +1,7 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
+import { CV_PATH } from "../content/links";
 import { PAGE_PATHS } from "../content/routes";
+import { buildCsp } from "../lib/security/csp";
 
 const LOCALES = [
   { locale: "en", dir: "ltr" },
@@ -23,13 +25,25 @@ test.describe("every page", () => {
   }
 });
 
-test("pages are served with the security headers", async ({ request }) => {
-  const response = await request.get("/en/");
-  expect(response.headers()).toMatchObject({
-    "x-content-type-options": "nosniff",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "x-frame-options": "DENY",
+for (const path of ["/en/", "/ar/contact/", "/en/nope/"]) {
+  test(`${path} is served with the security headers and the CSP`, async ({ request }) => {
+    const response = await request.get(path);
+    expect(response.headers()).toMatchObject({
+      "content-security-policy": buildCsp(),
+      "cross-origin-opener-policy": "same-origin",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "x-frame-options": "DENY",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+    });
+    expect(response.headers()["x-powered-by"]).toBeUndefined();
   });
+}
+
+test("the CV PDF is served without a CSP, which can break the browser's viewer", async ({ request }) => {
+  const response = await request.get(CV_PATH);
+  expect(response.status()).toBe(200);
+  expect(response.headers()["content-security-policy"]).toBeUndefined();
 });
 
 test.describe("addresses", () => {

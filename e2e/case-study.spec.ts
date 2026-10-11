@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import { MORE_PROJECT_SLUGS, nextCaseSlug, type CaseSlug } from "../content/cases/slugs";
 
 /** Each case's title in both languages, and whether its hero is screenshots (a drawing has none). */

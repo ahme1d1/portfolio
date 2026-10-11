@@ -378,6 +378,37 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1. Lighthouse mobile: Performance ≥ 95; Accessibility, Best
   Practices and SEO 100.
 
+## Security headers
+
+- Every response: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
+  `X-Frame-Options: DENY` (for browsers older than `frame-ancestors`), `Permissions-Policy: camera=(),
+  microphone=(), geolocation=()`, `Cross-Origin-Opener-Policy: same-origin`. No `X-Powered-By`.
+- **Content-Security-Policy** on every page, built by `lib/security/csp.ts`, only in builds (`next dev` needs eval
+  and inline styles), and not on `/cv/` or `/_next/static/` (a CSP on the PDF can break the browser's viewer):
+  `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self'; font-src 'self';
+  connect-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com https://web3forms.com;
+  frame-ancestors 'none'; base-uri 'none'; object-src 'none'`.
+- `script-src 'unsafe-inline'`: every page is prerendered, so there is no request to make a nonce for, and Next's
+  inline scripts (page data, the bootstrap) change with every page and build. Never add a hash or a nonce: either
+  switches `'unsafe-inline'` off and stops those scripts. Nothing a visitor types is rendered back; the policy's
+  job is to limit origins, framing, `<base>`, plugins and where data can go.
+- `style-src 'self'`: no inline styles anywhere. Images render through `components/ui/Img.tsx` (`getImageProps()`
+  without its `style`; `text-transparent` hides the alt text while loading), so there are no blur placeholders:
+  a screenshot shows the surface colour until it loads. The theme switch and the reveals use classes and data
+  attributes, and styles set from script go through the CSSOM, which the CSP allows. Next's own crash page
+  (`_global-error`) uses inline styles and would render unstyled; accepted.
+- Web3Forms: `connect-src` for the fetch; `form-action` for the no-JS post and the success page that post
+  redirects to (`https://web3forms.com/success`).
+- No `upgrade-insecure-requests`: Safari upgrades `http://localhost` with it, and Vercel serves HTTPS only.
+- Tests: `lib/security/csp.test.ts` (the directives), `tests/security-headers.test.ts` (which paths get which
+  headers, through Next's config tester), `e2e/fixtures.ts` (every e2e test fails on a CSP report, in all three
+  browsers; specs import `test` from it), and the no-JS post in `e2e/contact-form.spec.ts`. A new external origin
+  needs a directive and a test that uses it.
+- Vercel preview deployments load their toolbar from `vercel.live`, which the policy blocks: check the production
+  alias.
+- Icons: `app/icon.png` (64px) and `app/apple-icon.png` (180px), "AG" in Bricolage 600 on black, made by
+  `../tools/make-icons.mjs`.
+
 ## SEO
 
 - Title pattern `<topic> | Ahmed Gabal` (Arabic `… | أحمد جبل`), 50–60 characters; description

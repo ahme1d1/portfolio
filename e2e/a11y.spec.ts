@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { PAGE_PATHS } from "../content/routes";
 
 // Axe measures the settled page. With motion, blocks below the first screen wait at opacity 0 (axe
@@ -30,7 +30,7 @@ test.describe("accessibility of other states", () => {
     test.skip(project.name === "safari", "Axe runs in Chromium; WebKit covers behaviour.");
   });
 
-  const scan = (page: import("@playwright/test").Page) =>
+  const scan = (page: import("./fixtures").Page) =>
     new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
 
   test("the open mobile menu", async ({ page }, { project }) => {

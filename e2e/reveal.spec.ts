@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 const PAGES = ["/en/", "/en/work/", "/en/work/fantasy-eg/", "/ar/work/cultural-bridge/", "/en/experience/", "/en/services/", "/en/about/"];
 const BLOCKS = ".reveal-children > :not(ul, ol), .reveal-children > :is(ul, ol) > li";
