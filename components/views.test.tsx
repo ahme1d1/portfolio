@@ -4,6 +4,7 @@ import { AboutView } from "@/components/about/AboutView";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { ContactView } from "@/components/contact/ContactView";
 import { HomeView } from "@/components/home/HomeView";
+import { ServicesView } from "@/components/services/ServicesView";
 import { EarlierWork } from "@/components/work/EarlierWork";
 import { WorkView } from "@/components/work/WorkView";
 import { CASE_SLUGS } from "@/content/cases/slugs";
@@ -27,6 +28,7 @@ const VIEWS: readonly (readonly [string, View])[] = [
   ...CASE_SLUGS.map((slug) => [slug, caseView(slug)] as const),
   ["Contact", ContactView],
   ["About", AboutView],
+  ["Services", ServicesView],
 ];
 
 describe.each(LOCALES)("pages in %s", (locale) => {

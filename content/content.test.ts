@@ -16,6 +16,8 @@ import { enHome } from "./home/en";
 import { arProjects } from "./projects/ar";
 import { enProjects } from "./projects/en";
 import { arSeo } from "./seo/ar";
+import { arServices } from "./services/ar";
+import { enServices } from "./services/en";
 import { enSeo } from "./seo/en";
 import { arSite } from "./site/ar";
 import { enSite } from "./site/en";
@@ -32,6 +34,7 @@ const MODULES: readonly ContentModule[] = [
   { name: "work", en: enWork, ar: arWork, rich: true },
   { name: "contact", en: enContact, ar: arContact, rich: true },
   { name: "about", en: enAbout, ar: arAbout, rich: true },
+  { name: "services", en: enServices, ar: arServices, rich: true },
   { name: "case-shared", en: enCaseShared, ar: arCaseShared, rich: true },
 ];
 
