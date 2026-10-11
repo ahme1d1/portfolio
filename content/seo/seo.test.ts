@@ -28,6 +28,12 @@ describe("Arabic search titles and descriptions", () => {
     expect(`${entry.title} | أحمد جبل`.length).toBeLessThanOrEqual(70);
   });
 
+  // Ahmed 2026-10-11: the case titles drop «، دراسة حالة» so Google shows them whole.
+  it.each(Object.entries(arSeo.cases))("%s: case title fits in 60 characters with the name", (_, entry) => {
+    expect(`${entry.title} | أحمد جبل`.length).toBeLessThanOrEqual(60);
+    expect(entry.title).not.toContain("دراسة حالة");
+  });
+
   it.each(allEntries(arSeo))("%s: description 120 to 165 characters", (_, entry) => {
     expect(entry.description.length).toBeGreaterThanOrEqual(120);
     expect(entry.description.length).toBeLessThanOrEqual(165);
