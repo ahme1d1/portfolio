@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
+import { Img } from "@/components/ui/Img";
 import type { CardMedia } from "@/content/projects";
 import type { CaseSlug } from "@/content/cases/slugs";
 import { LeanMockup } from "./LeanMockup";
@@ -25,11 +25,10 @@ export function MediaContent({ media, sizes = CARD_SIZES, variant = "card" }: Me
   switch (media.kind) {
     case "image":
       return (
-        <Image
+        <Img
           src={media.image}
           alt={media.alt}
           sizes={sizes}
-          placeholder="blur"
           className={`${GROWS} size-full object-cover object-top`}
         />
       );

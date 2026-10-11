@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { CaseDiagram } from "@/components/diagrams/registry";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
+import { Img } from "@/components/ui/Img";
 import { PAGE_X } from "@/components/ui/layout";
 import type { CaseSlug } from "@/content/cases/slugs";
 import type { CaseCopy, HeroData } from "@/content/cases/types";
@@ -30,12 +30,11 @@ function HeroStage({ slug, hero, alts, locale }: HeroProps) {
           </MirrorBlock>
           <MirrorBlock name={`case-${slug}-phone`}>
             <div className="absolute end-[4.47%] top-[12.6%] z-10 w-[27.93%] md:end-[7.5%] md:top-[5.77%] md:w-[17.19%]">
-              <Image
+              <Img
                 src={hero.phone}
                 alt={alt(1)}
                 sizes={PHONE_SIZES}
-                placeholder="blur"
-                className="block h-auto w-full rounded-phone border-4 border-page shadow-card outline-1 -outline-offset-1 outline-img-line md:border-[6px]"
+                className="block h-auto w-full rounded-phone bg-surface border-4 border-page shadow-card outline-1 -outline-offset-1 outline-img-line md:border-[6px]"
               />
             </div>
           </MirrorBlock>
@@ -46,14 +45,13 @@ function HeroStage({ slug, hero, alts, locale }: HeroProps) {
         <div className="flex h-[270px] items-start justify-center gap-3 overflow-hidden rounded-panel-sm bg-tint pt-5 md:h-[500px] md:gap-12 md:pt-6 lg:rounded-panel">
           {hero.images.map((image, index) => (
             <MirrorBlock key={image.src} name={`case-${slug}-screen-${index}`}>
-              <Image
+              <Img
                 src={image}
                 alt={alt(index)}
                 sizes={PHONES_SIZES}
-                placeholder="blur"
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchPriority={index === 0 ? "high" : undefined}
-                className={`block h-auto w-[100px] rounded-control shadow-card outline-1 -outline-offset-1 outline-img-line md:w-[212px] md:rounded-card ${index === 1 ? "" : "mt-[18px] md:mt-6"}`}
+                className={`block h-auto w-[100px] rounded-control bg-surface shadow-card outline-1 -outline-offset-1 outline-img-line md:w-[212px] md:rounded-card ${index === 1 ? "" : "mt-[18px] md:mt-6"}`}
               />
             </MirrorBlock>
           ))}

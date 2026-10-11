@@ -41,25 +41,3 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-/** next/image needs Next's image config at runtime; tests check the plain <img> it renders. */
-vi.mock("next/image", () => ({
-  default: ({
-    src,
-    alt,
-    placeholder: _placeholder,
-    blurDataURL: _blurDataURL,
-    preload: _preload,
-    quality: _quality,
-    ...props
-  }: React.ImgHTMLAttributes<HTMLImageElement> & {
-    src: string | { src: string };
-    alt: string;
-    placeholder?: string;
-    blurDataURL?: string;
-    preload?: boolean;
-    quality?: number;
-  }) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={typeof src === "string" ? src : src.src} alt={alt} {...props} />
-  ),
-}));

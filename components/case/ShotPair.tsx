@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
+import { Img } from "@/components/ui/Img";
 import type { CaseSlug } from "@/content/cases/slugs";
 import type { RoleShots } from "@/content/cases/types";
 import { plainText } from "@/lib/rich/parse";
@@ -18,12 +18,11 @@ export function ShotPair({ slug, shots, copy }: ShotPairProps) {
       <CaseFigure caption={copy.caption} panel="none" panelClassName="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5">
         {shots.shots.map((shot, index) => (
           <MirrorBlock key={shot.image.src} name={`case-${slug}-shot-${index}`}>
-            <Image
+            <Img
               src={shot.image}
               alt={alt(index)}
               sizes={SIZES}
-              placeholder="blur"
-              className="block aspect-[1440/1064] h-auto w-full rounded-control border border-line object-cover object-top outline-1 -outline-offset-1 outline-img-line md:rounded-card-sm"
+              className="block aspect-[1440/1064] h-auto w-full rounded-control bg-surface border border-line object-cover object-top outline-1 -outline-offset-1 outline-img-line md:rounded-card-sm"
             />
           </MirrorBlock>
         ))}

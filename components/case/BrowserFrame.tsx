@@ -1,4 +1,5 @@
-import Image, { type StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
+import { Img } from "@/components/ui/Img";
 import { LockIcon } from "@/components/ui/icons";
 import type { BrowserBar } from "@/content/cases/types";
 
@@ -58,14 +59,13 @@ export function BrowserFrame({ bar, image, alt, sizes, size, isLcp = false }: Br
   return (
     <div className={`overflow-hidden border border-line bg-page shadow-card ${STYLES[size].frame}`}>
       <AddressBar bar={bar} size={size} />
-      <Image
+      <Img
         src={image}
         alt={alt}
         sizes={sizes}
-        placeholder="blur"
         loading={isLcp ? "eager" : "lazy"}
         fetchPriority={isLcp ? "high" : undefined}
-        className="block aspect-[16/10] h-auto w-full object-cover object-top outline-1 -outline-offset-1 outline-img-line"
+        className="block aspect-[16/10] h-auto w-full bg-surface object-cover object-top outline-1 -outline-offset-1 outline-img-line"
       />
     </div>
   );

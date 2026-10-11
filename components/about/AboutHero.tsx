@@ -1,6 +1,6 @@
-import Image from "next/image";
 import portrait from "@/assets/images/portrait.png";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
+import { Img } from "@/components/ui/Img";
 import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { TextLink } from "@/components/ui/TextLink";
@@ -29,7 +29,7 @@ export function AboutHero({ locale, copy }: { locale: Locale; copy: AboutCopy })
         </h1>
         <MirrorBlock name="about-portrait">
           <figure className="intro-scale relative m-0 h-95 overflow-hidden rounded-card-sm bg-tint lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-auto lg:min-h-150 lg:rounded-card">
-            <Image
+            <Img
               src={portrait}
               alt={copy.portraitAlt}
               sizes="(min-width: 1024px) 480px, 100vw"

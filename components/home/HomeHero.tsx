@@ -1,7 +1,7 @@
-import Image from "next/image";
 import portrait from "@/assets/images/portrait.png";
 import { MirrorBlock } from "@/components/motion/MirrorBlock";
 import { ButtonLink, ButtonPrefix } from "@/components/ui/Button";
+import { Img } from "@/components/ui/Img";
 import { INTRO, PAGE_X } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { getHomeCopy } from "@/content/home";
@@ -52,7 +52,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
         </div>
         <MirrorBlock name="portrait">
           <figure className="intro-scale order-first m-0 h-70 overflow-hidden rounded-card-sm bg-tint md:h-100 lg:order-none lg:h-130 lg:rounded-card">
-            <Image
+            <Img
               src={portrait}
               alt={hero.portraitAlt}
               sizes="(min-width: 1024px) 600px, 100vw"

@@ -1,4 +1,5 @@
-import Image, { type StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
+import { Img } from "@/components/ui/Img";
 
 type Phone = { image: StaticImageData; alt: string };
 
@@ -24,13 +25,12 @@ export function PhonePair({ images, variant = "card", className = "" }: PhonePai
   return (
     <div className={`flex size-full items-start justify-center gap-3 bg-tint pt-4 lg:gap-3.5 lg:pt-6 ${className}`}>
       {images.map(({ image, alt }, index) => (
-        <Image
+        <Img
           key={image.src}
           src={image}
           alt={alt}
           sizes={style.sizes}
-          placeholder="blur"
-          className={`h-auto outline-1 -outline-offset-1 outline-img-line lg:shadow-card ${style.phone} ${index === 1 ? style.lower : ""}`}
+          className={`h-auto bg-surface outline-1 -outline-offset-1 outline-img-line lg:shadow-card ${style.phone} ${index === 1 ? style.lower : ""}`}
         />
       ))}
     </div>
