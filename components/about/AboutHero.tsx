@@ -11,8 +11,8 @@ import { pageId } from "@/lib/ids";
 
 /**
  * The title, the portrait and the introduction. One DOM order (title, portrait, text) serves both
- * layouts: stacked on phones, and from lg a grid that puts the portrait beside both, as tall as
- * the text column.
+ * layouts: stacked on phones (the whole photo from 480 px, where a full-width card would crop it),
+ * and from md a grid that puts the portrait beside both, as tall as the text column.
  */
 export function AboutHero({ locale, copy }: { locale: Locale; copy: AboutCopy }) {
   const headingId = pageId("about", "title", locale);
@@ -23,19 +23,19 @@ export function AboutHero({ locale, copy }: { locale: Locale; copy: AboutCopy })
 
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
-      <div className={`${INTRO} flex flex-col gap-[18px] lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-7`}>
+      <div className={`${INTRO} flex flex-col gap-[18px] md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:grid-rows-[auto_1fr] md:gap-x-8 md:gap-y-5 lg:gap-x-14 lg:gap-y-7`}>
         <h1 id={headingId} className="type-h1 lg:pt-2">
           {copy.title}
         </h1>
         <MirrorBlock name="about-portrait">
-          <figure className="intro-scale relative m-0 h-95 overflow-hidden rounded-card-sm bg-tint lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-auto lg:min-h-150 lg:rounded-card">
+          <figure className="intro-scale relative m-0 h-95 overflow-hidden rounded-card-sm bg-tint md:col-start-2 md:row-span-2 md:row-start-1 md:h-auto md:min-h-110 lg:min-h-150 lg:rounded-card">
             <Img
               src={portrait}
               alt={copy.portraitAlt}
               sizes="(min-width: 1024px) 480px, 100vw"
               loading="eager"
               fetchPriority="high"
-              className="absolute inset-0 size-full object-cover object-bottom"
+              className="absolute inset-0 size-full object-cover object-bottom min-[480px]:object-contain md:object-cover"
             />
           </figure>
         </MirrorBlock>

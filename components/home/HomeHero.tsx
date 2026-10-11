@@ -20,7 +20,10 @@ function Availability({ text }: { text: string }) {
   );
 }
 
-/** Statement + proof: name, availability, one sentence, two doors, and the portrait (on top on phones). */
+/**
+ * Statement + proof: name, availability, one sentence, two doors, and the portrait: on top on phones (the whole
+ * photo from 480 px, where a full-width card would crop the face), beside the text from 768 px.
+ */
 export function HomeHero({ locale }: { locale: Locale }) {
   const { hero } = getHomeCopy(locale);
   const { name } = getSiteCopy(locale);
@@ -29,7 +32,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
-      <div className="flex flex-col gap-[18px] lg:grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start lg:gap-14">
+      <div className="flex flex-col gap-[18px] md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-start md:gap-8 lg:gap-14">
         <div className={`${INTRO} flex flex-col gap-[18px] lg:gap-8 lg:pt-1`}>
           <div className="flex flex-col gap-[18px] lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
             <p className="m-0 flex flex-col gap-0.5">
@@ -51,14 +54,14 @@ export function HomeHero({ locale }: { locale: Locale }) {
           </div>
         </div>
         <MirrorBlock name="portrait">
-          <figure className="intro-scale order-first m-0 h-70 overflow-hidden rounded-card-sm bg-tint md:h-100 lg:order-none lg:h-130 lg:rounded-card">
+          <figure className="intro-scale order-first m-0 h-70 overflow-hidden rounded-card-sm bg-tint md:order-none md:h-100 lg:h-130 lg:rounded-card">
             <Img
               src={portrait}
               alt={hero.portraitAlt}
               sizes="(min-width: 1024px) 600px, 100vw"
               loading="eager"
               fetchPriority="high"
-              className="size-full object-cover object-top lg:object-bottom"
+              className="size-full object-cover object-top min-[480px]:object-contain min-[480px]:object-bottom md:object-cover"
             />
           </figure>
         </MirrorBlock>
