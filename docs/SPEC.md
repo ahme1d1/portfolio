@@ -50,9 +50,12 @@ All URLs end with a trailing slash. The language switch links to the same page i
   kept page is shown again. Transient state resets in a `useLayoutEffect` cleanup.
 - **The language mirror uses React `<ViewTransition>`.** The switch carries the `locale-switch`
   transition type; `MirrorBlock` names blocks that move, `MirrorFade` (shared names) fades main and
-  footer. `enter` and `exit` do not fire on the switch, because the old page is hidden rather than
-  unmounted. React shrinks the `::view-transition` overlay to 0x0; `right: auto` on it keeps the
-  moving blocks on screen in RTL.
+  footer. Next hides the old page instead of unmounting it; React pairs the two pages through the
+  shared names, and neither component sets `enter` or `exit`. Only blocks on screen before and after
+  pair, and Next scrolls the new page to the top before React measures, so a switch from further
+  down is a plain cross-fade. Ordinary navigations start no view transition (e2e checks it). React
+  shrinks the `::view-transition` overlay to 0x0; `right: auto` on it keeps the moving blocks on
+  screen in RTL.
 
 ## Content rules
 
@@ -168,9 +171,24 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - Durations: fast 150ms (hover), base 200ms (toggles, menu, form states), slow 250ms (language
   mirror). Ease-out when something enters, ease-in when it leaves.
 - Press: `scale(0.97)` (next-case card 0.98). Links never scale.
-- Transition only `background-color, border-color, color, opacity, transform`. Never
-  `transition: all`. Focus rings never animate. No fade-in on scroll.
-- `prefers-reduced-motion: reduce`: no animation; every change is instant.
+- **Hover and press use the `transition-fast` utility** (`app/globals.css`): 150ms ease-out on
+  `color, background-color, border-color, text-decoration-color, opacity, scale, translate`.
+  Tailwind 4's `scale-*` and `translate-*` set the `scale` and `translate` properties, so a list
+  naming `transform` never animates them, and `transition-colors` also animates `outline-color`.
+  `tests/motion-guard.test.ts` fails on `transition`, `transition-colors`, `transition-all`,
+  `transform` inside `transition-[…]`, and a press scale without `transition-fast`.
+- Never `transition: all`. Focus rings never animate. No fade-in on scroll.
+- **Theme change:** the page colours swap at once. `applyTheme` puts `theme-switching` on `<html>`
+  for two frames and CSS turns every transition off under it, except the theme icons (header button
+  and menu row), which turn and cross-fade over 200ms: ease-out arriving, ease-in leaving.
+- **Mobile menu:** opens with a 16px slide and fade (200ms ease-out), closes with ease-in; the closing
+  panel takes no pointer events. Focus returns to the menu button as soon as it starts closing.
+- **Language mirror timings:** moving blocks 250ms ease-out; the old text fades out in 125ms ease-in,
+  the new text fades in over 190ms ease-out after 60ms (the board's 125ms frame shows only the new
+  text, and on phones the two sit in the same place).
+- **Contact form:** each state fades in over 200ms (`animate-state-in`), including the "Sending…"
+  label and the form coming back after "Send another message" (never on page load).
+- `prefers-reduced-motion: reduce`: no animation; every change is instant (the language switch too).
 
 ## Interaction rules
 
@@ -181,10 +199,12 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
 - **Buttons** (`components/ui/Button.tsx`): black (hover → text2), cobalt (hover → accent hover),
   outline (1px `border`; hover → surface fill and `strong` border). Pressed scales to 0.97. Busy:
   spinner, ignores clicks. Sizes: large 52/16 on phones, 56/17 from 1024px; medium 48/15.
-- **Text link:** accentText, no underline; on hover an underline 4px below.
+- **Text link:** accentText, no underline; on hover an underline 4px below; pressed deepens toward
+  the text colour (`--accent-pressed`). The underlined "All work" link turns accent on hover.
 - **Nav link:** hover 2px `strong` line; pressed line turns text colour; current page weight 600,
   2px accent line, `aria-current="page"`.
-- **Footer link:** muted 400, hover text colour with a 1px underline, current page in text colour.
+- **Footer link:** muted 400, hover text colour with a 1px underline, pressed 80% opacity, current
+  page in text colour. Band contact rows: hover accent, pressed `--accent-pressed`.
 - **Project card:** one link per card ("Read the case study" + visually hidden ": Name"), stretched
   over the card with `::after { position: absolute; inset: 0 }`. Hover: image scales 1.02 inside its
   frame and the title underlines, 150ms. Focus: the ring wraps the card, no scale.
@@ -199,8 +219,11 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   The page behind does not scroll.
 - **Language mirror:** pressing العربية / English mirrors the page instead of jumping. The blocks
   that exist in both languages move to their mirrored place (portrait, project images, case hero
-  image, figure screens); text fades in at its new place; the header does not move. 250ms ease-out,
-  transform and opacity only. Focus stays on the switch. Reduced motion: instant.
+  image or drawing, role screenshots); text fades in at its new place; the header does not move;
+  the new page opens at the top. 250ms; the browser moves snapshots, so the page never re-lays out.
+  A switch that had focus keeps it on the new page (Safari never focuses a clicked link, so a mouse
+  click there leaves focus alone). The 404's language link fades the same way. Reduced motion:
+  instant.
 
 ## Contact form
 
@@ -312,8 +335,9 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   layout below; a structurally different phone layout is a second variant (`data-variant`), never
   with ids. Lines and decoration are `aria-hidden`; labels are text. Hero drawings (Vodafone, Lean
   Academy) render only the drawing; the hero adds the caption.
-- **Mirror:** hero screens and role screenshots sit in `MirrorBlock name="case-<slug>-…"`; the
-  next-case card's media reuses `project-<slug>`.
+- **Mirror:** hero screens, hero drawings (`case-<slug>-drawing`, full width, so they cross-fade in
+  place) and role screenshots sit in `MirrorBlock name="case-<slug>-…"`; the next-case card's media
+  reuses `project-<slug>`.
 - **Next-case card:** one link named by its label and title (`aria-labelledby`); the media comes
   first on phones. Hover: surface fill, strong border, title underline; pressed scales to 0.98.
 - **Resolved board differences** (listed for Ahmed at the Phase 4 checkpoint): the desktop copy
