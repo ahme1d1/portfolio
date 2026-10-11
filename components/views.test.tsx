@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { AboutView } from "@/components/about/AboutView";
 import { CaseStudyView } from "@/components/case/CaseStudyView";
 import { ContactView } from "@/components/contact/ContactView";
@@ -11,6 +11,15 @@ import { WorkView } from "@/components/work/WorkView";
 import { CASE_SLUGS } from "@/content/cases/slugs";
 import { LOCALES, type Locale } from "@/lib/i18n/locale";
 import { router } from "@/tests/mocks/next";
+
+/** The mirror names a page gives its moving blocks, made visible to the tests. */
+vi.mock("@/components/motion/MirrorBlock", () => ({
+  MirrorBlock: ({ name, children }: { name: string; children: React.ReactNode }) => <div data-mirror={name}>{children}</div>,
+}));
+
+function mirrorNames(container: HTMLElement): string[] {
+  return [...container.querySelectorAll("[data-mirror]")].map((element) => element.getAttribute("data-mirror") ?? "");
+}
 
 function headingLevels(container: HTMLElement): number[] {
   return [...container.querySelectorAll("h1, h2, h3, h4")].map((h) => Number(h.tagName[1]));
@@ -98,5 +107,26 @@ describe("Home", () => {
     render(<HomeView locale="ar" />);
     expect(screen.getByRole("link", { name: "إيفا فارما" })).toHaveAttribute("href", "https://evapharma.com/");
     expect(screen.getByRole("heading", { level: 3, name: /مهندس واجهات أمامية أول، VOIS \(فودافون\)/ })).toBeInTheDocument();
+  });
+});
+
+describe("the language mirror", () => {
+  it.each(VIEWS)("%s names each moving block once, the same in both languages", (_, View) => {
+    const [english = [], arabic = []] = LOCALES.map((locale) => {
+      router.pathname = `/${locale}/`;
+      const { container, unmount } = render(<View locale={locale} />);
+      const names = mirrorNames(container);
+      unmount();
+      return names;
+    });
+    expect(new Set(english).size).toBe(english.length);
+    expect(arabic).toEqual(english);
+  });
+
+  it("moves the portraits and every project image", () => {
+    const namesOn = (View: View) => mirrorNames(render(<View locale="en" />).container);
+    expect(namesOn(HomeView)).toEqual(expect.arrayContaining(["portrait", "project-fantasy-eg"]));
+    expect(namesOn(AboutView)).toEqual(["about-portrait"]);
+    expect(namesOn(WorkView)).toEqual(expect.arrayContaining(CASE_SLUGS.map((slug) => `project-${slug}`)));
   });
 });

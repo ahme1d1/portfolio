@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { LOCALE_SWITCH } from "@/components/motion/MirrorBlock";
 import { ButtonLink } from "@/components/ui/Button";
 import { GlobeIcon, HomeIcon } from "@/components/ui/icons";
 import { getSiteCopy } from "@/content/site";
@@ -36,11 +37,12 @@ export function NotFoundView({ locale }: { locale: Locale }) {
           {notFound.contact}
         </ButtonLink>
       </nav>
-      {/* A missing page has no translation, so this opens the other language's home page. */}
+      {/* A missing page has no translation, so this opens the other language's home page (the text cross-fades). */}
       <Link
         href={localePath(other, "/") as Route}
         lang={other}
         hrefLang={other}
+        transitionTypes={[LOCALE_SWITCH]}
         className="inline-flex min-h-11 items-center gap-2 px-2 text-base font-medium text-accent-ink hover:underline hover:underline-offset-4"
       >
         <GlobeIcon size={17} />

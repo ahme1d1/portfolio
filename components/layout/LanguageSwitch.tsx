@@ -45,7 +45,9 @@ export function LanguageSwitch({ target, placement, className, children }: Langu
       hrefLang={target}
       transitionTypes={[LOCALE_SWITCH]}
       onNavigate={() => {
-        refocusPlacement = placement;
+        // Only a switch that had focus gets it back. Safari never focuses a clicked link, and focus
+        // moved there by script would draw a ring the person did not ask for.
+        refocusPlacement = document.activeElement === ref.current ? placement : null;
       }}
       className={className}
     >

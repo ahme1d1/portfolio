@@ -44,6 +44,12 @@ describe.each(CASES)("the %s case study", (slug) => {
     expect(arabic).toEqual(english);
   });
 
+  it("moves its hero image or drawing with the language mirror", () => {
+    const { container } = render(<CaseStudyView locale="en" slug={slug} />);
+    const first = { browser: "desktop", phones: "screen-0", diagram: "drawing" }[data.hero.kind];
+    expect(mirrorNames(container)).toContain(`case-${slug}-${first}`);
+  });
+
   it("ends with the next case study, as one link named by its label and title", () => {
     render(<CaseStudyView locale="en" slug={slug} />);
     const next = nextCaseSlug(slug);

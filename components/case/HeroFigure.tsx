@@ -60,7 +60,12 @@ function HeroStage({ slug, hero, alts, locale }: HeroProps) {
         </div>
       );
     case "diagram":
-      return <CaseDiagram id={hero.figure} locale={locale} />;
+      // Full width in both languages, so the drawing has nowhere to move: it cross-fades in place.
+      return (
+        <MirrorBlock name={`case-${slug}-drawing`}>
+          <CaseDiagram id={hero.figure} locale={locale} />
+        </MirrorBlock>
+      );
   }
 }
 

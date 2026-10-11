@@ -8,14 +8,14 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(router.search),
 }));
 
-/** next/link needs the App Router at runtime; in unit tests a plain anchor is enough. */
+/** next/link needs the App Router at runtime; in unit tests a plain anchor is enough (it shows its transition types). */
 vi.mock("next/link", () => ({
   default: ({
     href,
     children,
     onClick,
     onNavigate,
-    transitionTypes: _transitionTypes,
+    transitionTypes,
     prefetch: _prefetch,
     ...props
   }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -27,6 +27,7 @@ vi.mock("next/link", () => ({
   }) => (
     <a
       href={href}
+      data-transition-types={transitionTypes?.join(" ")}
       onClick={(event) => {
         onClick?.(event);
         const isModified = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;

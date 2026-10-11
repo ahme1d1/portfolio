@@ -16,7 +16,10 @@ describe("NotFoundView", () => {
   it("opens the other language's home page, since a missing page has no translation", () => {
     router.pathname = "/ar/nope/";
     render(<NotFoundView locale="ar" />);
-    expect(screen.getByRole("link", { name: "English" })).toHaveAttribute("href", "/en/");
+    const english = screen.getByRole("link", { name: "English" });
+    expect(english).toHaveAttribute("href", "/en/");
+    // The text cross-fades like every other language switch.
+    expect(english).toHaveAttribute("data-transition-types", "locale-switch");
   });
 
   it("names the page in its language", () => {

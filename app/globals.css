@@ -471,17 +471,21 @@
   animation-timing-function: var(--ease-enter);
 }
 
-/* The content box takes its new size at once; only the text fades. */
+/*
+ * The content box takes its new size at once; only the text fades. The old language leaves in the
+ * first half and the new one starts a moment later (the board's 125ms frame shows only the new
+ * text), so on phones, where both sit in the same place, they barely overlap. Ends at 250ms.
+ */
 ::view-transition-group(.page-fade) {
   animation: none;
 }
 
 ::view-transition-old(.page-fade) {
-  animation: 250ms var(--ease-leave) both page-fade-out;
+  animation: 125ms var(--ease-leave) both page-fade-out;
 }
 
 ::view-transition-new(.page-fade) {
-  animation: 250ms var(--ease-enter) both page-fade-in;
+  animation: 190ms var(--ease-enter) 60ms both page-fade-in;
 }
 
 @keyframes page-fade-out {

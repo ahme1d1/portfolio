@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
 import { router } from "@/tests/mocks/next";
@@ -18,6 +18,7 @@ describe("LanguageSwitch", () => {
     expect(link).toHaveAttribute("href", "/ar/work/qima/");
     expect(link).toHaveAttribute("lang", "ar");
     expect(link).toHaveAttribute("hreflang", "ar");
+    expect(link).toHaveAttribute("data-transition-types", "locale-switch");
   });
 
   it("gives focus to the same switch on the new page", async () => {
@@ -42,6 +43,26 @@ describe("LanguageSwitch", () => {
       </>,
     );
     expect(screen.getByRole("link", { name: "English" })).toHaveFocus();
+  });
+
+  it("leaves focus alone when the switch never had it (Safari does not focus a clicked link)", () => {
+    router.pathname = "/en/";
+    const { unmount } = render(
+      <LanguageSwitch target="ar" placement="header">
+        العربية
+      </LanguageSwitch>,
+    );
+    // A click without focus: the new page must not draw a focus ring the person never asked for.
+    fireEvent.click(screen.getByRole("link", { name: "العربية" }));
+    unmount();
+
+    router.pathname = "/ar/";
+    render(
+      <LanguageSwitch target="en" placement="header">
+        English
+      </LanguageSwitch>,
+    );
+    expect(screen.getByRole("link", { name: "English" })).not.toHaveFocus();
   });
 
   it("does not steal focus on a normal page load", () => {
