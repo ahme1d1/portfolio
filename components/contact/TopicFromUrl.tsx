@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { isTopic, type Topic } from "@/lib/contact/topics";
 
 /**
@@ -12,7 +12,8 @@ import { isTopic, type Topic } from "@/lib/contact/topics";
 export function TopicFromUrl({ onTopic }: { onTopic: (topic: Topic | null) => void }) {
   const value = useSearchParams().get("topic");
   const topic = isTopic(value) ? value : null;
-  useEffect(() => {
+  // Before paint, so the tile shows picked on the first frame after hydration.
+  useLayoutEffect(() => {
     onTopic(topic);
   }, [topic, onTopic]);
   return null;

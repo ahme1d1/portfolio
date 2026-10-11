@@ -218,17 +218,19 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   Without JavaScript the same `<form action method="post">` posts there directly (hidden
   `access_key`, `subject`, `from_name`). With no key the send ends in the "form not set up" error,
   without a request. Playwright builds with a stand-in key and every test intercepts the post.
-- No topic is picked unless `?topic=role|project` says so. The Contact page reads it in the browser:
-  `TopicFromUrl` calls `useSearchParams` inside its own `<Suspense fallback={null}>` and renders
-  nothing, so the form itself stays in the static HTML (a boundary around the form would replace it
-  with the fallback). It dispatches `linked`, which replaces the topic only while the person hasn't
-  picked one and nothing is sending, and does nothing when the same link is read again (effects
-  re-run when Next shows a kept page). Without JavaScript nothing is pre-selected.
-- On Contact the form has a visible "Send a message" h2 that names it (`title`), and the sent
-  heading is an h2; on Home it is named by `label` and the sent heading is an h3. Errors are language-neutral codes
+- No topic is picked unless `?topic=role|project` says so. Errors are language-neutral codes
   (`lib/contact/schema.ts`); the sentences live in `content/contact`. The copy for errors the boards
   don't show (no topic, name, message, other email problems, several fields, network, no key) was
   drafted in Phase 3 for Ahmed's approval.
+- **The topic from the link:** the Contact page reads `?topic=` in the browser. `TopicFromUrl`
+  calls `useSearchParams` inside its own `<Suspense fallback={null}>` and renders nothing, so the
+  form itself stays in the static HTML (a boundary around the form would replace it with the
+  fallback). It dispatches `linked` in a layout effect (before paint). `linked` replaces the topic
+  only while the person hasn't picked one and nothing is sending, and changes nothing when the same
+  link is read again (effects re-run when Next shows a kept page). Without JavaScript nothing is
+  pre-selected.
+- On Contact the form has a visible "Send a message" h2 that names it (`title`), and the sent
+  heading is an h2; on Home it is named by `label` and the sent heading is an h3.
 - Sending: fields `readOnly` with the grey fill, tiles disabled, the button `aria-busy` (not
   `disabled`, so it keeps focus). `aria-busy` is not set on the form: it can silence the status line.
 

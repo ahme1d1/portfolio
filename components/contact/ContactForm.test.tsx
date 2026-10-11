@@ -227,6 +227,30 @@ describe("ContactForm", () => {
     expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue("");
   });
 
+  it("follows a new link on a kept page, unless the person picked a topic", async () => {
+    const user = userEvent.setup();
+    const form = (mode: "visible" | "hidden") => (
+      <Activity mode={mode}>
+        <ContactForm copy={copy} reply={reply} label={copy.label} linkTopic />
+      </Activity>
+    );
+    router.search = "?topic=role";
+    const { rerender } = render(form("visible"));
+    expect(await screen.findByRole("radio", { name: "A role", checked: true })).toBeInTheDocument();
+
+    // Next hides the page, then shows it again for a link with another topic.
+    rerender(form("hidden"));
+    router.search = "?topic=project";
+    rerender(form("visible"));
+    expect(await screen.findByRole("radio", { name: "A project", checked: true })).toBeInTheDocument();
+
+    await user.click(screen.getByRole("radio", { name: "Something else" }));
+    rerender(form("hidden"));
+    router.search = "?topic=role";
+    rerender(form("visible"));
+    expect(screen.getByRole("radio", { name: "Something else" })).toBeChecked();
+  });
+
   it("speaks Arabic on Arabic pages", () => {
     const ar = getContactCopy("ar");
     render(<ContactForm copy={ar.form} reply={ar.reply} label={ar.form.label} />);
