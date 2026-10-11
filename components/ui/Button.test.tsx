@@ -19,6 +19,10 @@ describe("buttonClass", () => {
     expect(buttonClass({ variant: "black" })).not.toContain("w-full");
   });
 
+  it("shows the hand cursor (Tailwind 4 gives buttons the default arrow)", () => {
+    expect(buttonClass({ variant: "cobalt" })).toContain("cursor-pointer");
+  });
+
   it("eases hover and press with the shared fast transition and presses to 0.97", () => {
     const classes = buttonClass({ variant: "cobalt" });
     expect(classes).toContain("transition-fast");

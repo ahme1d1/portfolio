@@ -15,7 +15,7 @@ type ButtonStyle = {
 };
 
 const BASE =
-  "inline-flex shrink-0 items-center font-semibold whitespace-nowrap transition-fast active:scale-[0.97] aria-busy:cursor-progress";
+  "inline-flex shrink-0 cursor-pointer items-center font-semibold whitespace-nowrap transition-fast active:scale-[0.97] aria-busy:cursor-progress";
 
 /** Large: hero doors, bands, submit (52 / 16 on mobile, 56 / 17 on desktop). Medium: the CV button. */
 const SIZES: Record<ButtonSize, string> = {
