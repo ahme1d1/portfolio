@@ -13,8 +13,30 @@ export type ContactData = { topic: Topic; name: string; email: string; message: 
 
 export type EmailErrorCode = "emailMissing" | "emailNoAt" | "emailNoLocal" | "emailNoDomain" | "emailInvalid";
 
+const ERROR_CODES = ["topicMissing", "nameMissing", "messageMissing", "emailMissing", "emailNoAt", "emailNoLocal", "emailNoDomain", "emailInvalid"] as const;
+
 /** Language-neutral codes; the form shows the matching sentence from content/contact. */
-export type ErrorCode = "topicMissing" | "nameMissing" | "messageMissing" | EmailErrorCode;
+export type ErrorCode = (typeof ERROR_CODES)[number];
+
+/** The code a field falls back to when a check reports something else (e.g. a value that isn't text). */
+const FALLBACK_CODE: Record<ContactField, ErrorCode> = {
+  topic: "topicMissing",
+  name: "nameMissing",
+  email: "emailInvalid",
+  message: "messageMissing",
+};
+
+function isErrorCode(value: string): value is ErrorCode {
+  return (ERROR_CODES as readonly string[]).includes(value);
+}
+
+function isContactField(value: unknown): value is ContactField {
+  return (CONTACT_FIELDS as readonly unknown[]).includes(value);
+}
+
+function errorCode(field: ContactField, message: string): ErrorCode {
+  return isErrorCode(message) ? message : FALLBACK_CODE[field];
+}
 
 export type ContactErrors = Partial<Record<ContactField, ErrorCode>>;
 
@@ -45,6 +67,7 @@ const contactSchema = z.object({
       const problem = emailProblem(value);
       if (problem) ctx.addIssue({ code: "custom", message: problem, input: value });
     }),
+    z.maxLength(MAX_LENGTH.email, "emailInvalid"),
   ),
   message: requiredText("messageMissing", MAX_LENGTH.message),
 });
@@ -56,8 +79,8 @@ export function validateContact(values: ContactValues): ValidationResult {
   if (result.success) return { ok: true, data: result.data };
   const errors: ContactErrors = {};
   for (const issue of result.error.issues) {
-    const field = issue.path[0] as ContactField;
-    errors[field] ??= issue.message as ErrorCode;
+    const field = issue.path[0];
+    if (isContactField(field)) errors[field] ??= errorCode(field, issue.message);
   }
   return { ok: false, errors };
 }
@@ -65,5 +88,6 @@ export function validateContact(values: ContactValues): ValidationResult {
 /** Re-checks one field as it is fixed. */
 export function validateField(field: ContactField, value: string): ErrorCode | null {
   const result = contactSchema.shape[field].safeParse(value);
-  return result.success ? null : ((result.error.issues[0]?.message ?? null) as ErrorCode | null);
+  if (result.success) return null;
+  return errorCode(field, result.error.issues[0]?.message ?? "");
 }

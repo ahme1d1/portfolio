@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emailProblem, validateContact, validateField, type ContactValues } from "./schema";
+import { emailProblem, MAX_LENGTH, validateContact, validateField, type ContactValues } from "./schema";
 
 const VALID: ContactValues = { topic: "project", name: "Sara Ahmed", email: "sara@company.com", message: "A booking app." };
 
@@ -39,6 +39,16 @@ describe("validateContact", () => {
 
   it("rejects a topic that is not one of the three", () => {
     expect(validateContact({ ...VALID, topic: "spam" })).toEqual({ ok: false, errors: { topic: "topicMissing" } });
+  });
+
+  it("rejects an address longer than the email field allows", () => {
+    const long = `${"a".repeat(MAX_LENGTH.email)}@company.com`;
+    expect(validateContact({ ...VALID, email: long })).toEqual({ ok: false, errors: { email: "emailInvalid" } });
+  });
+
+  it("still names a known problem when a value isn't text at all", () => {
+    const values = { ...VALID, name: 42, message: null } as unknown as ContactValues;
+    expect(validateContact(values)).toEqual({ ok: false, errors: { name: "nameMissing", message: "messageMissing" } });
   });
 });
 

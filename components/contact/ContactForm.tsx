@@ -6,7 +6,7 @@ import { SpinnerIcon } from "@/components/ui/icons";
 import type { FormCopy } from "@/content/contact";
 import type { ContactState } from "@/lib/contact/machine";
 import { MAX_LENGTH } from "@/lib/contact/schema";
-import { accessKey, WEB3FORMS_URL } from "@/lib/contact/send";
+import { accessKey, EMAIL_FROM_NAME, EMAIL_SUBJECT, WEB3FORMS_URL } from "@/lib/contact/send";
 import type { Topic } from "@/lib/contact/topics";
 import { ErrorSummary } from "./ErrorSummary";
 import { Field } from "./Field";
@@ -99,8 +99,8 @@ function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: For
       className={`flex flex-col gap-4 lg:gap-[18px] ${state.hasStartedOver ? "animate-state-in" : ""}`}
     >
       <input type="hidden" name="access_key" value={accessKey()} />
-      <input type="hidden" name="subject" value="Portfolio message" />
-      <input type="hidden" name="from_name" value="Ahmed Gabal portfolio" />
+      <input type="hidden" name="subject" value={EMAIL_SUBJECT} />
+      <input type="hidden" name="from_name" value={EMAIL_FROM_NAME} />
       {/* Web3Forms' bot trap: people never see it, bots tick it. */}
       <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" hidden />
 

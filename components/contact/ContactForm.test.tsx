@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { Activity } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getContactCopy } from "@/content/contact";
+import { formFields } from "@/lib/contact/send";
 import { router } from "@/tests/mocks/next";
 import { ContactForm } from "./ContactForm";
 
@@ -82,6 +83,14 @@ describe("ContactForm", () => {
     expect(form).toHaveAttribute("method", "post");
     expect(container.querySelector('input[name="access_key"]')).toHaveValue("test-key");
     expect(container.querySelector('input[name="botcheck"]')).not.toBeVisible();
+  });
+
+  it("names the email the same way with or without JavaScript", () => {
+    const { container } = renderForm();
+    const sent = formFields({ topic: "project", name: "Sara", email: "sara@company.com", message: "Hi" }, "test-key");
+    const hidden = (name: string) => container.querySelector<HTMLInputElement>(`input[name="${name}"]`)?.value;
+    expect(hidden("from_name")).toBe(sent.from_name);
+    expect(sent.subject?.startsWith(`${hidden("subject")} (`)).toBe(true);
   });
 
   it("shows what to fix, moves focus to the first field and keeps what was typed", async () => {

@@ -2,6 +2,10 @@ import type { ContactData } from "./schema";
 
 export const WEB3FORMS_URL = "https://api.web3forms.com/submit";
 
+/** How the email Ahmed receives is named; the no-JS form posts the same values. */
+export const EMAIL_SUBJECT = "Portfolio message";
+export const EMAIL_FROM_NAME = "Ahmed Gabal portfolio";
+
 /** Long enough for a slow phone connection, short enough that nobody waits on a dead one. */
 const TIMEOUT_MS = 15_000;
 
@@ -22,7 +26,7 @@ const CONTROL_CHARS = /[\u0000-\u001f\u007f]+/g;
 
 /** The email Ahmed receives: a subject that says what the message is about and who sent it. */
 function subjectFor(data: ContactData): string {
-  return `Portfolio message (${data.topic}) from ${data.name.replace(CONTROL_CHARS, " ")}`;
+  return `${EMAIL_SUBJECT} (${data.topic}) from ${data.name.replace(CONTROL_CHARS, " ")}`;
 }
 
 /**
@@ -33,7 +37,7 @@ export function formFields(data: ContactData, key: string): Record<string, strin
   return {
     access_key: key,
     subject: subjectFor(data),
-    from_name: "Ahmed Gabal portfolio",
+    from_name: EMAIL_FROM_NAME,
     topic: data.topic,
     name: data.name,
     email: data.email,
