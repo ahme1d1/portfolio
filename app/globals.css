@@ -375,8 +375,10 @@
 @custom-variant ar (&:lang(ar));
 
 /*
- * Theme-dependent pieces that must be right before hydration (no JS state): the header
- * button's icons cross-fade, and labels show only for the theme they describe.
+ * Theme-dependent pieces that must be right before hydration (no JS state): the theme icons
+ * (header button and menu row) cross-fade with a turn, and labels show only for the theme they
+ * describe. Each icon eases out when it arrives and in when it leaves: a transition takes the
+ * timing of the state it goes to, so the hidden states carry --ease-leave.
  */
 .theme-show-dark {
   display: none;
@@ -384,14 +386,22 @@
 
 .theme-icon {
   grid-area: 1 / 1;
-  transition:
-    opacity 200ms var(--ease-enter),
-    rotate 200ms var(--ease-enter);
+  transition-property: opacity, rotate;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-enter);
 }
 
 .theme-icon-sun {
   opacity: 0;
   rotate: 30deg;
+  transition-timing-function: var(--ease-leave);
+}
+
+/* While the theme changes (lib/theme/theme.ts) the page colours swap at once; only the icons turn. */
+.theme-switching :not(.theme-icon),
+.theme-switching ::before,
+.theme-switching ::after {
+  transition: none !important;
 }
 
 :root[data-theme="dark"] {
@@ -404,10 +414,12 @@
   & .theme-icon-sun {
     opacity: 1;
     rotate: 0deg;
+    transition-timing-function: var(--ease-enter);
   }
   & .theme-icon-moon {
     opacity: 0;
     rotate: -30deg;
+    transition-timing-function: var(--ease-leave);
   }
 }
 
@@ -422,18 +434,21 @@
     & .theme-icon-sun {
       opacity: 1;
       rotate: 0deg;
+      transition-timing-function: var(--ease-enter);
     }
     & .theme-icon-moon {
       opacity: 0;
       rotate: -30deg;
+      transition-timing-function: var(--ease-leave);
     }
   }
 }
 
 /*
  * The language mirror (Interactions board): blocks in both languages move to their mirrored
- * place, text cross-fades, the header swaps without moving. 250ms, ease-out, transform and
- * opacity only. Only the language switch starts a view transition.
+ * place, text cross-fades, the header swaps without moving. 250ms, ease-out. The browser moves
+ * and fades snapshots, so the page itself never re-lays out. Only the language switch names the
+ * blocks; ordinary navigations animate nothing (e2e/motion.spec.ts).
  */
 ::view-transition {
   pointer-events: none;
