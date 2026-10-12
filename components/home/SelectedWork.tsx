@@ -1,7 +1,7 @@
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ProjectGrid } from "@/components/cards/ProjectGrid";
 import { ButtonLink } from "@/components/ui/Button";
-import { SECTION } from "@/components/ui/layout";
+import { MB_HEAD, SECTION } from "@/components/ui/layout";
 import { TextLink } from "@/components/ui/TextLink";
 import { getHomeCopy } from "@/content/home";
 import { getProjectCard, MAIN_PROJECT_SLUGS } from "@/content/projects";
@@ -17,11 +17,12 @@ export function SelectedWork({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <div className="mb-[18px] flex items-baseline justify-between gap-6 lg:mb-5">
+      <div className={`${MB_HEAD} flex items-baseline justify-between gap-6`}>
         <h2 id={headingId} className="type-h2">
           {work.title}
         </h2>
-        <div className="hidden lg:block">
+        {/* The link's 44px target is 10px taller than its text above and below; the negative margin keeps it from pushing the cards down (the gap stays 24, measured in both languages). */}
+        <div className="hidden lg:-my-2.5 lg:block">
           <TextLink href={workPath} variant="head">
             {work.all}
           </TextLink>

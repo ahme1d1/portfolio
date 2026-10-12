@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ROW_Y } from "./layout";
 import { Rich } from "./Rich";
 
 export type DefinitionRow = {
@@ -16,6 +17,8 @@ type DefinitionRowsProps = {
   /** The term column from md: narrow 180px, wide 220px (260px in Arabic, whose terms run longer). */
   termWidth: "narrow" | "wide";
   value?: "body" | "large";
+  /** Two columns of rows from lg (About's quick facts); one column by default. */
+  columns?: 1 | 2;
 };
 
 const COLUMNS = {
@@ -33,15 +36,18 @@ const VALUE = {
   large: "type-body-lg",
 } as const;
 
-/** A divided list of terms and values: side by side from md, stacked on phones. */
-export function DefinitionRows({ rows, term, termWidth, value = "body" }: DefinitionRowsProps) {
+/** A divided list of terms and values: side by side from md, stacked on phones; optionally two columns of rows from lg. */
+export function DefinitionRows({ rows, term, termWidth, value = "body", columns = 1 }: DefinitionRowsProps) {
   const valueTone = (row: DefinitionRow) => (value === "large" || row.isEmphasis ? "text-ink" : "text-ink-2");
   return (
-    <dl className="m-0 border-b border-line">
+    // With an odd number of rows, the last one spans both columns so the bottom border still lines up.
+    <dl
+      className={`m-0 border-b border-line ${columns === 2 ? "lg:grid lg:grid-cols-2 lg:gap-x-14 lg:[&>div:last-child:nth-child(odd)]:col-span-2" : ""}`}
+    >
       {rows.map((row) => (
         <div
           key={row.term}
-          className={`flex flex-col gap-1 border-t border-line py-3.5 md:grid md:items-baseline md:gap-8 md:py-5 ${COLUMNS[termWidth]}`}
+          className={`flex flex-col gap-1 border-t border-line ${ROW_Y} md:grid md:items-baseline md:gap-8 ${COLUMNS[termWidth]}`}
         >
           <dt className={TERM[term]}>
             <Rich text={row.term} />

@@ -22,7 +22,7 @@ export function EarlierWork({ locale }: { locale: Locale }) {
       <h2 id={headingId} className="type-h2">
         {earlier.title}
       </h2>
-      <p className="m-0 mt-2.5 mb-3 type-body-lg text-ink-2 lg:mt-3 lg:mb-7">{earlier.lede}</p>
+      <p className="m-0 mt-3 mb-4 type-body-lg text-ink-2 lg:mb-6">{earlier.lede}</p>
 
       <table className="hidden w-full border-collapse md:table">
         <thead>

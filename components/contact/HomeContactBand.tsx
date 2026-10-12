@@ -16,14 +16,14 @@ export function HomeContactBand({ locale }: { locale: Locale }) {
   return (
     <section aria-labelledby={headingId} className={SECTION}>
       <div data-reveal-style="scale" className="flex flex-col gap-4 rounded-panel-sm bg-surface px-4 py-6 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:rounded-panel lg:p-12">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           <h2 id={headingId} className="type-h2">
             {band.title}
           </h2>
           <p className="m-0 type-body-lg text-ink-2">
             <Rich text={band.lede} />
           </p>
-          <div className="mt-2 hidden lg:block">
+          <div className="mt-3 hidden lg:block">
             <ContactLinks labels={social} variant="column" />
           </div>
         </div>

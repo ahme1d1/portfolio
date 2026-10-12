@@ -7,7 +7,7 @@ export function ErrorSummary({ text }: { text: string }) {
   return (
     <div
       role="alert"
-      className="flex animate-state-in items-start gap-3 rounded-control border-2 border-error bg-page px-[18px] py-4"
+      className="flex animate-state-in items-start gap-3 rounded-control border-2 border-error bg-page px-4 py-4"
     >
       <AlertCircleIcon size={20} className="mt-0.5 shrink-0 text-error" />
       <p className="m-0 type-body text-ink">

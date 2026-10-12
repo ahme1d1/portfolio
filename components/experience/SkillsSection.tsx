@@ -1,5 +1,5 @@
 import { DefinitionRows, type DefinitionRow } from "@/components/ui/DefinitionRows";
-import { SECTION } from "@/components/ui/layout";
+import { MB_HEAD, SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { getExperienceCopy } from "@/content/experience";
 import { EMPHASIS_SKILL, SKILL_KEYS } from "@/content/experience/data";
@@ -18,7 +18,7 @@ export function SkillsSection({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <h2 id={headingId} className="mb-4 type-h2 md:mb-7">
+      <h2 id={headingId} className={`${MB_HEAD} type-h2`}>
         {skills.title}
       </h2>
       <DefinitionRows rows={rows} term="label" termWidth="wide" />

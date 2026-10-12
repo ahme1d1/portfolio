@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 
-/** A case-study section: an h2, then its paragraphs, rows and figures 20px apart (14 on phones). */
+/** A case-study section: an h2 24px above its content, then paragraphs, rows and figures 20px apart (16 on phones). */
 export function CaseSection({ headingId, title, children }: { headingId: string; title: string; children: ReactNode }) {
   return (
-    <section aria-labelledby={headingId} className={`${SECTION} flex flex-col gap-3.5 lg:gap-5`}>
-      <h2 id={headingId} className="type-h2">
+    <section aria-labelledby={headingId} className={`${SECTION} flex flex-col gap-4 lg:gap-5`}>
+      <h2 id={headingId} className="type-h2 lg:mb-1">
         {title}
       </h2>
       {children}

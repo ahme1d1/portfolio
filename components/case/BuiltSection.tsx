@@ -27,7 +27,7 @@ export function BuiltSection({ headingId, title, built, data, locale }: BuiltSec
         return (
           <div key={group.title ?? index} className="contents">
             {group.title ? (
-              <h3 className="mt-2 type-h3-card lg:mt-4">
+              <h3 className="mt-2 type-h3-card lg:mt-5">
                 <Rich text={group.title} />
               </h3>
             ) : null}

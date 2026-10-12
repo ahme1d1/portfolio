@@ -1,11 +1,11 @@
+import { ROW_Y } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import type { Block, Metric } from "@/content/cases/types";
 
 /** h3 under a section, h4 under a group heading such as "Key decisions". */
 export type BlockHeading = "h3" | "h4";
 
-const ROW =
-  "flex flex-col gap-1.5 border-t border-line py-4 md:grid md:grid-cols-[260px_minmax(0,1fr)] md:items-baseline md:gap-6 md:py-5";
+const ROW = `flex flex-col gap-1.5 border-t border-line ${ROW_Y} md:grid md:grid-cols-[260px_minmax(0,1fr)] md:items-baseline md:gap-6`;
 const ROW_TEXT = "m-0 max-w-[560px] type-body text-ink-2 ar:max-w-[520px]";
 
 /** A divided list: the heading on the start side, its text beside it; stacked on phones. */
@@ -31,13 +31,13 @@ export function RowList({ blocks, heading }: { blocks: readonly Block[]; heading
 export function BlockGrid({ blocks, heading }: { blocks: readonly Block[]; heading: BlockHeading }) {
   const Heading = heading;
   return (
-    <div data-reveal-style="still" className="mt-2 border-b border-line md:mt-4 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-7 md:border-b-0">
+    <div data-reveal-style="still" className="mt-2 border-b border-line md:mt-4 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-7 md:border-b-0 lg:mt-5">
       {blocks.map((block) => (
         <div key={block.title} className="flex flex-col gap-1.5 border-t border-line py-4 md:gap-2 md:pt-5 md:pb-0">
           <Heading className="type-h3-label">
             <Rich text={block.title} />
           </Heading>
-          <p className="m-0 type-body text-ink-2">
+          <p className="m-0 max-w-[560px] type-body text-ink-2 ar:max-w-[520px]">
             <Rich text={block.body} />
           </p>
         </div>
@@ -69,11 +69,11 @@ export function MetricRows({ metrics }: { metrics: readonly Metric[] }) {
 /** "Ideas I dropped": a short bulleted list on a bordered panel, at text width. */
 export function DroppedPanel({ title, items }: { title: string; items: readonly string[] }) {
   return (
-    <div className="mt-1 flex max-w-[760px] flex-col gap-2.5 rounded-panel-sm border border-line p-[18px] md:rounded-panel md:px-7 md:py-6">
+    <div className="mt-1 flex max-w-[760px] flex-col gap-2 rounded-panel-sm border border-line p-4 md:rounded-panel md:px-7 md:py-6">
       <h3 className="type-h3-row">
         <Rich text={title} />
       </h3>
-      <ul className="m-0 flex max-w-[578px] list-disc flex-col gap-2 ps-[18px] type-body text-ink-2 md:gap-1.5 ar:max-w-[538px]">
+      <ul className="m-0 flex max-w-[580px] list-disc flex-col gap-2 ps-5 type-body text-ink-2 md:gap-1.5 ar:max-w-[540px]">
         {items.map((item) => (
           <li key={item}>
             <Rich text={item} />

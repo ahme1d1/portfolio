@@ -1,6 +1,6 @@
 import { ButtonLink } from "@/components/ui/Button";
 import { DownloadIcon } from "@/components/ui/icons";
-import { SECTION } from "@/components/ui/layout";
+import { GAP_ROW, MB_HEAD, ROW_Y, SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { TextLink } from "@/components/ui/TextLink";
 import { getCompany, type CompanyKey } from "@/content/companies";
@@ -16,9 +16,9 @@ function Row({ locale, company, copy }: { locale: Locale; company: CompanyKey; c
   const { name, url, years } = getCompany(locale, company);
   const row = copy.rows[company];
   return (
-    <li className="flex flex-col gap-1.5 border-t border-line py-[18px] md:grid md:grid-cols-[200px_minmax(0,1fr)] md:gap-8 md:py-6">
-      <p className="m-0 text-sm text-muted tabular-nums md:pt-[3px] md:text-base">{years}</p>
-      <div className="flex flex-col gap-1.5 md:gap-2">
+    <li className={`flex flex-col gap-1.5 border-t border-line ${ROW_Y} md:grid md:grid-cols-[200px_minmax(0,1fr)] md:items-baseline md:gap-8`}>
+      <p className="m-0 text-sm text-muted tabular-nums md:text-base">{years}</p>
+      <div className={`flex flex-col ${GAP_ROW}`}>
         <h3 className="type-h3-row">
           {row.role}
           {copy.separator}
@@ -47,7 +47,7 @@ export function ExperiencePreview({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <div className="mb-4 flex items-end justify-between gap-6 lg:mb-5">
+      <div className={`${MB_HEAD} flex items-end justify-between gap-6`}>
         <h2 id={headingId} className="type-h2">
           {experience.title}
         </h2>

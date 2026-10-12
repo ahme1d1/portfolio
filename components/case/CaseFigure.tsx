@@ -14,7 +14,7 @@ const PANELS: Record<FigurePanel, string> = {
 /** A figure's caption: muted, kept to a short measure. */
 export function FigureCaption({ text }: { text: string }) {
   return (
-    <figcaption className="max-w-[520px] type-caption text-muted ar:max-w-[480px]">
+    <figcaption className="max-w-[480px] type-caption text-muted ar:max-w-[440px]">
       <Rich text={text} />
     </figcaption>
   );

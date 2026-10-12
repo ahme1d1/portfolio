@@ -1,4 +1,4 @@
-import { SECTION } from "@/components/ui/layout";
+import { MB_HEAD, SECTION } from "@/components/ui/layout";
 import type { ServicesCopy } from "@/content/services";
 import { SERVICE_DATA, SERVICE_KEYS } from "@/content/services/data";
 import type { Locale } from "@/lib/i18n/locale";
@@ -12,7 +12,7 @@ export function ServiceList({ locale, copy }: { locale: Locale; copy: ServicesCo
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <h2 id={headingId} className="mb-4 type-h2 lg:mb-6">
+      <h2 id={headingId} className={`${MB_HEAD} type-h2`}>
         {copy.title}
       </h2>
       <div className="border-b border-line">

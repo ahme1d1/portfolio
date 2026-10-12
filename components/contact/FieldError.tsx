@@ -5,7 +5,7 @@ import { Rich } from "@/components/ui/Rich";
 export function FieldError({ id, text }: { id: string; text: string }) {
   return (
     <span id={id} className="flex animate-state-in items-start gap-1.5 text-sm leading-[1.45] font-medium text-error">
-      <AlertCircleIcon size={15} className="mt-[3px] shrink-0" />
+      <AlertCircleIcon size={15} className="mt-[calc((1lh-15px)/2)] shrink-0" />
       <span>
         <Rich text={text} />
       </span>

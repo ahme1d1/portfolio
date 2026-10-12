@@ -1,7 +1,7 @@
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ProjectGrid } from "@/components/cards/ProjectGrid";
 import { LetsTalkBand } from "@/components/contact/LetsTalkBand";
-import { INTRO, PAGE_X, SECTION } from "@/components/ui/layout";
+import { GAP_HEAD, INTRO, MB_HEAD, PAGE_X, SECTION } from "@/components/ui/layout";
 import { getProjectCard, MAIN_PROJECT_SLUGS } from "@/content/projects";
 import { getWorkCopy } from "@/content/work";
 import type { Locale } from "@/lib/i18n/locale";
@@ -17,14 +17,14 @@ export function WorkView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-3 pt-8 lg:gap-4 lg:pt-18`}>
+      <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col ${GAP_HEAD} pt-8 lg:pt-18`}>
         <h1 id={titleId} className="type-h1">
           {copy.title}
         </h1>
-        <p className="m-0 max-w-[720px] type-lede text-ink-2">{copy.lede}</p>
+        <p className="m-0 max-w-[34em] type-lede text-ink-2">{copy.lede}</p>
       </section>
       <section aria-labelledby={mainId} className={SECTION}>
-        <h2 id={mainId} className="mb-[18px] type-h2 lg:mb-6">
+        <h2 id={mainId} className={`${MB_HEAD} type-h2`}>
           {copy.main.title}
         </h2>
         <ProjectGrid>

@@ -21,11 +21,11 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
       <div className={`${INTRO} flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-18`}>
-        <div className="flex flex-col gap-3.5 lg:gap-6">
+        <div className="flex flex-col gap-4 lg:gap-6">
           <h1 id={headingId} className="type-h1">
             {page.title}
           </h1>
-          <p className="m-0 max-w-[720px] type-lede text-ink-2">
+          <p className="m-0 max-w-[34em] type-lede text-ink-2">
             <Rich text={band.lede} />
           </p>
           <section aria-labelledby={directId} className="mt-6 hidden lg:block">

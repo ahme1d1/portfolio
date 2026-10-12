@@ -14,7 +14,7 @@ import { pageId } from "@/lib/ids";
 function Availability({ text }: { text: string }) {
   return (
     <p className="m-0 inline-flex items-start gap-2 self-start rounded-2xl bg-ok-bg py-2 ps-3 pe-3.5 text-[13px] leading-[18px] font-medium text-ok-ink ar:leading-[22px] lg:items-center lg:self-auto lg:rounded-full lg:px-3 lg:py-1.5 lg:text-sm lg:leading-normal">
-      <span className="mt-[5.5px] size-[7px] shrink-0 rounded-full bg-ok ar:mt-[7.5px] lg:mt-0" />
+      <span className="mt-[calc((1lh-7px)/2)] size-[7px] shrink-0 rounded-full bg-ok lg:mt-0" />
       <span className="text-balance">{text}</span>
     </p>
   );
@@ -32,9 +32,9 @@ export function HomeHero({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} pt-8 lg:pt-18`}>
-      <div className="flex flex-col gap-[18px] md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-start md:gap-8 lg:gap-14">
-        <div className={`${INTRO} flex flex-col gap-[18px] lg:gap-8 lg:pt-1`}>
-          <div className="flex flex-col gap-[18px] lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
+      <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-start md:gap-8 lg:gap-14">
+        <div className={`${INTRO} flex flex-col gap-4 lg:gap-8 lg:pt-1`}>
+          <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center lg:gap-4">
             <p className="m-0 flex flex-col gap-0.5">
               <span className="text-base leading-[1.25] font-semibold lg:text-lg">{name}</span>
               <span className="text-sm leading-[1.25] text-ink-2 lg:text-base">{hero.role}</span>

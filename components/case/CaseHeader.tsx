@@ -49,7 +49,7 @@ type CaseHeaderProps = {
 /** Breadcrumb, status and role, the title, what it is, and the live site when there is one. */
 export function CaseHeader({ titleId, title, copy, shared, site, status, work }: CaseHeaderProps) {
   return (
-    <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-3.5 pt-3 lg:gap-5 lg:pt-8`}>
+    <section aria-labelledby={titleId} className={`${PAGE_X} ${INTRO} flex flex-col gap-4 pt-3 lg:gap-5 lg:pt-8`}>
       <Breadcrumb label={shared.breadcrumbLabel} workLabel={work.label} workHref={work.href} current={title} />
       <div className="flex flex-wrap items-center gap-2.5 lg:gap-3.5">
         {status ? <StatusPill kind={status.kind} label={status.label} className="lg:px-3 lg:text-sm" /> : null}
@@ -60,12 +60,12 @@ export function CaseHeader({ titleId, title, copy, shared, site, status, work }:
       <h1 id={titleId} className="type-h1">
         <Rich text={title} />
       </h1>
-      <p className="m-0 max-w-[720px] type-lede text-ink-2">
+      <p className="m-0 max-w-[34em] type-lede text-ink-2">
         <Rich text={copy.lede} />
       </p>
       {copy.notice ? (
-        <p className="m-0 flex items-start gap-2 text-sm text-muted lg:items-center lg:text-[15px]">
-          <LockIcon size={16} className="mt-0.5 shrink-0 lg:mt-0" />
+        <p className="m-0 flex max-w-[720px] items-start gap-2 text-sm text-muted lg:text-[15px]">
+          <LockIcon size={16} className="mt-[calc((1lh-16px)/2)] shrink-0" />
           <span>
             <Rich text={copy.notice} />
           </span>

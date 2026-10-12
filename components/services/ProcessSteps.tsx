@@ -1,4 +1,4 @@
-import { SECTION } from "@/components/ui/layout";
+import { MB_HEAD, SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import type { ServicesCopy } from "@/content/services";
 import type { Locale } from "@/lib/i18n/locale";
@@ -14,14 +14,14 @@ export function ProcessSteps({ locale, copy }: { locale: Locale; copy: ServicesC
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <h2 id={headingId} className="mb-4 type-h2 lg:mb-7">
+      <h2 id={headingId} className={`${MB_HEAD} type-h2`}>
         {copy.title}
       </h2>
       <ol className="m-0 list-none border-b border-line p-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:border-b-0">
         {copy.steps.map((step, index) => (
           <li
             key={step.title}
-            className="grid grid-cols-[28px_minmax(0,1fr)] items-baseline gap-x-2.5 gap-y-1 border-t border-line py-5 lg:flex lg:flex-col lg:items-stretch lg:gap-2.5 lg:pb-0"
+            className="grid grid-cols-[28px_minmax(0,1fr)] items-baseline gap-x-2.5 gap-y-1.5 border-t border-line py-4 lg:flex lg:flex-col lg:items-stretch lg:gap-2 lg:pt-6 lg:pb-0"
           >
             <span aria-hidden="true" className="text-base font-semibold text-accent-ink tabular-nums lg:text-[17px]">
               {index + 1}

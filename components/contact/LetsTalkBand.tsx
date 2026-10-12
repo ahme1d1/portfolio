@@ -52,7 +52,7 @@ export function LetsTalkBand({ locale, page, lede }: LetsTalkBandProps) {
   return (
     <section aria-labelledby={headingId} className={SECTION}>
       <div data-reveal-style="scale" className="flex flex-col gap-3.5 rounded-panel-sm bg-surface px-4 py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-12 lg:rounded-panel lg:p-10">
-        <div className="flex flex-col gap-3.5 lg:gap-3">
+        <div className="flex flex-col gap-3">
           <h2 id={headingId} className="type-h2">
             {band.title}
           </h2>

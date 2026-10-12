@@ -1,6 +1,6 @@
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { ProjectGrid } from "@/components/cards/ProjectGrid";
-import { SECTION } from "@/components/ui/layout";
+import { GAP_LEDE, MB_HEAD, SECTION } from "@/components/ui/layout";
 import { MORE_PROJECT_SLUGS } from "@/content/cases/slugs";
 import { getProjectCard } from "@/content/projects";
 import { getWorkCopy } from "@/content/work";
@@ -15,7 +15,7 @@ export function MoreProjects({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <div className="mb-[18px] flex flex-col gap-1.5 lg:mb-6 lg:gap-2">
+      <div className={`${MB_HEAD} flex flex-col ${GAP_LEDE}`}>
         <h2 id={headingId} className="type-h2">
           {more.title}
         </h2>

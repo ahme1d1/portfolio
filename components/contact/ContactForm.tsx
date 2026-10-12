@@ -96,7 +96,7 @@ function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: For
       aria-label={title ? undefined : label}
       aria-labelledby={title ? titleId : undefined}
       onSubmit={submit}
-      className={`flex flex-col gap-4 lg:gap-[18px] ${state.hasStartedOver ? "animate-state-in" : ""}`}
+      className={`flex flex-col gap-4 lg:gap-5 ${state.hasStartedOver ? "animate-state-in" : ""}`}
     >
       <input type="hidden" name="access_key" value={accessKey()} />
       <input type="hidden" name="subject" value={EMAIL_SUBJECT} />
@@ -105,7 +105,7 @@ function FormBody({ id, form, copy, reply, label, title, sentHeadingLevel }: For
       <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" hidden />
 
       {title ? (
-        <div className="flex flex-col gap-1.5 lg:gap-3">
+        <div className="flex flex-col gap-2 lg:gap-3">
           <h2 id={titleId} className="type-h2-panel">
             {title}
           </h2>

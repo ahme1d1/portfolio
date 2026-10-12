@@ -1,4 +1,4 @@
-import { SECTION } from "@/components/ui/layout";
+import { MB_HEAD, SECTION } from "@/components/ui/layout";
 import { Rich } from "@/components/ui/Rich";
 import { TextLink } from "@/components/ui/TextLink";
 import type { ServicesCopy } from "@/content/services";
@@ -29,7 +29,7 @@ function WhyRow({ locale, item, targets }: WhyRowProps) {
   const links = pairLinks(locale, item.links, targets);
 
   return (
-    <li className="flex flex-col gap-2 border-t border-line pt-5 pb-2.5 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:py-7">
+    <li className="flex flex-col gap-2 border-t border-line pt-4 pb-2 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14 lg:py-6">
       <h3 className="type-h3-row">
         <Rich text={item.title} />
       </h3>
@@ -68,7 +68,7 @@ export function WhyList({ locale, copy }: { locale: Locale; copy: WhyCopy }) {
 
   return (
     <section aria-labelledby={headingId} className={SECTION}>
-      <h2 id={headingId} className="mb-4 type-h2 lg:mb-6">
+      <h2 id={headingId} className={`${MB_HEAD} type-h2`}>
         {copy.title}
       </h2>
       <ul className="m-0 list-none border-b border-line p-0">

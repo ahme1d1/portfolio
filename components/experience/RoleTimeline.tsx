@@ -1,4 +1,4 @@
-import { PAGE_X, REVEAL } from "@/components/ui/layout";
+import { MB_HEAD, PAGE_X, REVEAL } from "@/components/ui/layout";
 import { getExperienceCopy } from "@/content/experience";
 import { ROLE_KEYS } from "@/content/experience/data";
 import type { Locale } from "@/lib/i18n/locale";
@@ -15,7 +15,7 @@ export function RoleTimeline({ locale }: { locale: Locale }) {
 
   return (
     <section aria-labelledby={headingId} className={`${PAGE_X} ${REVEAL} pt-14`}>
-      <h2 id={headingId} className="mb-6 type-h2 md:mb-7">
+      <h2 id={headingId} className={`${MB_HEAD} type-h2`}>
         {roles.title}
       </h2>
       <ol className="m-0 max-w-[796px] list-none p-0">

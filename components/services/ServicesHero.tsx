@@ -18,8 +18,8 @@ export function ServicesHero({ locale, copy }: ServicesHeroProps) {
       <h1 id={titleId} className="type-h1">
         {copy.title}
       </h1>
-      <p className="m-0 max-w-[720px] type-lede text-ink-2">{copy.lede}</p>
-      <div className="mt-1.5 flex flex-col gap-2.5 lg:mt-2 lg:flex-row lg:flex-wrap lg:gap-3">
+      <p className="m-0 max-w-[34em] type-lede text-ink-2">{copy.lede}</p>
+      <div className="flex flex-col gap-2.5 lg:mt-2 lg:flex-row lg:flex-wrap lg:gap-3">
         <ButtonLink href={contactHref(locale, "project")} variant="cobalt" arrow="always" className={buttonWidth}>
           {copy.start}
         </ButtonLink>
