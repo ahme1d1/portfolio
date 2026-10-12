@@ -10,32 +10,42 @@ describe("AboutView", () => {
     expect(screen.getByRole("heading", { level: 1, name: "About" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Ahmed Gabal" })).toHaveAttribute("fetchpriority", "high");
     expect(container.querySelectorAll('[fetchpriority="high"]')).toHaveLength(1);
-    expect(screen.getByText(/^Features move one at a time/)).toBeInTheDocument();
+    expect(screen.getByText(/^I'm a senior frontend engineer based in Egypt/)).toBeInTheDocument();
   });
 
-  it("links to the full experience and the Fantasy EG case study, and nowhere to the CV", () => {
+  it("opens one door for hiring and one for a project, each with its own links and no CV link", () => {
     render(<AboutView locale="en" />);
-    expect(screen.getByRole("link", { name: "Full experience" })).toHaveAttribute("href", "/en/experience/");
-    expect(screen.getByRole("link", { name: "Fantasy EG case study" })).toHaveAttribute("href", "/en/work/fantasy-eg/");
+    const hiring = screen.getByRole("heading", { level: 2, name: "If you're hiring" }).closest("div")!;
+    expect(within(hiring).getByRole("link", { name: "Full experience" })).toHaveAttribute("href", "/en/experience/");
+    expect(within(hiring).getByRole("link", { name: "Vodafone case study" })).toHaveAttribute(
+      "href",
+      "/en/work/vodafone-modernization/",
+    );
+    const project = screen.getByRole("heading", { level: 2, name: "If you have a project" }).closest("div")!;
+    expect(within(project).getByRole("link", { name: "Service details" })).toHaveAttribute("href", "/en/services/");
+    expect(within(project).getByRole("link", { name: "Fantasy EG case study" })).toHaveAttribute("href", "/en/work/fantasy-eg/");
     expect(screen.queryByRole("link", { name: /CV/ })).not.toBeInTheDocument();
   });
 
-  it("lists how I work as four headed rows", () => {
+  it("leaves the migration's method to Experience and the Vodafone case study", () => {
     render(<AboutView locale="en" />);
-    const section = screen.getByRole("region", { name: "How I work" });
-    expect(within(section).getAllByRole("heading", { level: 3 })).toHaveLength(4);
+    expect(screen.queryByRole("region", { name: "How I work" })).not.toBeInTheDocument();
+    const main = document.body.textContent ?? "";
+    for (const detail of ["jQuery", "kill switch", "rollout", "legacy"]) expect(main).not.toContain(detail);
   });
 
-  it("gives the quick facts with the availability line from Home, and no empty outside-work panel", () => {
+  it("gives the quick facts, the availability line from Home, and no empty outside-work panel or placeholder", () => {
     render(<AboutView locale="en" />);
     const section = screen.getByRole("region", { name: "Quick facts" });
     expect(within(section).getAllByRole("term").map((dt) => dt.textContent)).toEqual([
       "Based in",
+      "Work",
       "Experience",
       "Languages",
       "Education",
       "Availability",
     ]);
+    expect(within(section).getByText("Remote, open to relocating to the GCC")).toBeInTheDocument();
     expect(within(section).getByText("Open to new opportunities and freelance projects")).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Outside work" })).not.toBeInTheDocument();
     expect(document.body.textContent).not.toContain("[");
@@ -49,8 +59,9 @@ describe("AboutView", () => {
   it("speaks Arabic, saying what the English says", () => {
     render(<AboutView locale="ar" />);
     expect(screen.getByRole("heading", { level: 1, name: "نبذة عني" })).toBeInTheDocument();
-    expect(screen.getByText(/^إلى جانب عملي في/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "دراسة حالة Fantasy EG" })).toHaveAttribute("href", "/ar/work/fantasy-eg/");
+    expect(screen.getByRole("heading", { level: 2, name: "إذا كنت توظّف" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "إذا كان لديك مشروع" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "دراسة حالة Fantasy EG" })).toHaveAttribute("href", "/ar/work/fantasy-eg/");
   });
 });
 

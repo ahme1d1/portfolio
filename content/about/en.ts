@@ -1,38 +1,32 @@
-/** About page copy (About board). The availability line is Home's, so the two never drift. */
+/**
+ * About page copy. Who Ahmed is and what he likes building, then one door per audience (hiring, a
+ * project), then the quick facts. The migration's method lives on Experience and the Vodafone case
+ * study; here it is one linked line. The availability line is Home's, so the two never drift.
+ */
 export const enAbout = {
   title: "About",
   intro: [
-    "I'm a senior frontend engineer with 5+ years on large web applications. At VOIS I own the frontend architecture of a programme migrating a Vodafone application from jQuery to React and TypeScript, while it stays in production.",
-    "Features move one at a time: each is rebuilt as a React module that replaces its legacy widget in place.",
-    "Alongside my job at VOIS I build products end to end. I designed and built Fantasy EG, fantasy football for the Egyptian Premier League, from scratch, starting with the design: the app, the website, the admin dashboard and the API. I work in Arabic and English.",
+    "I'm a senior frontend engineer based in Egypt, with 5+ years on large web and mobile apps.",
+    "The work I like most comes in two kinds: taking a new product from its first design to launch, and modernizing a big app while people keep using it.",
   ],
-  links: { experience: "Full experience", fantasy: "Fantasy EG case study" },
   portraitAlt: "Ahmed Gabal",
-  how: {
-    title: "How I work",
-    items: [
-      {
-        title: "Change running systems in small, reversible steps.",
-        body: "New code replaces old in place, module by module, each behind a rollout flag with a kill switch that reverts it on its own.",
-      },
-      {
-        title: "Treat the legacy code as the spec.",
-        body: "I extract the business rules it already encodes and cover each one in tests, so a migration cannot silently change behaviour.",
-      },
-      {
-        title: "Build right-to-left in from the first screen.",
-        body: "Arabic-first interfaces built with CSS logical properties, so the layout flips direction without a parallel stylesheet.",
-      },
-      {
-        title: "Own the whole product when it's needed.",
-        body: "On Fantasy EG I owned the product rules, data model, API, admin dashboard and deployment as well as the frontend.",
-      },
-    ],
+  doors: {
+    hiring: {
+      title: "If you're hiring",
+      body: "I'm open to senior frontend roles, remote or with a move to the GCC. Today I'm at VOIS, where I own the frontend architecture of a large Vodafone app as it moves to React.",
+      links: { experience: "Full experience", vodafone: "Vodafone case study" },
+    },
+    project: {
+      title: "If you have a project",
+      body: "I take on freelance web apps, dashboards, company sites and mobile apps, in Arabic, English or both. On Fantasy EG I did all of it: the design, the app, the website, the admin dashboard and the API.",
+      links: { services: "Service details", fantasy: "Fantasy EG case study" },
+    },
   },
   facts: {
     title: "Quick facts",
     rows: [
       { term: "Based in", value: "Egypt" },
+      { term: "Work", value: "Remote, open to relocating to the GCC" },
       { term: "Experience", value: "5+ years" },
       { term: "Languages", value: "Arabic (native) and English" },
       { term: "Education", value: "Bachelor of Computer and Information Sciences, Mansoura University (2021)" },
