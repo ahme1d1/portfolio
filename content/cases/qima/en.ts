@@ -26,25 +26,25 @@ export const enQima: CaseCopy = {
     ],
   },
   summary: {
-    owned: "On the website, the parts that talk to the backend: sign-in, catalogue, cart, payments, exam booking and the learner's account. On the dashboard, I started the project and built most of its modules.",
-    hard: "Server rendering when only the browser knows who is signed in, dates that moved a day on their way to the API, and schedule changes that touch booked seats.",
-    result: "The website is in production, with the live catalogue, checkout and exam booking. The admin dashboard runs beside it.",
+    owned: "On the website, the parts that talk to the backend: sign-in, catalog, cart, payments, exam booking and the learner's account. On the dashboard, I started the project and built most of its modules.",
+    hard: "Server rendering when only the browser knows who is signed in. On the dashboard, dates that slipped a day and schedule edits that touch booked seats.",
+    result: "The website is in production for learners, and the admin dashboard for staff and test centers is deployed beside it.",
     resultNote: null,
   },
   problem: [
-    "Qima sells international professional certifications in Saudi Arabia, from Microsoft, Adobe, Apple, Cisco, PMI and others, and runs the exams with accredited bodies such as Certiport. A learner buys an exam or a training-and-exam package, pays, and books a seat for the exam, online or at a test centre. Results, certificates and refunds follow in their account.",
-    "Many learners are funded by the Human Resources Development Fund (HRDF, {هدف}), so the catalogue had to show which certificates it supports. Everything had to be in Arabic and right to left, with prices in riyals and payment by card, Mada, Apple Pay or instalments. Qima's staff and the test centres needed their own tool to run the catalogue, the vouchers, the exam sessions and the bookings.",
+    "The certifications come from Microsoft, Adobe, Apple, Cisco, PMI and others, and Qima runs the exams with accredited bodies such as Certiport. A learner buys an exam or a training-and-exam package and sits it online or at a test center. Results, certificates and refunds follow in their account.",
+    "Many learners are funded by the Human Resources Development Fund (HRDF, {هدف}), so the catalog had to show which certificates it supports. Prices are in riyals, and learners pay in full or in installments. Qima's staff and the test centers also needed their own tool to run the catalog, the vouchers, the exam sessions and the bookings.",
   ],
   role: {
-    intro: "I worked on both frontends, in a team of five. The API is a separate backend.",
+    intro: "I worked on both frontends, with teammates on each.",
     items: [
       {
         title: "Website",
-        body: "A teammate built most of the page layouts. I connected the site to the backend: sign-in, the catalogue and its filters, cart and checkout, payments with PayTabs (card, Mada, Apple Pay), Tabby and Tamara, refunds, coupons, the multi-step exam booking with its calendar, and the learner's account area.",
+        body: "A teammate built most of the page layouts. I connected the site to the backend: sign-in, the catalog and its filters, cart, checkout, payments, refunds, coupons, the multi-step exam booking with its calendar, and the learner's account.",
       },
       {
         title: "Admin dashboard",
-        body: "I started the project and built most of its modules: vouchers, exams and exam sessions, bookings with a calendar, payments and cancellations, offers and coupons, test labs and devices, and the reports module. Teammates built the content pages, users, roles and permissions, and the home and test-centre dashboards.",
+        body: "I built the modules for vouchers, exams and their sessions, bookings with a calendar, payments and cancellations, offers and coupons, test labs and devices, and reports. Teammates built the content pages, users, roles and permissions, and the home and test-center dashboards.",
       },
       {
         title: "Project setup",
@@ -53,16 +53,16 @@ export const enQima: CaseCopy = {
     ],
     shots: {
       alts: [
-        "The certificate catalogue in Arabic, with a search box and filters for category, price, HRDF support and discount",
+        "The certificate catalog in Arabic, with a search box and filters for category, price, HRDF support and discount",
         "A certificate's page in Arabic, IC3 Spark, with its HRDF badge, description and contents",
       ],
       caption:
-        "The catalogue with its four filters, and a certificate's page with its HRDF badge. A teammate built these layouts; I connected their data, the filters and adding to the cart.",
+        "The catalog with its four filters, and a certificate's page with its HRDF badge. On these pages, the data, the filters and adding to the cart are my work.",
     },
   },
   built: {
     intro:
-      "Two Angular 20 apps on one REST API. The website renders on the server and sets each page's title and meta tags; the dashboard is a single-page app behind a login.",
+      "The website renders on the server and sets each page's title and meta tags. The dashboard runs only in the browser. Both use Angular 20 and call the same REST API.",
     groups: [
       {
         title: "On the website",
@@ -70,19 +70,19 @@ export const enQima: CaseCopy = {
         blocks: [
           {
             title: "Prerender only what's public",
-            body: "Home, the catalogue and the static pages are prerendered. Certificate details, the cart, payment status and every account page render on the server for each request, because they depend on the visitor or on live data.",
+            body: "Home, the catalog and the static pages are prerendered. Certificate details, the cart, payment status and every account page render on the server for each request, because they depend on the visitor or on live data.",
           },
           {
             title: "A cart before sign-in",
-            body: "Visitors can fill a cart without an account. It's kept in the browser and merged into their account's cart when they sign in, and an item picked just before the sign-in page is added right after it.",
+            body: "Visitors can fill a cart without an account. It's kept in the browser and merged into their account's cart when they sign in. If they picked an item just before signing in, it's added right after.",
           },
           {
             title: "One booking flow for both kinds of voucher",
-            body: "A learner books with a voucher bought on the site or with a voucher code from outside it. Both run the same four steps (exam, time, details, confirm) on one shared state contract, saved in session storage so a refresh keeps the progress. The exam can be online or at a test centre.",
+            body: "A learner books with a voucher bought on the site or with a voucher code from outside it. Both take the same four steps (exam, time, details, confirm), and the choices so far are kept in session storage, so a refresh doesn't lose them.",
           },
           {
             title: "Only bookable days",
-            body: "The booking calendar disables every day that has no session with free seats or that falls on a holiday, and keeps the chosen day and time when the learner goes back a step.",
+            body: "The booking calendar disables every day that falls on a holiday or has no session with free seats. If the learner goes back a step, the chosen day and time stay selected.",
           },
           {
             title: "Free orders skip the payment page",
@@ -100,7 +100,7 @@ export const enQima: CaseCopy = {
           },
           {
             title: "Built on PrimeNG's Sakai template",
-            body: "I started from PrimeNG's Sakai admin template for the layout and menu, then built the modules on PrimeNG, with FullCalendar for the bookings calendar and a shared export to PDF and Excel.",
+            body: "I started from Sakai, PrimeNG's ready-made admin template, for the layout and menu. The modules use PrimeNG components, FullCalendar for the bookings calendar, and a shared export to PDF and Excel.",
           },
         ],
       },
@@ -111,35 +111,35 @@ export const enQima: CaseCopy = {
     items: [
       {
         title: "Server rendering without the session",
-        body: "The sign-in token lives in the browser, so the server can't tell who is signed in. The route guards read that as signed out and sent signed-in learners to the login page, and the page flashed before the browser put it right. I made the server report the state as unknown instead: the guards let the page render, and the browser decides once the page hydrates.",
+        body: "The sign-in token lives in the browser, so the server can't tell who is signed in. The route guards took that as signed out and sent signed-in learners to the login page, which flashed before the browser corrected it. I made the server report the state as unknown, so the guards let the page render and the browser decides once it hydrates.",
       },
       {
         title: "Dates that moved a day",
-        body: "The dashboard sent dates with *{toISOString}*, which converts them to UTC. Saudi Arabia is three hours ahead, so a date picked at midnight reached the API as the day before. I replaced every call with one helper that sends the local date and time.",
+        body: "The dashboard turned every date into UTC before sending it. Saudi Arabia is three hours ahead of UTC, so a date picked at midnight reached the API as the day before. I replaced that conversion everywhere with one helper that sends the local date and time.",
       },
       {
         title: "Changing a schedule people have booked",
-        body: "Exam sessions repeat by day and time, and learners book seats in them. Editing or deleting a time slot first shows what it would change: the sessions affected, how many have bookings, and the learners in them, with a list to export to Excel. The API can block the change.",
+        body: "Exam sessions repeat by day and time, and learners book seats in them. Before a time slot is edited or deleted, the dashboard shows what would change: the sessions affected, how many have bookings, and the learners in them. This list exports to Excel, and the API can block the change.",
       },
     ],
     dropped: {
       title: "Ideas I dropped",
       items: [
         "Server rendering on the admin dashboard. I removed it early on; the dashboard is a single-page app behind a login, served by nginx.",
-        "Prerendering the certificate, cart and account pages for a fixed list of ids. They render on the server for each request instead.",
+        "Prerendering the certificate, cart and account pages for a fixed list of ids. Server rendering per request replaced it.",
         "Google sign-in on the website. I built it through Keycloak, then switched it off; learners sign in with a username and password.",
       ],
     },
   },
   result: {
     paragraphs: [
-      "The website is in production, in Arabic: the catalogue, cart, checkout, exam booking and the learner's account all run on the live API. The admin dashboard is deployed beside it, in Arabic and English.",
+      "The live website is in Arabic, and its catalog, cart, checkout, exam booking and learner accounts all run on the production API. The admin dashboard works in Arabic and English.",
     ],
     blocks: null,
     metrics: [
       {
         value: "5",
-        label: "Ways to pay at checkout: card, Mada and Apple Pay through PayTabs, or instalments with Tabby or Tamara",
+        label: "Ways to pay at checkout: card, Mada and Apple Pay through PayTabs, or installments with Tabby or Tamara",
       },
       { value: "133", label: "Routes in the admin dashboard, in Arabic and English" },
       { value: "19", label: "Report pages in the dashboard, each with export to PDF and Excel" },

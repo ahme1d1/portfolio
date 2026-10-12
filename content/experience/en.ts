@@ -9,7 +9,7 @@ export type RoleCopy = {
   location: string;
   /** The paragraph before the bullets (the current role only). */
   lead: string | null;
-  /** `*Bold lead-in:*` then the rest. */
+  /** One plain sentence each, 30 words or fewer (tested). */
   bullets: readonly string[];
   subRole: { title: string; bullets: readonly string[] } | null;
   /** "Selected projects" chips; empty when there are none. */
@@ -25,23 +25,24 @@ const roles: Readonly<Record<RoleKey, RoleCopy>> = {
     title: "Senior Frontend Engineer",
     company: "VOIS (Vodafone Intelligent Solutions)",
     location: EGYPT,
-    lead: "Own the frontend architecture for a programme migrating a large legacy JavaScript/jQuery application, served by an OpenText CMS, to React and TypeScript. Features are rebuilt as independently mountable modules that replace legacy widgets in place, so React and the legacy application run side by side in production, with no big-bang rewrite.",
+    lead: "Own the frontend architecture for a program moving a large legacy jQuery application, served by an OpenText CMS, to React and TypeScript. Each feature is rebuilt as a React module that replaces its legacy widget in place, so the old and new code run side by side in production.",
     bullets: [
-      "*Designed the migration architecture:* module conventions, a typed API layer that cancels superseded requests so a slow response never overwrites a newer one, cross-module communication through a typed callback bus, and per-environment rollout flags with a kill switch that reverts any module on its own.",
-      "*Fixed two high-impact defects a passing build and test suite missed:* a Vite dependency-externalization issue that shipped a blank page to production, and an outage-handling flaw where a failed backend response looked like a valid negative answer and could show users a wrong result about their account.",
-      "*Built a reusable React/TypeScript data table* that replaced a legacy jQuery DataTables implementation and a separate JSON-driven table path: one component with sticky headers, global search, cascading column filters, merged-cell sorting, column visibility and pagination.",
-      "*Rebuilt internal tools used by Vodafone Germany teams* as React modules (customer number lookup, roaming eligibility, store locator), plus the typed callback bus that became the permanent integration API between them.",
-      "*Used the legacy codebase as the migration specification:* extracted its business rules and covered each one in Vitest and React Testing Library suites, so the migration could not silently change behaviour.",
-      "*Improved security, accessibility and build performance:* removed an XSS surface created by templated innerHTML, replaced misapplied ARIA roles with semantic markup and screen-reader text, and reworked the Vite build so a heavy vendor bundle no longer loads on pages that never use it.",
-      "*Enforced TypeScript strict mode and zero-warning ESLint* in the team's CI pipeline, documented each module's API contracts and deliberate divergences from legacy behaviour, and reviewed pull requests across both the legacy and React codebases.",
+      "Designed the migration architecture: module conventions, a typed API layer that ignores stale responses, a typed callback bus, and rollout flags per environment with a kill switch per module.",
+      "Fixed two defects the build and tests missed: a Vite bundling error that shipped a blank page, and failed backend responses that could show users a wrong account result.",
+      "Built a reusable React and TypeScript data table that replaced jQuery DataTables and a second table setup: sticky headers, search, cascading column filters, merged-cell sorting, column visibility and pagination.",
+      "Rebuilt internal tools for Vodafone Germany teams as React modules (customer number lookup, roaming eligibility, store locator), linked by the callback bus that became the permanent integration API.",
+      "Treated the legacy code as the specification: extracted its business rules and covered each one in Vitest and React Testing Library tests, so behavior could not change unnoticed.",
+      "Removed an XSS risk in innerHTML templates and replaced misused ARIA roles with semantic markup and screen-reader text.",
+      "Reworked the Vite build so a heavy vendor bundle no longer loads on pages that never use it.",
+      "Enforced TypeScript strict mode and zero-warning ESLint in CI, documented each module's API and its intended differences from the legacy code, and reviewed pull requests in both codebases.",
     ],
     subRole: {
       title: "Vodafone Italy: Angular Developer",
       bullets: [
-        "Developed and maintained customer-facing Vodafone applications for the Italian market (payments, offers, invoices, timeline, top-up, login, registration and history), integrated with existing backend REST services.",
-        "Implemented complex state management and reactive data flows with RxJS, NgRx and Angular Signals.",
-        "Contributed to Angular version upgrades, migrating features while preserving functional parity and backward compatibility.",
-        "Built and maintained reusable components, and refactored legacy code to make it faster and easier to read and change.",
+        "Developed and maintained customer-facing Vodafone apps for the Italian market (payments, offers, invoices, timeline, top-up, login, registration and history) on the existing backend REST services.",
+        "Managed app state and reactive data flows with RxJS, NgRx and Angular Signals.",
+        "Helped with Angular version upgrades, and migrated features without changing their behavior or breaking backward compatibility.",
+        "Built reusable components and refactored legacy code to run faster and be easier to read and change.",
         "Took over regression and functional testing during QA absences, after a formal handover, so releases were still tested before they shipped.",
       ],
     },
@@ -53,10 +54,10 @@ const roles: Readonly<Record<RoleKey, RoleCopy>> = {
     location: EGYPT,
     lead: null,
     bullets: [
-      "Rebuilt React applications on Next.js: marketing and corporate sites moved to static generation for faster first paint and search visibility, while authenticated dashboards stayed client-rendered.",
-      "Developed reusable component sets that shortened implementation time on later projects.",
-      "Provided technical guidance and onboarding for junior developers joining the team.",
-      "Worked with UX/UI designers and backend engineers to integrate frontend features with backend services.",
+      "Rebuilt React applications on Next.js: marketing and corporate sites moved to static generation to load faster and rank in search, while signed-in dashboards stayed client-rendered.",
+      "Built reusable component sets that cut implementation time on later projects.",
+      "Onboarded and mentored junior developers joining the team.",
+      "Worked with UX/UI designers and backend engineers to connect frontend features to backend services.",
     ],
     subRole: null,
     projects: ["EVA Pharma corporate website", "Curium corporate website", "Acticolla landing page", "Medsulto admin dashboard"],
@@ -68,9 +69,9 @@ const roles: Readonly<Record<RoleKey, RoleCopy>> = {
     lead: null,
     bullets: [
       "Integrated REST and GraphQL APIs into production applications built with Angular and Vue.js.",
-      "Designed and developed multiple admin dashboards backing production mobile applications.",
-      "Diagnosed and fixed defects across several legacy projects, working incrementally inside unfamiliar codebases.",
-      "Translated UI/UX wireframes into responsive, SEO-friendly production markup.",
+      "Designed and built several admin dashboards behind production mobile apps.",
+      "Found and fixed defects in several legacy projects, in small steps inside codebases new to me.",
+      "Turned UI/UX wireframes into responsive production pages with markup search engines can read.",
     ],
     subRole: null,
     projects: ["Kemitt e-commerce", "twjeih e-learning", "Aqarat real estate"],

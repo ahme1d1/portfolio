@@ -7,8 +7,7 @@ export const enCulturalBridgeDiagrams = {
     loginLink: { above: "Login as organizer", below: "with an API token" },
     admin: { eyebrow: "For the client's team", name: "Admin dashboard", detail: "Nuxt 3, PrimeVue, in the browser" },
     api: { eyebrow: "Shared by every app", name: "REST API", detail: "At /api/v1, answers in Arabic" },
-    caption:
-      "The first link carries the ticket QR code, scanned by staff to record attendance. The second lets admins open the organizer dashboard as any partner. An Android app for the public uses the same API.",
+    caption: "An Android app for the public uses the same API.",
   },
 };
 

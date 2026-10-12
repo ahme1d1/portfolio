@@ -96,7 +96,7 @@ describe("Home", () => {
   it("opens with the hero sentence and the two doors", () => {
     render(<HomeView locale="en" />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "I build and modernize large web apps in React and TypeScript, in English and Arabic.",
+      "I build and modernize large web and mobile apps, from the first design to launch.",
     );
     expect(screen.getByRole("link", { name: "Hiring? See my CV & experience" })).toHaveAttribute("href", "/en/experience/");
     expect(screen.getByRole("link", { name: "Have a project? Let's build it" })).toHaveAttribute("href", "/en/contact/?topic=project");

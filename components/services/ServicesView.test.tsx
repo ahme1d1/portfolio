@@ -76,7 +76,7 @@ describe("ServicesView in English", () => {
     render(<ServicesView locale="en" />);
     expect(screen.getByRole("heading", { level: 1, name: "Services" })).toBeInTheDocument();
     expect(
-      screen.getByText("Freelance web and mobile work in English and Arabic, with right-to-left built in from the first screen."),
+      screen.getByText("Freelance web and mobile work in Arabic and English, with right-to-left built in from the first screen."),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Start a project" })).toHaveAttribute("href", "/en/contact/?topic=project");
     expect(screen.getByRole("link", { name: "See my work" })).toHaveAttribute("href", "/en/work/");
@@ -149,9 +149,9 @@ describe("ServicesView in Arabic", () => {
     expect(link.querySelector("bdi")).toHaveAttribute("dir", "ltr");
   });
 
-  it("asks what to build in the band", () => {
+  it("names what to build in the band", () => {
     render(<ServicesView locale="ar" />);
-    expect(screen.getByText("لوحة تحكم أم موقع أم تطبيق أم المنتج كله؟ أخبرني ما الذي تريد بناءه.")).toBeInTheDocument();
+    expect(screen.getByText("اكتب لي عن لوحة التحكم أو الموقع أو التطبيق أو المنتج الكامل الذي تحتاجه.")).toBeInTheDocument();
   });
 });
 

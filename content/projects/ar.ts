@@ -18,7 +18,7 @@ export const arProjects: ProjectsCopy = {
     },
     "vodafone-modernization": {
       title: "تحديث نظام فودافون",
-      description: "نقل تطبيق {jQuery} يعمل في الإنتاج إلى {React} و {TypeScript} وحدةً بوحدة، دون إعادة كتابة ودون توقف.",
+      description: "نقل تطبيق {jQuery} إلى {React} و {TypeScript} وحدةً بوحدة، بينما يواصل العمل في الإنتاج.",
       mockup: {
         before: "قبل",
         after: "الآن، والنظام يعمل",
@@ -45,7 +45,7 @@ export const arProjects: ProjectsCopy = {
     "lean-academy": {
       title: "لين أكاديمي {(Lean Academy)}",
       description:
-        "منصة تعليمية تشترك فيها جهات وتشغّلها كلٌّ منها باسمها: منشئ مواقع وتقارير ومحادثة مباشرة ودورات {SCORM}.",
+        "منصة تعليمية تشترك فيها جهات وتشغّلها كلٌّ منها باسمها: منشئ مواقع وتقارير ومحادثة مباشرة ودورات تعليمية بصيغة {SCORM}.",
       mockup: { sections: ["القسم الرئيسي", "الدورات", "التذييل"], result: "منشئ المواقع" },
     },
   },

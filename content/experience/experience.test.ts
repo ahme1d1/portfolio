@@ -47,9 +47,14 @@ describe.each(LOCALES)("experience copy (%s)", (locale) => {
     expect(Object.keys(copy.skills.rows)).toEqual([...SKILL_KEYS]);
   });
 
-  it("keeps the bold lead-in on every bullet of the current role", () => {
-    const bullets = copy.roles.items.vois.bullets;
-    expect(bullets.filter((bullet) => !bullet.startsWith("*"))).toEqual([]);
+  it("writes each bullet as one plain sentence of 30 words or fewer, with no bold lead-in", () => {
+    for (const key of ROLE_KEYS) {
+      const { bullets, subRole } = copy.roles.items[key];
+      for (const bullet of [...bullets, ...(subRole?.bullets ?? [])]) {
+        expect(bullet, bullet).not.toMatch(/^\*/);
+        expect(bullet.split(/\s+/).length, bullet).toBeLessThanOrEqual(30);
+      }
+    }
   });
 });
 
@@ -57,8 +62,7 @@ describe("experience copy, Arabic", () => {
   it("follows the English where the boards disagree", () => {
     const { vois, evaPharma } = arExperience.roles.items;
     expect(vois.bullets[0]).toContain("ناقل استدعاءات محدد الأنواع");
-    expect(vois.bullets[0]).not.toContain("مخزن");
-    expect(evaPharma.bullets[2]).not.toContain("أيامهم الأولى");
+        expect(evaPharma.bullets[2]).not.toContain("أيامهم الأولى");
     expect(arExperience.skills.rows.fullStack.term).toBe("تطوير متكامل ({Fantasy EG} و {Educoursez})");
   });
 

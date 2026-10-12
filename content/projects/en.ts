@@ -51,7 +51,7 @@ export const enProjects = {
     "lean-academy": {
       title: "Lean Academy",
       description:
-        "A learning platform that organizations subscribe to and run as their own: website builder, reports, live chat and SCORM courses.",
+        "A learning platform that organizations subscribe to and run as their own: website builder, reports, live chat and SCORM e-learning courses.",
       mockup: { sections: ["Hero", "Courses", "Footer"], result: "Website builder" },
     },
   },

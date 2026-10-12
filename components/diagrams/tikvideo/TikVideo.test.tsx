@@ -25,7 +25,7 @@ describe("TikVideoArchitecture", () => {
 
   it("captions the figure", () => {
     render(<TikVideoArchitecture locale="en" />);
-    const caption = screen.getByText(/^The API and its services are the backend team's work\./);
+    const caption = screen.getByText(/^For payment, the website asks the API to start one/);
     expect(caption.closest("figcaption")).not.toBeNull();
   });
 

@@ -20,7 +20,7 @@ export const enVodafoneDiagrams = {
       eyebrow: "Typed API layer",
       title: "Cancels superseded requests",
       detail: "A slow response can never overwrite a newer one.",
-      cancelled: "Request 1 cancelled",
+      cancelled: "Request 1 canceled",
       used: "Request 2 is used",
     },
     modules: {

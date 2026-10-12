@@ -97,10 +97,10 @@ describe("ExperienceView in English", () => {
     expect(within(vois as HTMLElement).getByText("Angular, RxJS, NgRx, Angular Signals")).toBeInTheDocument();
   });
 
-  it("keeps the bold lead-in of each bullet", () => {
+  it("writes the bullets as plain sentences, with no bold lead-in", () => {
     render(<ExperienceView locale="en" />);
-    const lead = screen.getByText("Designed the migration architecture:");
-    expect(lead.tagName).toBe("STRONG");
+    const [vois] = roleItems();
+    expect((vois as HTMLElement).querySelector("li strong")).toBeNull();
   });
 
   it("lists selected projects and dashboards as chips", () => {

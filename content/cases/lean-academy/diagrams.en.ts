@@ -5,7 +5,7 @@ export const enLeanDiagrams = {
     offersLabel: "What the platform offers",
     offers: ["Courses", "Exams", "Certificates", "Reports", "Live chat", "Plans and add-ons"],
     /** In order; each one gets its own mini website on the drawing. */
-    organizations: ["A government body", "A company", "A training centre"],
+    organizations: ["A government body", "A company", "A training center"],
     getsLabel: "What it gets",
     gets: [
       { name: "Website", highlighted: true },

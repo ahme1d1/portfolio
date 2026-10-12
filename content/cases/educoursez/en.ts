@@ -2,7 +2,7 @@ import type { CaseCopy } from "../types";
 
 export const enEducoursez: CaseCopy = {
   title: null,
-  meta: "Sole engineer, 7 of 8 phases built",
+  meta: "Sole engineer",
   lede: "An Arabic-first education platform for Egyptian university students: a mobile app for students, a dashboard for admins and instructors, and the API behind both.",
   notice: null,
   hero: {
@@ -15,8 +15,8 @@ export const enEducoursez: CaseCopy = {
       "The student app: home in Arabic, a course's lessons, and home in English with the dark theme. Screens from the app in development, with test data.",
   },
   facts: {
-    role: [{ text: "Sole engineer on the student app, dashboard and API", note: null }],
-    status: [{ text: "In development", note: "7 of 8 phases built, no public link yet" }],
+    role: [{ text: "The student app, dashboard and API", note: null }],
+    status: [{ text: "In development", note: "No public link yet" }],
     platforms: [
       { text: "Student mobile app", note: "Expo, React Native" },
       { text: "Admin & instructor dashboard", note: "Nuxt 4" },
@@ -25,27 +25,29 @@ export const enEducoursez: CaseCopy = {
   },
   summary: {
     owned: "All three parts, phase by phase: the Expo app, the Nuxt 4 dashboard and the NestJS API.",
-    hard: "Right-to-left on React Native, offline exam answers against the server's timer, and a player that keeps students out of YouTube's interface.",
+    hard: "Getting React Native to lay out Arabic correctly, and accepting exam answers made offline while the server keeps the time. The video player also had to keep students out of YouTube's interface.",
     result: "Seven of eight phases are built; it has not launched yet.",
     resultNote: null,
   },
   problem: [
-    "Educoursez is for Egyptian university students. Its catalogue follows the way their universities are organized (university, faculty, department, level), so a student sees the courses of their own faculty, with their own level first.",
-    "It had to be Arabic-first and right-to-left from the first screen, with English beside it, and cover the whole loop: sign up with a WhatsApp-verified number, join a course, watch its videos, sit timed exams and message the instructor. Instructors and admins needed their own tool to run all of it.",
+    "The course catalog follows the way Egyptian universities are organized (university, faculty, department, level), so students see the courses of their own faculty, with their own level first.",
+    "Students needed the whole loop in one app: sign up with a WhatsApp-verified number, join a course, watch its videos, sit timed exams and message the instructor. It had to be right-to-left from the first screen, with English beside Arabic. Instructors and admins needed their own tool to run it all.",
   ],
   role: {
-    intro:
-      "I'm the only engineer, and I build all three parts. Work runs in phases: a written plan agreed before any code, the build in all three repositories, then code and security reviews, green CI and a short note on how to test it.",
+    intro: "I'm the only engineer, and I build all three parts. Each phase runs the same way.",
     items: [
-      { title: "Student app", body: "Expo and React Native" },
-      { title: "Dashboard", body: "Nuxt 4, for admins and instructors" },
-      { title: "API", body: "NestJS, Prisma and PostgreSQL" },
+      { title: "Plan", body: "A written plan for the phase, agreed before any code" },
+      { title: "Build", body: "The phase built in all three repositories" },
+      {
+        title: "Review and close",
+        body: "Code and security reviews, every CI check passing, and a short note on how to test it",
+      },
     ],
     shots: null,
   },
   built: {
     intro:
-      "One API serves both clients, and it is the authority: the app may compute what it shows, but progress, enrolment, scores and the time left in an exam always come from the server.",
+      "The API is the authority for both clients. The app may compute what it shows, but progress, enrollment, scores and the time left in an exam always come from the server.",
     groups: [
       {
         title: "What a student can do",
@@ -53,11 +55,11 @@ export const enEducoursez: CaseCopy = {
         blocks: [
           {
             title: "Sign up",
-            body: "An Egyptian number that must be on WhatsApp, verified by a WhatsApp code. One device per student; a student number and a private QR code.",
+            body: "An Egyptian number that must be on WhatsApp, verified by a WhatsApp code. Each student gets one device, a student number and a private QR code.",
           },
           {
             title: "Academic info",
-            body: "University, faculty, department and level, in that order, mandatory and enforced by the database. Changing the university clears what's below.",
+            body: "The four academic fields are mandatory, filled in order and enforced by the database. Changing the university clears the fields below it.",
           },
           {
             title: "Courses and joining",
@@ -85,29 +87,29 @@ export const enEducoursez: CaseCopy = {
     items: [
       {
         title: "Right-to-left on React Native",
-        body: "React Native 0.86 has no logical start or end for text, and on Android an input aligns by its physical side: an Arabic field starts on the right. One module owns both mappings; lint bans *{textAlign}* and physical edges everywhere else. Numbers and codes sit in Unicode isolates, or Android reverses them.",
+        body: "React Native 0.86 has no logical start or end for text. On Android a text field also aligns by left and right, so an Arabic one must be set to start on the right. One module handles both, and a lint rule blocks *{textAlign}* and left or right edges elsewhere. Numbers and codes are wrapped in invisible Unicode characters, or Android reverses them.",
       },
       {
         title: "Offline answers against the server's clock",
-        body: "The server keeps the timer, and it runs while the student is away. Yet answers made offline must sync later. The rule: an answer counts if it reaches the server before time-up plus a two-minute grace. The server closes expired attempts itself, on the next request or in a 30-second sweep.",
+        body: "The server keeps the timer, and it keeps running while the student is away, yet answers made offline reach the server later. An answer counts if it arrives before time is up, or within a two-minute grace period after that. The server closes expired attempts itself, on the next request or in a sweep every 30 seconds.",
       },
       {
         title: "Keeping students out of YouTube's interface",
-        body: "Videos play in the app's own page around YouTube's IFrame API, controls off. A cover layer takes every touch, and the web view loads only its own page and this video's embed. Anything else fails closed. The id can still be read from the phone's traffic, so protected hosting is planned as its own phase.",
+        body: "Videos play in the app's own page, built on YouTube's IFrame API with its controls off. A cover layer takes every touch, and the web view loads only that page and this video's embed; anything else is blocked. The video's id can still be read from the phone's traffic, so protected hosting is planned as its own phase.",
       },
     ],
     dropped: {
-      title: "Dropped or deferred",
+      title: "Ideas I dropped or deferred",
       items: [
-        "The app doesn't force right-to-left app-wide, so switching language needs no reload.",
-        "Bunny for video hosting was rejected, because its bill grows with every view.",
-        "The screen-recording warning and account block moved to the final phase.",
+        "Forcing right-to-left on the whole app. Leaving it off means switching language needs no reload.",
+        "Bunny for video hosting, rejected because its bill grows with every view.",
+        "The screen-recording warning and the account block, moved to the final phase.",
       ],
     },
   },
   result: {
     paragraphs: [
-      "Not launched yet. Seven of eight phases are built and closed in all three repositories; the last (profile, settings and account blocking) is next.",
+      "Seven of eight phases are built and closed in all three repositories. The last one (profile, settings and account blocking) is next, and the platform has not launched yet.",
     ],
     blocks: null,
     metrics: [
@@ -121,11 +123,11 @@ export const enEducoursez: CaseCopy = {
   learned: [
     {
       title: "Put the rule in the linter",
-      body: "Banning physical edges kept right-to-left correct on every new screen, with nobody having to remember to check.",
+      body: "A lint error stops a left or right edge the moment it is written, on every new screen.",
     },
     {
       title: "Let the server own what counts",
-      body: "Because time, progress and scores live on the API, accepting answers made offline is safe.",
+      body: "Decide early which side has the final word. Here it was the server, and that settled how offline answers work.",
     },
     { title: "Plan each phase first", body: "Product questions get answered in the plan, before the build starts." },
   ],

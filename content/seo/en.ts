@@ -9,7 +9,7 @@ export const enSeo: SeoCopy = {
   home: {
     title: "Senior Frontend Engineer, React and TypeScript",
     description:
-      "I build and modernize large web apps in React and TypeScript, in English and Arabic. Senior Frontend Engineer at VOIS, open to roles and freelance projects.",
+      "I build and modernize large web and mobile apps, from the first design to launch. Senior Frontend Engineer at VOIS, open to roles and freelance projects.",
   },
   work: {
     title: "Work and case studies: web and mobile apps",
@@ -24,12 +24,12 @@ export const enSeo: SeoCopy = {
   services: {
     title: "Freelance apps and sites in Arabic and English",
     description:
-      "Web apps, dashboards, landing pages and mobile apps in English and Arabic, with right-to-left built in from the first screen. Quoted after a short call.",
+      "Web apps, dashboards, landing pages and mobile apps in Arabic and English, with right-to-left built in from the first screen. Quoted after a short call.",
   },
   about: {
     title: "About me, a senior frontend engineer in Egypt",
     description:
-      "Senior frontend engineer in Egypt with 5+ years on large web apps. I own the frontend architecture of a Vodafone migration and built Fantasy EG on my own.",
+      "Senior frontend engineer in Egypt with 5+ years on large web and mobile apps. Open to remote roles or a move to the GCC, and to freelance projects.",
   },
   contact: {
     title: "Contact me about a role or a project",

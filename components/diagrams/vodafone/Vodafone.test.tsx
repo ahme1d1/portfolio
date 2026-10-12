@@ -73,7 +73,7 @@ describe("VodafoneArchitecture", () => {
     expect(figure).not.toBeNull();
     expect(screen.getByText("Typed API layer")).toBeInTheDocument();
     expect(screen.getByText("Cancels superseded requests")).toBeInTheDocument();
-    expect(screen.getByText("Request 1 cancelled").closest("s")).not.toBeNull();
+    expect(screen.getByText("Request 1 canceled").closest("s")).not.toBeNull();
     expect(screen.getByText("Request 2 is used")).toBeInTheDocument();
     expect(screen.getAllByText("React module")).toHaveLength(2);
     expect(screen.getAllByText("Flag on")).toHaveLength(2);

@@ -8,7 +8,6 @@ export const arCulturalBridgeDiagrams: CulturalBridgeDiagramsCopy = {
     loginLink: { above: "الدخول باسم المنظّم", below: "برمز دخول من الواجهة البرمجية" },
     admin: { eyebrow: "لفريق العميل", name: "لوحة تحكم الإدارة", detail: "{Nuxt 3} و {PrimeVue}، في المتصفح" },
     api: { eyebrow: "تشترك فيها كل التطبيقات", name: "الواجهة البرمجية {REST}", detail: "على {/api/v1}، وتُجيب بالعربية" },
-    caption:
-      "الرابط الأول رمز {QR} في التذكرة، يمسحه الموظفون لتسجيل الحضور. والثاني يتيح للمشرفين فتح لوحة تحكم المنظّمين باسم أي شريك. ويستخدم تطبيق {Android} للجمهور الواجهة البرمجية نفسها.",
+    caption: "يستخدم تطبيق {Android} للجمهور الواجهة البرمجية نفسها.",
   },
 };

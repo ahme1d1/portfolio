@@ -12,7 +12,7 @@ export const enLean: CaseCopy = {
   },
   facts: {
     role: [{ text: "Frontend on the dashboard", note: "In a team of about eight frontend developers" }],
-    languages: [{ text: "English and Arabic", note: "Right to left switches with the language" }],
+    languages: [{ text: "Arabic and English", note: "Right to left switches with the language" }],
     platforms: [
       { text: "Portals for admins, instructors and students", note: null },
       { text: "A website for each organization", note: null },
@@ -22,42 +22,42 @@ export const enLean: CaseCopy = {
   summary: {
     owned:
       "My biggest piece was the website builder each organization uses for its own site. I also built many of the reports, the dashboard statistics and SCORM courses for students, and worked on the real-time chat.",
-    hard: "Moving the dashboard from Angular 16 to 19, serving the right organization from the first screen, and links that work in the builder, the preview and the live site.",
-    result: "All of it is in the product the team still develops, on Angular 19.",
+    hard: "A one-day upgrade from Angular 16 to 19, and two website problems: knowing the organization before the first screen, and links that work in the builder, preview and live site.",
+    result: "All of it is in the product the team still develops.",
     resultNote: null,
   },
   problem: [
-    "Lean Academy ({لين أكاديمي}) is a learning and training platform for government bodies, companies and training centres. In its own words, it supports self-paced, live and in-person training, with virtual classrooms, online exams, verified digital certificates and reporting.",
-    "Many organizations run it as their own. Each one subscribes to a plan with add-ons, gets portals for its admins, instructors and students, and builds its own public website, with a course cart, in a website builder. Everything had to work in English and Arabic, right to left included.",
+    "Lean Academy ({لين أكاديمي}) is made for government bodies, companies and training centers. In its own words, it supports self-paced, live and in-person training, with virtual classrooms, online exams, verified digital certificates and reporting.",
+    "Each organization subscribes to a plan with add-ons, gets its own portals, and builds its public website, with a course cart, in a website builder.",
   ],
   role: {
     intro:
-      "The dashboard is one large Angular app, built over time by a team of about eight frontend developers, and I was one of them. My biggest piece was the website builder, which I started.",
+      "The dashboard is one large Angular app that the frontend team built up over time. I started its website builder and worked on the parts below.",
     items: [
       {
         title: "Website builder",
-        body: "The header, hero, about, services, courses, plans, testimonials, FAQs, contact and newsletter blocks, a rich-text editor in each, preview, publishing, a guided tour, English and Arabic. Teammates worked on it too.",
+        body: "The header, hero, about, services, courses, plans, testimonials, FAQs, contact and newsletter blocks, a rich-text editor in each, preview, publishing, a guided tour, Arabic and English. Teammates worked on it too.",
       },
       {
         title: "Reports",
         body: "Course completion, attendance, employee attendance, quiz and assignment performance, time spent training, surveys and certification tracking.",
       },
       { title: "Dashboard statistics", body: "For the admin, instructor and student dashboards, on new APIs." },
-      { title: "Chat", body: "Real-time chat over SignalR: its APIs, sign-in, a redesign, loading and message counts." },
+      { title: "Chat", body: "The real-time chat: its APIs, its sign-in, a redesign, the loading state and message counts." },
       {
         title: "Courses",
-        body: "SCORM courses for students, locked course items, programmes, categories, course bundles and question-bank upload.",
+        body: "SCORM courses for students (SCORM is the standard format for e-learning courses), locked course items, programs, categories, course bundles and question-bank upload.",
       },
       {
         title: "Platform",
-        body: "The move from Angular 16 to 19, a shared upload service, the organization check at start-up, notifications, and sign-in through an external identity provider for one client's deployment.",
+        body: "A shared upload service, the organization check at start-up, notifications, and sign-in through an external identity provider.",
       },
     ],
     shots: null,
   },
   built: {
     intro:
-      "One Angular app serves every organization and everyone in it. It works out which organization it is serving before the first screen, then talks to the backend through one API gateway, with a SignalR hub for chat.",
+      "Every organization, and everyone in it, uses the same Angular app, which talks to the backend through one API gateway.",
     groups: [
       {
         title: "Key decisions",
@@ -72,8 +72,8 @@ export const enLean: CaseCopy = {
             body: "Chat runs on a SignalR connection over WebSockets. Each environment's config sets the hub's address.",
           },
           {
-            title: "One upload service",
-            body: "A shared file-upload service serves course modules, the question bank, quizzes and profiles, so uploads in all four work the same way.",
+            title: "A shared upload service",
+            body: "Course modules, the question bank, quizzes and profiles all upload files through the same service, so uploads work the same way in all four.",
           },
           {
             title: "Report filters, built once",
@@ -81,7 +81,7 @@ export const enLean: CaseCopy = {
           },
           {
             title: "Course items that open in order",
-            body: "When a course must be followed in order, each item opens only after the one before it is complete, and a module stays locked until every item in the earlier modules is done. The first item is always open.",
+            body: "When a course must be followed in order, each item opens only after the one before it is complete. A module stays locked until every item in the earlier modules is done, and the first item is always open.",
           },
           {
             title: "SCORM in a sandbox",
@@ -99,7 +99,7 @@ export const enLean: CaseCopy = {
           },
           {
             title: "Two parts per block",
-            body: "Each block is a section, as visitors see it, and a panel to edit it: heading, rich text, colours, button text and link.",
+            body: "Each block is a section, as visitors see it, and a panel to edit it: heading, rich text, colors, button text and link.",
           },
           {
             title: "New blocks start with content",
@@ -107,7 +107,7 @@ export const enLean: CaseCopy = {
           },
           {
             title: "Preview before publishing, and a guided tour",
-            body: "The organization previews its site, then publishes it. Until then, visitors go to sign-in. A guided tour walks new users through the builder.",
+            body: "The organization sees its site in preview, then publishes it. New users get a guided tour of the builder.",
           },
         ],
       },
@@ -118,11 +118,11 @@ export const enLean: CaseCopy = {
     items: [
       {
         title: "Angular 16 to 19",
-        body: "I upgraded the dashboard from Angular 16 to 19, with Angular Material 17 to 19, in one day, on a 1,871-file codebase, one major version at a time. The new application builder broke the old namespace imports of moment and Plyr. Material renamed its theme functions, so the theme moved to their m2 versions to keep its look. Version 19 makes components standalone by default, so every existing component was marked to stay in its module.",
+        body: "I moved the dashboard from Angular 16 to 19 in one day, one major version at a time, across 1,871 files. The new build system rejected how moment and Plyr were imported, so I rewrote those imports. Angular Material renamed its theme functions, so I switched to their m2 versions to keep the look. Version 19 makes components standalone by default, so I kept every existing one in its module.",
       },
       {
-        title: "The right organization from the first screen",
-        body: "The same app runs for every organization, so it must know whose it is before anything shows. I first built a separate page that checked and redirected, then moved the check into app start-up. The app asks the API which organization owns the domain and sends a visitor to its website if it is published, or to sign-in if not. Sign-in, organization sign-up and certificate pages skip the redirect.",
+        title: "Knowing the organization before the first screen",
+        body: "The shared app must know whose it is before it shows anything. I first built a separate page that checked and redirected, then moved the check into app start-up. The app now asks the API which organization owns the domain, then sends a visitor to its website if it is published, or to sign-in if not. Sign-in, organization sign-up and certificate pages skip the redirect.",
       },
       {
         title: "Links that work in the builder, preview and live site",
@@ -133,7 +133,7 @@ export const enLean: CaseCopy = {
   },
   result: {
     paragraphs: [
-      "The website builder, the reports, the dashboard statistics, chat, SCORM courses and locked course items are all part of the product the team still develops, on Angular 19 since my upgrade. The external sign-in went into one client's deployment.",
+      "The website builder, the reports, chat and the course features are still in the product, which has stayed on Angular 19 since my upgrade. The external sign-in went into one client's deployment.",
     ],
     blocks: null,
     metrics: [

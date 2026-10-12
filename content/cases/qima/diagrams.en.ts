@@ -10,7 +10,7 @@ export const enQimaDiagrams = {
         link: "REST, from the server and the browser",
       },
       {
-        eyebrow: "For staff and test centres",
+        eyebrow: "For staff and test centers",
         name: "Admin dashboard",
         detail: "Angular 20 single-page app, Arabic and English",
         link: "REST, from the browser",
@@ -19,11 +19,11 @@ export const enQimaDiagrams = {
     api: {
       eyebrow: "A separate backend",
       name: "REST API",
-      detail: "Behind a gateway: catalogue, orders, vouchers, exam bookings and payments",
+      detail: "Behind a gateway: catalog, orders, vouchers, exam bookings and payments",
     },
     services: [
       { eyebrow: "Payments", name: "PayTabs", detail: "Card, Mada and Apple Pay" },
-      { eyebrow: "Instalments", name: "Tabby and Tamara", detail: "Buy now, pay later" },
+      { eyebrow: "Installments", name: "Tabby and Tamara", detail: "Buy now, pay later" },
       { eyebrow: "Files", name: "S3 storage", detail: "Certificate images and uploads" },
     ],
     caption:

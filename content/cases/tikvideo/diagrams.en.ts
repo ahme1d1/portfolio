@@ -15,8 +15,7 @@ export const enTikVideoDiagrams = {
       { label: "Video templates", name: "Creatomate, Shotstack" },
       { label: "Payments", name: "Moyasar" },
     ],
-    caption:
-      "The API and its services are the backend team's work. Payment happens on Moyasar's own page: the website sends the user there and checks the order with the API when they come back.",
+    caption: "For payment, the website asks the API to start one and sends the user to Moyasar's own page.",
   },
 };
 

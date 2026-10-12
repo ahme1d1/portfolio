@@ -26,7 +26,7 @@ describe("CulturalBridgeArchitecture", () => {
 
   it("captions the figure", () => {
     render(<CulturalBridgeArchitecture locale="en" />);
-    const caption = screen.getByText(/^The first link carries the ticket QR code/);
+    const caption = screen.getByText(/^An Android app for the public uses the same API/);
     expect(caption.closest("figcaption")).not.toBeNull();
   });
 

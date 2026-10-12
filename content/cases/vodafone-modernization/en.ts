@@ -10,7 +10,7 @@ export const enVodafone: CaseCopy = {
   hero: {
     alts: [],
     caption:
-      "Each feature is rebuilt as a module that mounts in place of the legacy widget it replaces. React and the legacy application run side by side in production.",
+      "Each feature is rebuilt as a React module that mounts in place of the jQuery widget it replaces, on the same CMS page.",
   },
   facts: {
     role: [{ text: "Senior Frontend Engineer", note: "Owner of the frontend architecture" }],
@@ -18,28 +18,27 @@ export const enVodafone: CaseCopy = {
     company: [{ text: "VOIS", note: "Vodafone Intelligent Solutions" }],
   },
   summary: {
-    owned: "The frontend architecture of a programme moving a live jQuery application to React and TypeScript.",
+    owned: "The frontend architecture of the move to React and TypeScript: its structure, the shared pieces, and code review in both codebases.",
     hard: "Changing an application that can't be stopped, and two defects that a passing build and test suite didn't catch.",
     result: "React and the legacy app run side by side in production, and any module can be switched off on its own.",
     resultNote: null,
   },
   problem: [
-    "A large legacy JavaScript and jQuery application, served by an OpenText CMS, had to move to React and TypeScript while it stayed in production. Its business rules lived in the code, not in documents.",
-    "A big-bang rewrite was not an option. The change had to happen one feature at a time, in place, with a way back for each one.",
+    "A large legacy JavaScript and jQuery application, served by an OpenText CMS, had to move to React and TypeScript without being taken offline. The code was the only record of its business rules.",
+    "So the change had to happen one feature at a time, in place, with a way back for each one.",
   ],
   role: {
-    intro:
-      "I own the frontend architecture: I designed how the migration is structured, built the shared pieces the modules rely on, and review pull requests across both the legacy and the React codebases.",
+    intro: "I designed how the migration is structured and built the shared pieces that every module uses.",
     items: [
-      { title: "Architecture", body: "The modules, the API layer, the callback bus and the rollout flags" },
+      { title: "Architecture", body: "How modules mount, load data, talk to each other and roll out" },
       { title: "Shared components", body: "The reusable data table" },
-      { title: "Quality", body: "TypeScript strict mode, zero-warning ESLint and code reviews" },
+      { title: "Quality", body: "Code reviews in both codebases, and the strict TypeScript and ESLint settings" },
     ],
     shots: null,
   },
   built: {
     intro:
-      "Features are rebuilt as independently mountable modules that replace legacy widgets in place. Four pieces hold the system together.",
+      "Every module rests on the pieces drawn below: a typed API layer, its own rollout flag and kill switch, and a typed callback bus to the other modules.",
     groups: [
       {
         title: "One table instead of two",
@@ -49,23 +48,23 @@ export const enVodafone: CaseCopy = {
       },
       {
         title: "Internal tools for Vodafone Germany teams",
-        intro: "Rebuilt as React modules, joined by the typed callback bus.",
+        intro: "Rebuilt as React modules that talk to each other through the callback bus.",
         blocks: null,
       },
       {
         title: "Rules extracted from the legacy code and pinned in tests",
         intro:
-          "Each business rule is extracted from the legacy code and covered in Vitest and React Testing Library suites, so the migration can't silently change behaviour. Each module's API contract, and every deliberate divergence from the legacy behaviour, is written down.",
+          "Vitest and React Testing Library suites cover each rule, so the migration can't change behavior without a test failing. Each module's API contract is written down, along with every deliberate difference from the legacy behavior.",
         blocks: null,
       },
     ],
   },
   hard: {
-    intro: "Two high-impact defects passed the build and the test suite. I diagnosed and fixed both.",
+    intro: "Neither of these defects showed up in the build or the tests. I diagnosed and fixed both.",
     items: [
       {
         title: "A blank page in production",
-        body: "The build was green and the tests passed, yet production showed a blank page. The cause was a Vite dependency-externalization issue, something no test in the suite was looking at.",
+        body: "Vite had treated some dependencies as external and left them out of the production bundle, so the page loaded empty. No test in the suite checked for that.",
       },
       {
         title: 'An outage that looked like a "no"',
@@ -73,25 +72,28 @@ export const enVodafone: CaseCopy = {
       },
     ],
     dropped: {
-      title: "Approaches we dropped",
+      title: "Ideas we dropped",
       items: [
-        "A big-bang rewrite, because the application had to keep running. It moves one module at a time instead.",
-        "Two separate table implementations, now merged into one component.",
+        "A big-bang rewrite, because the application had to keep running.",
+        "Keeping two table implementations side by side.",
       ],
     },
   },
   result: {
     paragraphs: ["The migration is ongoing."],
     blocks: [
-      { title: "Migrated while in production", body: "Features move module by module while the application stays live." },
-      { title: "Reversible", body: "A rollout flag per environment and a kill switch for every module." },
-      { title: "One table", body: "One React component where there were two table paths." },
-      { title: "Behaviour pinned", body: "Extracted business rules covered in Vitest and React Testing Library." },
+      { title: "Live throughout", body: "The application has kept running while its features move to React." },
+      { title: "Reversible", body: "Each module has a rollout flag per environment and its own kill switch." },
+      { title: "One table", body: "A single React component serves both former table paths." },
+      {
+        title: "Behavior pinned",
+        body: "Business rules that were recorded only in the legacy code are now written down as tests.",
+      },
       {
         title: "Security, accessibility and bundle fixes",
-        body: "An XSS surface from templated innerHTML removed; misapplied ARIA roles replaced with semantic markup and screen-reader text; a heavy vendor bundle kept off pages that never use it.",
+        body: "I removed unsafe HTML injection from templates, an XSS risk. I replaced misused ARIA roles with semantic HTML and screen-reader text, and kept a heavy vendor bundle off pages that never use it.",
       },
-      { title: "Strict by default", body: "TypeScript strict mode and zero-warning ESLint enforced in the team's CI." },
+      { title: "Strict by default", body: "The team's CI enforces TypeScript strict mode and zero-warning ESLint." },
     ],
     metrics: [
       { value: null, label: "Modules migrated so far" },
@@ -102,15 +104,15 @@ export const enVodafone: CaseCopy = {
   learned: [
     {
       title: "Check how the bundle loads and what a failure looks like",
-      body: "Both defects passed every check. I now look at how the bundle really loads, and at what a failure looks like to the user.",
+      body: "A passing build doesn't show how the bundle loads in the real page, or what a failed request looks like to the user. I now check both directly.",
     },
     {
       title: "Turn undocumented rules into tests first",
-      body: "When the rules aren't written down, extract them from the legacy code and pin them in tests before replacing anything.",
+      body: "Pin each rule in a test before its code is replaced, while the legacy behavior is still there to check against.",
     },
     {
       title: "Give every step a way back",
-      body: "A kill switch per module keeps each release small and each mistake reversible.",
+      body: "When each change can be turned off by itself, every release is a small risk.",
     },
   ],
 };
