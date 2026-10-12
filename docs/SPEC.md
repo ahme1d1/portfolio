@@ -85,6 +85,18 @@ All URLs end with a trailing slash. The language switch links to the same page i
   modules (home, projects, companies, work, contact). Brand names that are the same in both
   languages live in language-neutral `data.ts` modules and go through `asLatin()`.
 - One string per language: mobile shows the desktop copy (Round 7 D5).
+- **Copy review of 2026-10-12 (Ahmed approved all of it):** `site/content` is now the source of truth
+  for copy; the design boards are history and are not updated. Rules kept since:
+  - US spelling everywhere (program, behavior, catalog, center, installments, canceled, modernize).
+  - "Arabic and English", in that order, wherever both are named.
+  - One home per story: the Vodafone migration is told on its project card, on Experience and in its
+    case study only; elsewhere it is one short clause. A phrase appears at most once per page.
+  - Plain words on Home, About, Services, Work and Contact; Experience and the case studies keep the
+    technical detail but no specialist-only terms, and no sentence over 30 words. Experience
+    bullets are one plain sentence each, no bold lead-in (tested).
+  - No AI-writing tells: no tailing negations ("…, not X"), no "from X to Y" ranges, no punchline
+    fragments, no "-ing" tail clauses, no "X, Y and Z" lists used as rhetoric.
+  - `node tools/copy-diff.mjs [ref]` (portfolio root) lists every changed copy string against a ref.
 
 ## Colour tokens (light / dark)
 
@@ -152,7 +164,7 @@ Desktop / mobile: size, weight, line-height, letter-spacing.
 | Nav / inline link / footer | 16 500 / 16 600 / 15 400 | same |
 
 Minimum text size 12px. Running text stays under 75ch with `max-inline-size`: case prose 600px,
-rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case description 560px.
+rows 560px (Arabic 520), captions 480px (Arabic 440), lede 34em (720px on desktop), next-case description 560px.
 
 ## Space, radius, layout
 
@@ -160,6 +172,16 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   96, 128 for layout. Nothing else.
 - Page rhythm (desktop / mobile): page top 72 / 32, section 128 / 56, band 128 / 56, footer 96 / 48,
   gutter 40 / 16, content max width 1280.
+- **Spacing roles** (2026-10-12; constants in `components/ui/layout.ts`, desktop from lg / phone): a
+  heading (h1 or section h2) or a lede and the block it introduces 24 / 16 (`GAP_HEAD`, `MB_HEAD`;
+  case sections: h2 24, blocks 20 / 16); a heading and its own lede 12 (`GAP_LEDE`); divided rows 24 /
+  16 above and below (`ROW_Y`; dense tables 12, Services "What I do" blocks 40 / 24); a row's heading
+  and its text 8 / 6 (`GAP_ROW`). The Home hero keeps 32 between its larger blocks.
+  `tests/spacing-guard.test.ts` fails on any padding, margin or gap off the scale (diagrams excepted:
+  they are drawings). Optical nudges use `calc((1lh - size) / 2)`, never a fixed pixel offset.
+- Reading width: ledes `max-w-[34em]` (720px at the desktop size, about 75 characters at every
+  width), rows 560 (Arabic 520), captions 480 (Arabic 440). The case Summary panel is one column
+  below lg.
 - Radius: controls 12, large button 14, cards and media 20 / 16, panels 28 / 22, phone frame 30,
   pill 999. Nested surfaces with padding up to 24: outer radius = inner radius + padding.
 - Borders: 1px `border` for dividers, 1px `strong` for inputs and tiles, 2px `error`, 2px accent for
@@ -323,9 +345,15 @@ rows 560px (Arabic 520), captions 520px (Arabic 480), lede 720px, next-case desc
   it; the two link groups are responsive variants of one block, and only the desktop one has ids.
 - **About:** one DOM order (title, portrait, text); from md a grid puts the portrait beside both,
   as tall as the text. The portrait is the LCP image (`fetchPriority="high"`) in
-  `MirrorBlock name="about-portrait"`.
+  `MirrorBlock name="about-portrait"`. Since 2026-10-12 (Ahmed's "two doors" choice, from research
+  on senior engineers' About pages): two intro paragraphs (who and where; the two kinds of work he
+  likes), then `AboutDoors` beside the portrait: "If you're hiring" (remote or a move to the GCC,
+  VOIS in one line; links to Experience and the Vodafone case, never the CV) and "If you have a
+  project" (links to Services and the Fantasy EG case), each an h2 row. Quick facts follow as two
+  columns of `DefinitionRows` from lg (`columns={2}`), with a "Work" row. "How I work" is gone (it
+  retold the Vodafone method).
 - **Resolved board differences** (listed for Ahmed at the Phase 5 checkpoint): the Arabic follows
-  the English (Experience skills row and bullets, About p2/p3 and two How-I-work headings, Services
+  the English (Experience skills row and bullets, About p2/p3 and two How-I-work headings (that section was removed on 2026-10-12), Services
   items and lede); mobile uses the desktop copy; the "Outside work" panel and the Services steps
   note never ship; one form structure at every width (visible title, panel-size "Reach me
   directly"); Services "Start a project" carries `?topic=project`; spacing and type from the
